@@ -1,4 +1,4 @@
-# Saboteur UI
+# Saboteur
 
 창 크기 1280*720
 
@@ -34,4 +34,15 @@
                 - 1, 2, 3, 4, 5 (1 방장) -> 1 나감 -> 2, 3, 4, 5 (2 방장) -> 1 들어오고 2 나감 -> 1, 3, 4, 5 (1 방장)
 
 3. InGame
-
+    - `Player`, `Field`, `Hand`, `DeckInfo`로 화면 분할
+        1) `Player`
+            - `Tool(Pickaxe, Cart, Lantern)`, `PlayerNumber`, `CardNumber` 표시
+        2) `Field`
+            - `Cards` 표시, `Hand`에 있는 `Card`를 Dragging으로 `Field`에 가져다 놓아서 게임 진행
+                - 가져다 놓을 때 서버에서 유효한 위치인지 확인
+        3) `Hand`
+            - 본인이 가지고 있는 카드 표시
+        4) `DeckInfo` 
+            - `Deck`, `UsedCard` 표시
+                - `Deck`에는 남은 카드의 수 표시
+                - `UsedCard`엔 버려진 카드 표시, 클릭 시 `Front`로 버려진 카드들 표시
