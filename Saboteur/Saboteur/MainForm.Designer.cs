@@ -51,13 +51,14 @@ namespace Saboteur
             this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "MainForm";
             this.Text = "Saboteur";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Panel mainPanel;
+        public System.Windows.Forms.Panel mainPanel;
     }
 }
 
