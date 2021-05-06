@@ -92,6 +92,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -154,6 +155,10 @@
     <Content Include="resources\cards\item_road\road\road_up_down_right_blocked.png" />
     <Content Include="resources\cards\item_road\road\road_up_left_right_blocked.png" />
     <Content Include="resources\icons\gear.png" />
+    <Content Include="resources\icons\light_off.png" />
+    <Content Include="resources\icons\light_on.png" />
+    <None Include="resources\light_off.png" />
+    <None Include="resources\light_on.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

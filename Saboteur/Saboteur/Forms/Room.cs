@@ -16,5 +16,18 @@ namespace Saboteur.Forms
         {
             InitializeComponent();
         }
+
+        private void Room_Load(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            if (playerLantern0.Image == Properties.Resources.light_off)
+                playerLantern0.Image = Properties.Resources.light_on;
+            else
+                playerLantern0.Image = Properties.Resources.light_off;
+        }
     }
 }
