@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Saboteur
+namespace Saboteur.Forms
 {
-    public partial class MainForm : Form
+    public partial class MainMenu : Form
     {
-        public MainForm()
+        public MainMenu()
         {
             InitializeComponent();
         }
