@@ -102,9 +102,58 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="resources\cards\.DS_Store" />
+    <None Include="resources\cards\character\.DS_Store" />
+    <None Include="resources\cards\gold\.DS_Store" />
+    <None Include="resources\cards\item_road\.DS_Store" />
+    <None Include="resources\cards\item_road\item\.DS_Store" />
+    <None Include="resources\cards\item_road\road\.DS_Store" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\cards\character\character_back.png" />
+    <Content Include="resources\cards\character\character_miner.png" />
+    <Content Include="resources\cards\character\character_saboteur.png" />
+    <Content Include="resources\cards\goal\goal_back.png" />
+    <Content Include="resources\cards\goal\goal_gold.png" />
+    <Content Include="resources\cards\goal\goal_stone_down_left.png" />
+    <Content Include="resources\cards\goal\goal_stone_down_right.png" />
+    <Content Include="resources\cards\gold\gold_1.png" />
+    <Content Include="resources\cards\gold\gold_2.png" />
+    <Content Include="resources\cards\gold\gold_3.png" />
+    <Content Include="resources\cards\gold\gold_back.png" />
+    <Content Include="resources\cards\item_road\item\item_block_cart.png" />
+    <Content Include="resources\cards\item_road\item\item_block_lantern.png" />
+    <Content Include="resources\cards\item_road\item\item_block_pickax.png" />
+    <Content Include="resources\cards\item_road\item\item_destroy.png" />
+    <Content Include="resources\cards\item_road\item\item_map.png" />
+    <Content Include="resources\cards\item_road\item\item_unblock_cart.png" />
+    <Content Include="resources\cards\item_road\item\item_unblock_lantern.png" />
+    <Content Include="resources\cards\item_road\item\item_unblock_lantern_cart.png" />
+    <Content Include="resources\cards\item_road\item\item_unblock_pickax.png" />
+    <Content Include="resources\cards\item_road\item\item_unblock_pickax_cart.png" />
+    <Content Include="resources\cards\item_road\item\item_unblock_pickax_lantern.png" />
+    <Content Include="resources\cards\item_road\item_road_back.png" />
+    <Content Include="resources\cards\item_road\road\road_down_left.png" />
+    <Content Include="resources\cards\item_road\road\road_down_left_blocked.png" />
+    <Content Include="resources\cards\item_road\road\road_down_right.png" />
+    <Content Include="resources\cards\item_road\road\road_down_right_blocked.png" />
+    <Content Include="resources\cards\item_road\road\road_left_right.png" />
+    <Content Include="resources\cards\item_road\road\road_left_right_blocked.png" />
+    <Content Include="resources\cards\item_road\road\road_left_right_down.png" />
+    <Content Include="resources\cards\item_road\road\road_right_blocked.png" />
+    <Content Include="resources\cards\item_road\road\road_start.png" />
+    <Content Include="resources\cards\item_road\road\road_up_blocked.png" />
+    <Content Include="resources\cards\item_road\road\road_up_down.png" />
+    <Content Include="resources\cards\item_road\road\road_up_down_blocked.png" />
+    <Content Include="resources\cards\item_road\road\road_up_down_left.png" />
+    <Content Include="resources\cards\item_road\road\road_up_down_left_right.png" />
+    <Content Include="resources\cards\item_road\road\road_up_down_left_right_blocked.png" />
+    <Content Include="resources\cards\item_road\road\road_up_down_right_blocked.png" />
+    <Content Include="resources\cards\item_road\road\road_up_left_right_blocked.png" />
+    <Content Include="resources\icons\gear.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

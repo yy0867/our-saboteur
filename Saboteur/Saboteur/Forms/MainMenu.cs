@@ -16,5 +16,15 @@ namespace Saboteur.Forms
         {
             InitializeComponent();
         }
+
+        private void Init()
+        {
+            // btnSetting.Image = (Image)(new Bitmap("resources/icons/gear.png", new Size(60, 60)));
+        }
+
+        private void btnCreateRoom_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

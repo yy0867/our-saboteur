@@ -10,11 +10,23 @@ using System.Windows.Forms;
 
 namespace Saboteur
 {
+    public enum Screen
+    {
+        MainMenu,
+        Room,
+        Game
+    }
+
     public partial class MainForm : Form
     {
         public MainForm()
         {
             InitializeComponent();
+        }
+
+        public void switchScreen(Screen screen)
+        {
+
         }
     }
 }
