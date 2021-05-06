@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace Saboteur
 {
+
     public enum Screen
     {
         MainMenu,
@@ -19,6 +20,7 @@ namespace Saboteur
 
     public partial class MainForm : Form
     {
+
         public MainForm()
         {
             InitializeComponent();

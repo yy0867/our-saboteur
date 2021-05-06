@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Saboteur.Forms
 {
-    public partial class Game : Form
+    public partial class Game : UserControl
     {
         public Game()
         {
