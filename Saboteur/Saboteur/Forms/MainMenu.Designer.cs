@@ -34,20 +34,19 @@ namespace Saboteur.Forms
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(357, 228);
+            this.button1.Location = new System.Drawing.Point(0, 0);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(437, 180);
+            this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // MainMenu
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.button1);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "MainMenu";
             this.Size = new System.Drawing.Size(1264, 681);
+            this.Load += new System.EventHandler(this.MainMenu_Load);
             this.ResumeLayout(false);
 
         }

@@ -36,19 +36,18 @@ namespace Saboteur
             // 
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainPanel.Location = new System.Drawing.Point(0, 0);
-            this.mainPanel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.mainPanel.Margin = new System.Windows.Forms.Padding(6);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(1234, 606);
+            this.mainPanel.Size = new System.Drawing.Size(1250, 645);
             this.mainPanel.TabIndex = 0;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1234, 606);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(1250, 645);
             this.Controls.Add(this.mainPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "MainForm";
             this.Text = "Saboteur";
             this.Load += new System.EventHandler(this.MainForm_Load);
