@@ -49,13 +49,14 @@ namespace Saboteur
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "MainForm";
             this.Text = "Saboteur";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Panel mainPanel;
+        public System.Windows.Forms.Panel mainPanel;
     }
 }
 
