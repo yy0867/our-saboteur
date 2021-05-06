@@ -31,11 +31,12 @@ namespace Saboteur.Forms
         {
             this.SuspendLayout();
             // 
-            // UserControl1
+            // MainMenu
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "UserControl1";
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Name = "MainMenu";
             this.Size = new System.Drawing.Size(1264, 681);
             this.ResumeLayout(false);
 
