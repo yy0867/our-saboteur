@@ -159,6 +159,8 @@
     <Content Include="resources\icons\gear.png" />
     <Content Include="resources\icons\light_off.png" />
     <Content Include="resources\icons\light_on.png" />
+    <Content Include="resources\sprites\mainmenu_background_bottom.jpg" />
+    <Content Include="resources\sprites\mainmenu_background.jpg" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
