@@ -14,18 +14,16 @@ namespace Saboteur
     public partial class MainForm : Form
     {
         public static MainForm mainForm;
-        private ViewController viewController;
 
         public MainForm()
         {
             InitializeComponent();
             mainForm = this;
-            viewController = new ViewController();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            viewController.switchScreen(Screen.MainMenu);
+            ViewController.SwitchScreen(Screen.MainMenu);
         }
     }
 }

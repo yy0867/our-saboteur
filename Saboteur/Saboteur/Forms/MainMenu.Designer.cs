@@ -33,12 +33,15 @@ namespace Saboteur.Forms
             this.button1 = new System.Windows.Forms.Button();
             this.btnJoinRoom = new System.Windows.Forms.Button();
             this.btnCreateRoom = new System.Windows.Forms.Button();
-            this.picBackground = new System.Windows.Forms.PictureBox();
             this.panJoinRoom = new System.Windows.Forms.Panel();
+            this.txtRoomCode = new System.Windows.Forms.TextBox();
             this.lblInputPassword = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.picBackground)).BeginInit();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnJoinRequest = new System.Windows.Forms.Button();
+            this.picBackground = new System.Windows.Forms.PictureBox();
             this.panJoinRoom.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBackground)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -51,6 +54,7 @@ namespace Saboteur.Forms
             // btnJoinRoom
             // 
             this.btnJoinRoom.BackColor = System.Drawing.SystemColors.Control;
+            this.btnJoinRoom.Font = new System.Drawing.Font("예스체", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnJoinRoom.Location = new System.Drawing.Point(486, 475);
             this.btnJoinRoom.Name = "btnJoinRoom";
             this.btnJoinRoom.Size = new System.Drawing.Size(286, 51);
@@ -61,52 +65,80 @@ namespace Saboteur.Forms
             // 
             // btnCreateRoom
             // 
+            this.btnCreateRoom.Font = new System.Drawing.Font("예스체", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnCreateRoom.Location = new System.Drawing.Point(486, 389);
             this.btnCreateRoom.Name = "btnCreateRoom";
             this.btnCreateRoom.Size = new System.Drawing.Size(286, 51);
             this.btnCreateRoom.TabIndex = 0;
             this.btnCreateRoom.Text = "방 만들기";
             this.btnCreateRoom.UseVisualStyleBackColor = true;
-            // 
-            // picBackground
-            // 
-            this.picBackground.Image = ((System.Drawing.Image)(resources.GetObject("picBackground.Image")));
-            this.picBackground.Location = new System.Drawing.Point(0, 0);
-            this.picBackground.Name = "picBackground";
-            this.picBackground.Size = new System.Drawing.Size(1264, 681);
-            this.picBackground.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBackground.TabIndex = 1;
-            this.picBackground.TabStop = false;
+            this.btnCreateRoom.Click += new System.EventHandler(this.btnCreateRoom_Click);
             // 
             // panJoinRoom
             // 
-            this.panJoinRoom.Controls.Add(this.textBox1);
+            this.panJoinRoom.Controls.Add(this.btnJoinRequest);
+            this.panJoinRoom.Controls.Add(this.txtRoomCode);
             this.panJoinRoom.Controls.Add(this.lblInputPassword);
             this.panJoinRoom.Location = new System.Drawing.Point(486, 532);
             this.panJoinRoom.Name = "panJoinRoom";
             this.panJoinRoom.Size = new System.Drawing.Size(286, 51);
             this.panJoinRoom.TabIndex = 2;
             // 
+            // txtRoomCode
+            // 
+            this.txtRoomCode.Font = new System.Drawing.Font("예스체", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.txtRoomCode.Location = new System.Drawing.Point(81, 13);
+            this.txtRoomCode.Name = "txtRoomCode";
+            this.txtRoomCode.Size = new System.Drawing.Size(128, 25);
+            this.txtRoomCode.TabIndex = 1;
+            this.txtRoomCode.TextChanged += new System.EventHandler(this.txtRoomCode_TextChanged);
+            this.txtRoomCode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtRoomCode_KeyPress);
+            // 
             // lblInputPassword
             // 
             this.lblInputPassword.AutoSize = true;
-            this.lblInputPassword.Location = new System.Drawing.Point(14, 20);
+            this.lblInputPassword.Font = new System.Drawing.Font("예스체", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblInputPassword.Location = new System.Drawing.Point(14, 18);
             this.lblInputPassword.Name = "lblInputPassword";
-            this.lblInputPassword.Size = new System.Drawing.Size(57, 12);
+            this.lblInputPassword.Size = new System.Drawing.Size(54, 15);
             this.lblInputPassword.TabIndex = 0;
             this.lblInputPassword.Text = "코드 입력";
             // 
-            // textBox1
+            // pictureBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(81, 15);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(185, 21);
-            this.textBox1.TabIndex = 1;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(0, 525);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(1264, 156);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 3;
+            this.pictureBox1.TabStop = false;
+            // 
+            // btnJoinRequest
+            // 
+            this.btnJoinRequest.Image = ((System.Drawing.Image)(resources.GetObject("btnJoinRequest.Image")));
+            this.btnJoinRequest.Location = new System.Drawing.Point(227, 8);
+            this.btnJoinRequest.Name = "btnJoinRequest";
+            this.btnJoinRequest.Size = new System.Drawing.Size(48, 33);
+            this.btnJoinRequest.TabIndex = 2;
+            this.btnJoinRequest.UseVisualStyleBackColor = true;
+            this.btnJoinRequest.Click += new System.EventHandler(this.btnJoinRequest_Click);
+            // 
+            // picBackground
+            // 
+            this.picBackground.Image = ((System.Drawing.Image)(resources.GetObject("picBackground.Image")));
+            this.picBackground.Location = new System.Drawing.Point(0, 0);
+            this.picBackground.Name = "picBackground";
+            this.picBackground.Size = new System.Drawing.Size(1264, 526);
+            this.picBackground.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBackground.TabIndex = 1;
+            this.picBackground.TabStop = false;
             // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panJoinRoom);
             this.Controls.Add(this.btnCreateRoom);
             this.Controls.Add(this.btnJoinRoom);
@@ -114,9 +146,10 @@ namespace Saboteur.Forms
             this.Name = "MainMenu";
             this.Size = new System.Drawing.Size(1264, 681);
             this.Load += new System.EventHandler(this.MainMenu_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.picBackground)).EndInit();
             this.panJoinRoom.ResumeLayout(false);
             this.panJoinRoom.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBackground)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -128,7 +161,9 @@ namespace Saboteur.Forms
         private System.Windows.Forms.Button btnCreateRoom;
         private System.Windows.Forms.PictureBox picBackground;
         private System.Windows.Forms.Panel panJoinRoom;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtRoomCode;
         private System.Windows.Forms.Label lblInputPassword;
+        private System.Windows.Forms.Button btnJoinRequest;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

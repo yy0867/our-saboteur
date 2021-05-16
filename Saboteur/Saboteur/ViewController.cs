@@ -13,31 +13,26 @@ namespace Saboteur
         Room,
         Game
     }
+
     class ViewController
     {
-        private Forms.MainMenu MainMenu;
-        private Forms.Game Game;
-        private Forms.Room Room;
+        public static Forms.MainMenu MainMenu = new Forms.MainMenu();
+        public static Forms.Game Game = new Forms.Game();
+        public static Forms.Room Room = new Forms.Room();
 
-        public ViewController()
+        public static void SwitchScreen(Screen screen)
         {
-            MainMenu = new Forms.MainMenu();
-            Game = new Forms.Game();
-            Room = new Forms.Room();
-        }
-
-        public void switchScreen(Screen screen)
-        {
+            MainForm.mainForm.mainPanel.Controls.Clear();
             switch (screen)
             {
                 case Screen.MainMenu:
-                    MainForm.mainForm.mainPanel.Controls.Add(MainMenu);
+                    MainForm.mainForm.mainPanel.Controls.Add(ViewController.MainMenu);
                     break;
                 case Screen.Game:
-                    MainForm.mainForm.mainPanel.Controls.Add(Game);
+                    MainForm.mainForm.mainPanel.Controls.Add(ViewController.Game);
                     break;
                 case Screen.Room:
-                    MainForm.mainForm.mainPanel.Controls.Add(Room);
+                    MainForm.mainForm.mainPanel.Controls.Add(ViewController.Room);
                     break;
             }
         }

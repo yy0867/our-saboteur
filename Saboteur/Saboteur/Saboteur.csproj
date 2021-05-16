@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateRoomForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateRoomForm.Designer.cs">
+      <DependentUpon>CreateRoomForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Game.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -78,6 +84,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewController.cs" />
+    <EmbeddedResource Include="CreateRoomForm.resx">
+      <DependentUpon>CreateRoomForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Game.resx">
       <DependentUpon>Game.cs</DependentUpon>
     </EmbeddedResource>
@@ -159,8 +168,9 @@
     <Content Include="resources\icons\gear.png" />
     <Content Include="resources\icons\light_off.png" />
     <Content Include="resources\icons\light_on.png" />
-    <Content Include="resources\sprites\mainmenu_background_bottom.jpg" />
+    <Content Include="resources\icons\right_arrow_.png" />
     <Content Include="resources\sprites\mainmenu_background.jpg" />
+    <Content Include="resources\sprites\mainmenu_bottom.jpg" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
