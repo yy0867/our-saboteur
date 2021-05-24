@@ -19,9 +19,11 @@ namespace CardLibrary
         public const int ROCKFALL_CARD = 3;
         public const int CAVE_CARD = 40;
     }
+
     [Flags]
     public enum Dir
     {
+        NONE = 0,
         RIGHT = 1,
         LEFT = 2,
         DOWN = 4,
@@ -69,9 +71,14 @@ namespace CardLibrary
     public class CaveCard : Card
     {
         private int CardNum = NumInfo.CAVE_CARD;
-        private bool isConnected;
-        private Dir dir;
+        protected bool isConnected;
+        protected Dir dir;
 
+        public CaveCard()
+        {
+            dir = Dir.NONE;
+            isConnected = false;
+        }
         public CaveCard(Dir dir, bool isConnected)
         {
             this.dir = dir;
@@ -138,6 +145,42 @@ namespace CardLibrary
         }
     }
 
+    public class StartCard : CaveCard
+    {
+        public StartCard()
+        {
+            this.dir = Dir.ALL;
+            this.isConnected = true;
+        }
+    }
+    public class DestCard : CaveCard
+    {
+        private bool isOpen;
+        private bool nearByCardExist;
+        private bool isGoldCave;
+
+        public DestCard(bool isOpen, bool nearByCardExist, bool isGoldCave)
+        {
+            this.isOpen = isOpen;
+            this.nearByCardExist = nearByCardExist;
+            this.isGoldCave = isGoldCave;
+        }
+
+        public bool getIsOpen()
+        {
+            return isOpen;
+        }
+
+        public bool getNearByCardExist()
+        {
+            return nearByCardExist;
+        }
+
+        protected bool getIsGoldCave()
+        {
+            return isGoldCave;
+        }
+    }
     public class ActionCard : Card
     {
         protected int RPcardNum = 
@@ -170,11 +213,7 @@ namespace CardLibrary
 
     public class RockFallCard : ActionCard
     {
-        public override bool Action()
-        {
-            RockFallcardNum--;
-            return true;
-        }
+       
     }
 
     public class EquipmentCard : ActionCard
@@ -194,18 +233,6 @@ namespace CardLibrary
 
     public class MapCard : ActionCard
     {
-        private int Gold_pos;
-        public MapCard(int Gold_pos)
-        {
-            this.Gold_pos = Gold_pos;
-        }
-
-        public bool Check_Dest(int num)
-        {
-            if (num == Gold_pos)
-                return true;
-            else
-                return false;
-        }
+        
     }
 }
