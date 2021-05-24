@@ -46,8 +46,6 @@ namespace MapLibrary
                         caveCards[i, j] = new CaveCard();
                 }
             }
-        }
-
-        
+        }     
     }
 }
