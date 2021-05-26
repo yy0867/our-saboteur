@@ -15,8 +15,7 @@ namespace Server
         private static TcpListener listener;
         private static List<Socket> sockets;
 
-
-
+        //private static IPAddress serverIP = IPAddress.Parse("192.168.0.6");
         private static IPAddress serverIP = IPAddress.Parse("127.0.0.1");
         private static int serverPort = 7777;
         private static NetworkStream[] networkStream = new NetworkStream[MAX_CLIENT_NUM];
@@ -33,8 +32,10 @@ namespace Server
         private static Thread[] thread;             // 클라이언트 수 마다 thread
 
         private static int roomCode;
-        private static CreateRoom PacketCreateRoom;
-        private static JoinRoom PacketJoinRoom;
+        private static RoomInfo PacketRoomInfo;
+        //private static CreateRoom PacketCreateRoom;
+        //private static JoinRoom PacketJoinRoom;
+
 
         private static void Send(int clientID)
         {

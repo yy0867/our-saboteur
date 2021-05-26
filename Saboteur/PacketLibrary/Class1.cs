@@ -10,8 +10,7 @@ namespace PacketLibrary
 {
     public enum PacketType
     {
-        CreateRoom = 0,
-        JoinRoom,
+        RoomInfo = 0
     }
 
     [Serializable]
@@ -50,16 +49,25 @@ namespace PacketLibrary
     }
 
     [Serializable]
-    public class CreateRoom : Packet
+    public class RoomInfo : Packet
     {
         public int roomCode;
-        public int clientID;        // 방장 Client ID
+        // roomCode 비어있으면 Create Room, 있으면 Join Room
+        public bool[] players;       // 접속한 client 
+        public string[] message;
     }
 
-    [Serializable]
-    public class JoinRoom : Packet
-    {
-        public int roomCode;
-        public int clientID;
-    }
+    //[Serializable]
+    //public class CreateRoom : Packet
+    //{
+    //    public int roomCode;
+    //    public int clientID;        // 방장 Client ID
+    //}
+
+    //[Serializable]
+    //public class JoinRoom : Packet
+    //{
+    //    public int roomCode;
+    //    public int clientID;
+    //}
 }
