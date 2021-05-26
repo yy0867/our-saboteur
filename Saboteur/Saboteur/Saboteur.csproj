@@ -124,6 +124,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="resources\backGround.png" />
+    <Content Include="resources\borad0.png" />
+    <Content Include="resources\card.png" />
     <Content Include="resources\cards\character\character_back.png" />
     <Content Include="resources\cards\character\character_miner.png" />
     <Content Include="resources\cards\character\character_saboteur.png" />
@@ -169,6 +172,7 @@
     <Content Include="resources\icons\light_off.png" />
     <Content Include="resources\icons\light_on.png" />
     <Content Include="resources\icons\right_arrow_.png" />
+    <None Include="resources\sprites\backGround2.png" />
     <Content Include="resources\sprites\mainmenu_background.jpg" />
     <Content Include="resources\sprites\mainmenu_bottom.jpg" />
   </ItemGroup>

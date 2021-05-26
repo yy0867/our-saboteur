@@ -23,7 +23,7 @@ namespace Saboteur
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            ViewController.SwitchScreen(Screen.MainMenu);
+            ViewController.SwitchScreen(Screen.Room);
         }
     }
 }
