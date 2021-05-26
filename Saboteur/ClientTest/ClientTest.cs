@@ -11,14 +11,16 @@ namespace ClientTest
 {
     class ClientTest
     {
+        private static int clientID;
+
         static void Main(string[] args)
         {
             TcpClient client = null;
             try
             {
-                client = new TcpClient();
-                IPAddress serverIP = IPAddress.Parse("192.168.102.1");
+                IPAddress serverIP = IPAddress.Parse("192.168.0.6");
                 int serverPort = 7777;
+                client = new TcpClient();
                 client.Connect(serverIP, serverPort);
 
 
@@ -29,7 +31,7 @@ namespace ClientTest
             }
             finally
             {
-
+                client.Close();
             }
         }
     }
