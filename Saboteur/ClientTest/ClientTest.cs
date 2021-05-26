@@ -18,7 +18,8 @@ namespace ClientTest
             TcpClient client = null;
             try
             {
-                IPAddress serverIP = IPAddress.Parse("192.168.0.6");
+                //IPAddress serverIP = IPAddress.Parse("192.168.0.6");
+                IPAddress serverIP = IPAddress.Parse("127.0.0.1");
                 int serverPort = 7777;
                 client = new TcpClient();
                 client.Connect(serverIP, serverPort);
