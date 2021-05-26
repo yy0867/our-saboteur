@@ -15,7 +15,9 @@ namespace Server
         private static TcpListener listener;
         private static List<Socket> sockets;
 
-        private static IPAddress serverIP = IPAddress.Parse("192.168.0.6");
+
+
+        private static IPAddress serverIP = IPAddress.Parse("127.0.0.1");
         private static int serverPort = 7777;
         private static NetworkStream[] networkStream = new NetworkStream[MAX_CLIENT_NUM];
         //static NetworkStream networkStream;
