@@ -19,6 +19,7 @@ namespace PacketLibrary
         public int Length;
         public int Type;
         public const int MAX_SIZE = 1024 * 4;
+        public const int isEmpty = -1;
 
         public Packet()
         {
@@ -52,6 +53,7 @@ namespace PacketLibrary
     public class RoomInfo : Packet
     {
         public int roomCode;
+        public int clientID;
         // roomCode 비어있으면 Create Room, 있으면 Join Room
         public bool[] players;       // 접속한 client 
         public string[] message;
