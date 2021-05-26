@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Threading;
+using PacketLibrary;
 
 namespace Saboteur.Forms
 {
@@ -16,6 +18,10 @@ namespace Saboteur.Forms
         const int MAX_PLAYER = 7;
         List<PictureBox> playerLanterns = new List<PictureBox>();
         bool[] isPlayer = new bool[MAX_PLAYER];
+        private Thread m_thread;
+        RoomInfo receivedRoomInfo;
+
+
         public Room()
         {
             InitializeComponent();
@@ -46,6 +52,20 @@ namespace Saboteur.Forms
                 playerLanterns[index].Image = lanternOff;
             isPlayer[index] = !isPlayer[index];
         }
+
+        private void ListenToServer()
+        {
+            Packet packet = null;
+            this.m_thread = new Thread(new ThreadStart(() => {
+                while (packet != null)
+                {
+                    packet = Network.Receive();
+                }
+                this.receivedRoomInfo = Network.ParseRoomInfo(packet);
+            }));
+            this.m_thread.Start();
+        }
+
 
         private void chatResultBox_TextChanged(object sender, EventArgs e)
         {
