@@ -30,7 +30,7 @@ namespace Saboteur
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.txtRoomName = new System.Windows.Forms.TextBox();
+            this.txtIP = new System.Windows.Forms.TextBox();
             this.btnCreateRoomRequest = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -39,20 +39,20 @@ namespace Saboteur
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("예스체", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label1.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label1.Location = new System.Drawing.Point(84, 45);
+            this.label1.Location = new System.Drawing.Point(82, 45);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(220, 28);
+            this.label1.Size = new System.Drawing.Size(224, 28);
             this.label1.TabIndex = 0;
-            this.label1.Text = "방 이름을 입력해주세요.";
+            this.label1.Text = "서버 IP를 입력해주세요.";
             // 
-            // txtRoomName
+            // txtIP
             // 
-            this.txtRoomName.Font = new System.Drawing.Font("예스체", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.txtRoomName.Location = new System.Drawing.Point(85, 82);
-            this.txtRoomName.Name = "txtRoomName";
-            this.txtRoomName.Size = new System.Drawing.Size(215, 25);
-            this.txtRoomName.TabIndex = 1;
-            this.txtRoomName.TextChanged += new System.EventHandler(this.txtRoomName_TextChanged);
+            this.txtIP.Font = new System.Drawing.Font("예스체", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.txtIP.Location = new System.Drawing.Point(85, 82);
+            this.txtIP.Name = "txtIP";
+            this.txtIP.Size = new System.Drawing.Size(215, 25);
+            this.txtIP.TabIndex = 1;
+            this.txtIP.TextChanged += new System.EventHandler(this.txtRoomName_TextChanged);
             // 
             // btnCreateRoomRequest
             // 
@@ -72,7 +72,7 @@ namespace Saboteur
             this.BackColor = System.Drawing.Color.LightSlateGray;
             this.ClientSize = new System.Drawing.Size(383, 193);
             this.Controls.Add(this.btnCreateRoomRequest);
-            this.Controls.Add(this.txtRoomName);
+            this.Controls.Add(this.txtIP);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "CreateRoomForm";
@@ -85,7 +85,7 @@ namespace Saboteur
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtRoomName;
+        private System.Windows.Forms.TextBox txtIP;
         private System.Windows.Forms.Button btnCreateRoomRequest;
     }
 }

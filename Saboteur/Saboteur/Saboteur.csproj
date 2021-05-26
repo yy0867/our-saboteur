@@ -173,6 +173,11 @@
     <Content Include="resources\sprites\mainmenu_background.jpg" />
     <Content Include="resources\sprites\mainmenu_bottom.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\PacketLibrary\PacketLibrary.csproj">
+      <Project>{80ebbea2-b16a-4882-96d3-b651cdaf130a}</Project>
+      <Name>PacketLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
