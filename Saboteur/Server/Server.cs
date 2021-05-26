@@ -26,6 +26,8 @@ namespace Server
 
         private const int MAX_CLIENT_NUM = 7;       // 클라이언트 최대 수(플레이어 최대 수)
         private static int numClient = 0;           // 연결된 클라이언트 수
+        private static bool[] connectedClient =
+            { false, false, false, false, false, false, false };
         private static bool isAllClientOn = false;  // 모든 클라이언트가 입장 했는지
         // 방장 Client가 게임 시작 누르면 true로 바뀜
 
@@ -47,6 +49,15 @@ namespace Server
                 sendBuffer[i] = 0;
         }
 
+        private static void SendPacket()
+        {
+            for (int i = 0; i < MAX_CLIENT_NUM; i++)
+            {
+                if (networkStream[i] != null)
+                    SendByClientID(i);
+            }
+        }
+
         private static void ReceiveByClientID(int clientID)
         {
             for (int i = 0; i < Packet.MAX_SIZE; i++)
@@ -61,24 +72,50 @@ namespace Server
                 case (int)PacketType.RoomInfo:
                     {
                         PacketRoomInfo = (RoomInfo)Packet.Desserialize(receiveBuffer);
+
+                        // Client에게 Send할 패킷 구성
                         RoomInfo roomPacket = new RoomInfo();
                         roomPacket.Type = (int)PacketType.RoomInfo;
                         roomPacket.roomCode = roomCode;
+                        
 
-                        // 방장 Client가 Create Room 요청
-                        if (PacketRoomInfo.roomCode == Packet.isEmpty)
+
+                         // Client가 CreateRoom 또는 JoinRoom 요청
+                        if (PacketRoomInfo.clientID == Packet.isEmpty)
                         {
-                            //roomPacket.players[0] = true;       // 방장 Client
-                            roomPacket.players[PacketRoomInfo.clientID] = true;       // 방장 Client
-                            numClient++;
+                            roomPacket.clientID = numClient;
 
-                            Packet.Serialize(roomPacket).CopyTo(sendBuffer, 0);
-                            SendByClientID(0);
+                            // 방장 Client가 CreateRoom 요청
+                            if (PacketRoomInfo.roomCode == Packet.isEmpty)
+                            {
+                                //roomPacket.players[0] = true;       // 방장 Client
+                                //roomPacket.players[roomPacket.clientID] = true;       // 방장 Client
+
+                                connectedClient[roomPacket.clientID] = true;
+                                roomPacket.players = connectedClient;
+                                //Array.Copy(connectedClient, )
+
+                                Packet.Serialize(roomPacket).CopyTo(sendBuffer, 0);
+                                SendPacket();
+                                //SendByClientID(PacketRoomInfo.clientID);
+                            }
+                            // Client가 Join Room 요청
+                            else
+                            {
+                                connectedClient[roomPacket.clientID] = true;
+                                roomPacket.players = connectedClient;
+                                //Array.Copy(connectedClient, )
+
+                                Packet.Serialize(roomPacket).CopyTo(sendBuffer, 0);
+                                SendPacket();
+                                //SendByClientID(PacketRoomInfo.clientID);
+                            }
+
+                            numClient++;
                         }
-                        // Client가 Join Room 요청
                         else
                         {
-                            
+
                         }
 
                         break;
@@ -94,8 +131,6 @@ namespace Server
             {
                 if (!isReceiveThreadOn[i])
                     receiveThread[i] = new Thread(() => ReceiveByClientID(i));
-
-
             }
 
             // 1. Client로부터 Packet Receive
@@ -105,6 +140,10 @@ namespace Server
 
         static void Main(string[] args)
         {
+            // networkStream 배열 Init
+            for (int i = 0; i < MAX_CLIENT_NUM; i++)
+                networkStream[i] = null;
+
             try
             {
                 listener = new TcpListener(serverIP, serverPort);
@@ -124,89 +163,89 @@ namespace Server
                             Console.WriteLine("클라이언트 {0} 연결", numClient);
                             networkStream[numClient] = client.GetStream();
 
-                            if (numClient == 0)     // 방장 Client, CreateRoom
-                            {
-                                Thread t_Receive = new Thread(new ThreadStart(ReceivePacket));
+                            //if (numClient == 0)     // 방장 Client, CreateRoom
+                            //{
+                            //    Thread t_Receive = new Thread(new ThreadStart(ReceivePacket));
 
 
 
-                                //// CreateRoom 빈 패킷 Send
-                                //CreateRoom CreateRoomData = new CreateRoom();
-                                //CreateRoomData.Type = (int)PacketType.CreateRoom;
-                                //CreateRoomData.roomCode = 0;
+                            //    //// CreateRoom 빈 패킷 Send
+                            //    //CreateRoom CreateRoomData = new CreateRoom();
+                            //    //CreateRoomData.Type = (int)PacketType.CreateRoom;
+                            //    //CreateRoomData.roomCode = 0;
 
-                                //Packet.Serialize(CreateRoomData).CopyTo(sendBuffer, 0);
-                                //Send(0);
+                            //    //Packet.Serialize(CreateRoomData).CopyTo(sendBuffer, 0);
+                            //    //Send(0);
 
-                                //Console.WriteLine("CreateRoom 빈 패킷 Send: {0}\n",
-                                //    CreateRoomData.roomCode);
-                            }
-                            else    // JoinRoom
-                            {
-                                JoinRoom JoinRoomData = new JoinRoom();
-                                JoinRoomData.Type = (int)PacketType.JoinRoom;
-                                JoinRoomData.roomCode = 1000;
-                                JoinRoomData.clientID = numClient;
+                            //    //Console.WriteLine("CreateRoom 빈 패킷 Send: {0}\n",
+                            //    //    CreateRoomData.roomCode);
+                            //}
+                            //else    // JoinRoom
+                            //{
+                            //    //JoinRoom JoinRoomData = new JoinRoom();
+                            //    //JoinRoomData.Type = (int)PacketType.JoinRoom;
+                            //    //JoinRoomData.roomCode = 1000;
+                            //    //JoinRoomData.clientID = numClient;
 
-                                Packet.Serialize(JoinRoomData).CopyTo(sendBuffer, 0);
-                                Send(JoinRoomData.clientID);
+                            //    //Packet.Serialize(JoinRoomData).CopyTo(sendBuffer, 0);
+                            //    //Send(JoinRoomData.clientID);
 
-                                Console.WriteLine("JoinRoom 패킷 Send: {0}\n",
-                                    JoinRoomData.roomCode);
-                            }
+                            //    //Console.WriteLine("JoinRoom 패킷 Send: {0}\n",
+                            //    //    JoinRoomData.roomCode);
+                            //}
 
-                            numClient++;
+                            //numClient++;
                         }
 
 
                     }
-                    else        // 게임 시작, 클라이언트 요청 패킷 분류하여 통신
-                    {
-                        try
-                        {
-                            // Client로부터 Packet Receive
-                            networkStream[0].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                            networkStream[1].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                            networkStream[2].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                            networkStream[3].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                            networkStream[4].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                            networkStream[5].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                            networkStream[6].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                        }
-                        catch
-                        {
-                            for (int i = 0; i < MAX_CLIENT_NUM; i++)
-                                networkStream[i] = null;
-                            break;
-                        }
+                    //else        // 게임 시작, 클라이언트 요청 패킷 분류하여 통신
+                    //{
+                    //    try
+                    //    {
+                    //        // Client로부터 Packet Receive
+                    //        networkStream[0].Read(receiveBuffer, 0, Packet.MAX_SIZE);
+                    //        networkStream[1].Read(receiveBuffer, 0, Packet.MAX_SIZE);
+                    //        networkStream[2].Read(receiveBuffer, 0, Packet.MAX_SIZE);
+                    //        networkStream[3].Read(receiveBuffer, 0, Packet.MAX_SIZE);
+                    //        networkStream[4].Read(receiveBuffer, 0, Packet.MAX_SIZE);
+                    //        networkStream[5].Read(receiveBuffer, 0, Packet.MAX_SIZE);
+                    //        networkStream[6].Read(receiveBuffer, 0, Packet.MAX_SIZE);
+                    //    }
+                    //    catch
+                    //    {
+                    //        for (int i = 0; i < MAX_CLIENT_NUM; i++)
+                    //            networkStream[i] = null;
+                    //        break;
+                    //    }
 
-                        Packet packet = (Packet)Packet.Desserialize(receiveBuffer);
-                        switch ((int)packet.Type)
-                        {
-                            case (int)PacketType.CreateRoom:
-                                {
-                                    // 방장 Client로부터 받은 CreateRoom 패킷
-                                    PacketCreateRoom = (CreateRoom)Packet.Desserialize(receiveBuffer);
+                    //    Packet packet = (Packet)Packet.Desserialize(receiveBuffer);
+                    //    switch ((int)packet.Type)
+                    //    {
+                    //        case (int)PacketType.CreateRoom:
+                    //            {
+                    //                // 방장 Client로부터 받은 CreateRoom 패킷
+                    //                PacketCreateRoom = (CreateRoom)Packet.Desserialize(receiveBuffer);
 
-                                    // 방장 Client에게 CreateRoom 패킷 Send
-                                    CreateRoom CreateRoomData = new CreateRoom();
-                                    CreateRoomData.Type = (int)PacketType.CreateRoom;
-                                    CreateRoomData.roomCode = roomCode;
-                                    CreateRoomData.clientID = PacketCreateRoom.clientID;
+                    //                // 방장 Client에게 CreateRoom 패킷 Send
+                    //                CreateRoom CreateRoomData = new CreateRoom();
+                    //                CreateRoomData.Type = (int)PacketType.CreateRoom;
+                    //                CreateRoomData.roomCode = roomCode;
+                    //                CreateRoomData.clientID = PacketCreateRoom.clientID;
 
-                                    Packet.Serialize(CreateRoomData).CopyTo(sendBuffer, 0);
-                                    Send(CreateRoomData.clientID);
+                    //                Packet.Serialize(CreateRoomData).CopyTo(sendBuffer, 0);
+                    //                Send(CreateRoomData.clientID);
 
-                                    Console.WriteLine("CreateRoom 패킷 Send: {0}\n",
-                                        CreateRoomData.roomCode);
-                                    break;
-                                }
-                            case (int)PacketType.JoinRoom:
-                                {
-                                    break;
-                                }
-                        }
-                    }
+                    //                Console.WriteLine("CreateRoom 패킷 Send: {0}\n",
+                    //                    CreateRoomData.roomCode);
+                    //                break;
+                    //            }
+                    //        case (int)PacketType.JoinRoom:
+                    //            {
+                    //                break;
+                    //            }
+                    //    }
+                    //}
 
 
 

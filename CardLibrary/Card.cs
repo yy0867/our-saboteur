@@ -42,35 +42,11 @@ namespace CardLibrary
     }
     public class Card
     {
-        private int CardNum = NumInfo.TOTAL_CARD;
-        public int getCardNum()
-        {
-            return CardNum;
-        }
-
-        private void disCard()
-        {
-            CardNum--;
-        }
-        public virtual bool Action()
-        {
-            try
-            {
-                if (CardNum == 0)
-                    throw new Exception("No Card");
-                disCard();            
-            }
-            catch(Exception e)
-            {
-                return false;
-            }
-            return true;
-        }
+        
     }
 
     public class CaveCard : Card
     {
-        private int CardNum = NumInfo.CAVE_CARD;
         protected bool isConnected;
         protected Dir dir;
 
@@ -85,15 +61,6 @@ namespace CardLibrary
             this.isConnected = isConnected;
         }
 
-        public Dir getDir()
-        {
-            return dir;
-        }
-
-        public bool getIsConnected()
-        {
-            return isConnected;
-        }
         public void rotate()
         {
             switch (dir)
@@ -139,9 +106,26 @@ namespace CardLibrary
             }
         }
 
-        public override bool Action()
+        public Dir getDir()
         {
-            return base.Action();
+            return dir;
+        }
+
+        public void setDir(Dir dir)
+        {
+            this.dir = dir;
+        }
+
+        public bool getIsConnected()
+        {
+            return isConnected;
+        }
+
+        public bool isEmpty()
+        {
+            if (this.dir == Dir.NONE)
+                return true;
+            else return false;
         }
     }
 
@@ -153,67 +137,30 @@ namespace CardLibrary
             this.isConnected = true;
         }
     }
+
     public class DestCard : CaveCard
     {
-        private bool isOpen;
-        private bool nearByCardExist;
+        public bool isOpen { get; set; }
+        public bool nearByCardExist { get; set; }
         private bool isGoldCave;
 
         public DestCard(bool isOpen, bool nearByCardExist, bool isGoldCave)
         {
+            this.dir = Dir.ALL;
+            this.isConnected = true;
             this.isOpen = isOpen;
             this.nearByCardExist = nearByCardExist;
             this.isGoldCave = isGoldCave;
         }
 
-        public bool getIsOpen()
-        {
-            return isOpen;
-        }
-
-        public bool getNearByCardExist()
-        {
-            return nearByCardExist;
-        }
-
-        protected bool getIsGoldCave()
+        public  bool getIsGoldCave()
         {
             return isGoldCave;
         }
     }
     public class ActionCard : Card
     {
-        protected int RPcardNum = 
-            NumInfo.RP_CART_CARD + NumInfo.RP_LANTERN_CARD + NumInfo.RP_MANDREL_CARD;
-        protected int DTcardNum = 
-            NumInfo.DT_CART_CARD + NumInfo.DT_LANTERN_CARD + NumInfo.DT_MANDREL_CARD;
-        protected int RockFallcardNum = NumInfo.ROCKFALL_CARD;
-        protected int MapcardNum = NumInfo.MAP_CARD;
-
-        public int getRPardNum()
-        {
-            return RPcardNum;
-        }
-
-        public int getEDcardNum()
-        {
-            return DTcardNum;
-        }
-
-        public int getRockFallcardNum()
-        {
-            return RockFallcardNum;
-        }
-
-        public int getMapcardNum()
-        {
-            return MapcardNum;
-        }
-    }
-
-    public class RockFallCard : ActionCard
-    {
-       
+        
     }
 
     public class EquipmentCard : ActionCard
