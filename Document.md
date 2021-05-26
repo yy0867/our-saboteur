@@ -46,3 +46,10 @@
             - `Deck`, `UsedCard` 표시
                 - `Deck`에는 남은 카드의 수 표시
                 - `UsedCard`엔 버려진 카드 표시, 클릭 시 `Front`로 버려진 카드들 표시
+
+*. Utility
+    - `enum Screen`
+        1) `MainMenu`, `Game`, `Room`
+    - `ViewController`
+        1) `ViewController.SwitchScreen(Screen s)`
+            - `Screen.*`로 원하는 화면 
