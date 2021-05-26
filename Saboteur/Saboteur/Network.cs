@@ -110,7 +110,7 @@ namespace Saboteur
         /// ##           Parse Information            ##
         /// ############################################
         // Room info Parsing [ RoomInfo Packet --> RoomForm Information ]
-        static RoomInfo ParseRoomInfo(Packet packet)
+        public static RoomInfo ParseRoomInfo(Packet packet)
         {
             RoomInfo received = (RoomInfo)packet;
             RoomInfo info = new RoomInfo();
