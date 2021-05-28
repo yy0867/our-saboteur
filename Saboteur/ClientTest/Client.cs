@@ -9,7 +9,7 @@ using System.Net.Sockets;
 
 namespace ClientTest
 {
-    class ClientTest
+    class Client
     {
         private static int clientID;
 

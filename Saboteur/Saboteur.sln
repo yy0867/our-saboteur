@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardLibrary", "..\CardLibra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapLibrary", "..\MapLibrary\MapLibrary.csproj", "{87018293-AC98-4906-BB03-B193897D612F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientTest", "ClientTest\ClientTest.csproj", "{4D75CF38-E0CD-4580-A3D4-B17A09414874}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "ClientTest\Client.csproj", "{4D75CF38-E0CD-4580-A3D4-B17A09414874}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
