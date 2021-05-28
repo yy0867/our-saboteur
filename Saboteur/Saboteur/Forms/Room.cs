@@ -18,13 +18,33 @@ namespace Saboteur.Forms
         const int MAX_PLAYER = 7;
         List<PictureBox> playerLanterns = new List<PictureBox>();
         bool[] isPlayer = new bool[MAX_PLAYER];
-        private Thread m_thread;
+        
+        private string serverIP = "127.0.0.1";
+
         RoomInfo receivedRoomInfo;
 
+        private Packet mockPacket()
+        {
+            RoomInfo roomInfo = new RoomInfo();
+            roomInfo.clientID = 0;
+            roomInfo.roomCode = 1234;
+            roomInfo.players = new bool[] { true, true, true, true, false, false, false };
+            roomInfo.message = new string[] { "1st line", "second line" };
+            return roomInfo;
+        }
 
         public Room()
         {
             InitializeComponent();
+            initializeLantern();
+
+            updateInfo(mockPacket());
+        }
+
+        private void Room_Load(object sender, EventArgs e)
+        {
+           
+
         }
 
         private void initializeLantern()
@@ -35,51 +55,41 @@ namespace Saboteur.Forms
             }
         }
 
-        private void Room_Load(object sender, EventArgs e)
-        {
-            initializeLantern();
-            
-        }
-
         private void lanternImageToggle(int index)
         {
             Image lanternOn = Properties.Resources.light_on;
             Image lanternOff = Properties.Resources.light_off;
 
-            if (!isPlayer[index])
+            if (isPlayer[index])
                 playerLanterns[index].Image = lanternOn;
             else
                 playerLanterns[index].Image = lanternOff;
             isPlayer[index] = !isPlayer[index];
         }
 
-        private void ListenToServer()
+        private void lanternImageToggle()
         {
-            Packet packet = null;
-            this.m_thread = new Thread(new ThreadStart(() => {
-                while (packet != null)
-                {
-                    packet = Network.Receive();
-                }
-                this.receivedRoomInfo = Network.ParseRoomInfo(packet);
-            }));
-            this.m_thread.Start();
+            int playerSize = receivedRoomInfo.players.Length;
+            for(int i = 0; i < playerSize; i++)
+            {
+                lanternImageToggle(i);
+            }
+       
         }
 
-
-        private void chatResultBox_TextChanged(object sender, EventArgs e)
+        public void updateInfo(Packet packet)
         {
-
+            this.receivedRoomInfo = (RoomInfo)packet;
+            this.isPlayer = this.receivedRoomInfo.players;
+            lanternImageToggle();
         }
 
-        public void update(PacketLibrary.Packet packet)
+        private void chatInputBox_KeyDown(object sender, KeyEventArgs e)
         {
-            bool[] lanterns = new bool[7];
-
-            PacketLibrary.RoomInfo info = (PacketLibrary.RoomInfo)packet;
-            // 랜턴
-            // 메시지
-            Network.Receive();
+            if (e.KeyCode == Keys.Enter)
+            {
+                //sendMessageToServer
+            }
         }
     }
 }

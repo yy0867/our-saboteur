@@ -18,7 +18,7 @@ namespace Saboteur
     class Network
     {
         public static IPAddress ServerIP;
-        public static String setServerIP
+        public static string setServerIP
         {
             set
             {
@@ -84,7 +84,7 @@ namespace Saboteur
                 switch ((int)packet.Type)
                 {
                     case (int)PacketType.RoomInfo:  // RoomInfo 패킷 받으면
-                        ViewController.Room.update(packet);
+                        ViewController.Room.updateInfo(packet);
                         break;
 
                         // 나중에 패킷 타입 추가되면 작성하기 ##########################
