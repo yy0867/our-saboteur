@@ -18,6 +18,14 @@ namespace Saboteur
     class Network
     {
         public static IPAddress ServerIP;
+        public static String setServerIP
+        {
+            set
+            {
+                ServerIP = IPAddress.Parse(value);
+            }
+        }
+
         public const int Port = 7777;
 
         private static TcpClient client;
