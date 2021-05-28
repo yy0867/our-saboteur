@@ -19,7 +19,9 @@ namespace Saboteur.Forms
 
         private void Room_Load(object sender, EventArgs e)
         {
-            
+            // 쓰레드로 실행
+            // info = receive();
+            // ui update
         }
 
         private void lanternImageToggle(PictureBox pictureBox)
@@ -77,6 +79,16 @@ namespace Saboteur.Forms
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+
+        public void update(PacketLibrary.Packet packet)
+        {
+            bool[] lanterns = new bool[7];
+
+            PacketLibrary.RoomInfo info = (PacketLibrary.RoomInfo)packet;
+            // 랜턴
+            // 메시지
+            Network.Receive();
         }
     }
 }
