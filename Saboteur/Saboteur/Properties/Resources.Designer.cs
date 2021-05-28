@@ -103,6 +103,16 @@ namespace Saboteur.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+        internal static System.Drawing.Bitmap frame {
+            get {
+                object obj = ResourceManager.GetObject("frame", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
         internal static System.Drawing.Bitmap light_off {
             get {
                 object obj = ResourceManager.GetObject("light_off", resourceCulture);
@@ -116,6 +126,16 @@ namespace Saboteur.Properties {
         internal static System.Drawing.Bitmap light_on {
             get {
                 object obj = ResourceManager.GetObject("light_on", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap start_button {
+            get {
+                object obj = ResourceManager.GetObject("start_button", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
