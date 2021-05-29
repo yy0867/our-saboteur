@@ -149,6 +149,7 @@ namespace Saboteur.Forms
             RoomInfo packet = new RoomInfo();
             packet.message = msg;
             packet.clientID = this.playerID;
+            packet.roomCode = this.receivedRoomInfo.roomCode;
 
             return packet;
         }
