@@ -21,6 +21,8 @@ namespace Server
         private static NetworkStream[] networkStream = new NetworkStream[MAX_CLIENT_NUM];
         //static NetworkStream networkStream;
 
+        //private static byte[] 
+
         private static byte[] sendBuffer = new byte[1024 * 4];
         private static byte[] receiveBuffer = new byte[1024 * 4];
 
@@ -170,8 +172,12 @@ namespace Server
                                 Console.WriteLine();
                             }
 
-                            //if (numClient == 0)     // 방장 Client, CreateRoom
+                            //client가 1명이라도 연결되어 있으면, Packet Receive 시작
+                            //if (numClient != 0)     // 방장 Client, CreateRoom
                             //{
+                            //    ReceiveToAllClient();
+
+
                             //    Thread t_Receive = new Thread(new ThreadStart(ReceiveToAllClient));
 
 
@@ -206,53 +212,53 @@ namespace Server
 
 
                     }
-                    //else        // 게임 시작, 클라이언트 요청 패킷 분류하여 통신
-                    //{
-                    //    try
-                    //    {
-                    //        // Client로부터 Packet Receive
-                    //        networkStream[0].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                    //        networkStream[1].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                    //        networkStream[2].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                    //        networkStream[3].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                    //        networkStream[4].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                    //        networkStream[5].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                    //        networkStream[6].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                    //    }
-                    //    catch
-                    //    {
-                    //        for (int i = 0; i < MAX_CLIENT_NUM; i++)
-                    //            networkStream[i] = null;
-                    //        break;
-                    //    }
+                    else        // 게임 시작, 클라이언트 요청 패킷 분류하여 통신
+                    {
+                        try
+                        {
+                            // Client로부터 Packet Receive
+                            networkStream[0].Read(receiveBuffer, 0, Packet.MAX_SIZE);
+                            networkStream[1].Read(receiveBuffer, 0, Packet.MAX_SIZE);
+                            networkStream[2].Read(receiveBuffer, 0, Packet.MAX_SIZE);
+                            networkStream[3].Read(receiveBuffer, 0, Packet.MAX_SIZE);
+                            networkStream[4].Read(receiveBuffer, 0, Packet.MAX_SIZE);
+                            networkStream[5].Read(receiveBuffer, 0, Packet.MAX_SIZE);
+                            networkStream[6].Read(receiveBuffer, 0, Packet.MAX_SIZE);
+                        }
+                        catch
+                        {
+                            for (int i = 0; i < MAX_CLIENT_NUM; i++)
+                                networkStream[i] = null;
+                            break;
+                        }
 
-                    //    Packet packet = (Packet)Packet.Desserialize(receiveBuffer);
-                    //    switch ((int)packet.Type)
-                    //    {
-                    //        case (int)PacketType.CreateRoom:
-                    //            {
-                    //                // 방장 Client로부터 받은 CreateRoom 패킷
-                    //                PacketCreateRoom = (CreateRoom)Packet.Desserialize(receiveBuffer);
+                        //    Packet packet = (Packet)Packet.Desserialize(receiveBuffer);
+                        //    switch ((int)packet.Type)
+                        //    {
+                        //        case (int)PacketType.CreateRoom:
+                        //            {
+                        //                // 방장 Client로부터 받은 CreateRoom 패킷
+                        //                PacketCreateRoom = (CreateRoom)Packet.Desserialize(receiveBuffer);
 
-                    //                // 방장 Client에게 CreateRoom 패킷 Send
-                    //                CreateRoom CreateRoomData = new CreateRoom();
-                    //                CreateRoomData.Type = (int)PacketType.CreateRoom;
-                    //                CreateRoomData.roomCode = roomCode;
-                    //                CreateRoomData.clientID = PacketCreateRoom.clientID;
+                        //                // 방장 Client에게 CreateRoom 패킷 Send
+                        //                CreateRoom CreateRoomData = new CreateRoom();
+                        //                CreateRoomData.Type = (int)PacketType.CreateRoom;
+                        //                CreateRoomData.roomCode = roomCode;
+                        //                CreateRoomData.clientID = PacketCreateRoom.clientID;
 
-                    //                Packet.Serialize(CreateRoomData).CopyTo(sendBuffer, 0);
-                    //                Send(CreateRoomData.clientID);
+                        //                Packet.Serialize(CreateRoomData).CopyTo(sendBuffer, 0);
+                        //                Send(CreateRoomData.clientID);
 
-                    //                Console.WriteLine("CreateRoom 패킷 Send: {0}\n",
-                    //                    CreateRoomData.roomCode);
-                    //                break;
-                    //            }
-                    //        case (int)PacketType.JoinRoom:
-                    //            {
-                    //                break;
-                    //            }
-                    //    }
-                    //}
+                        //                Console.WriteLine("CreateRoom 패킷 Send: {0}\n",
+                        //                    CreateRoomData.roomCode);
+                        //                break;
+                        //            }
+                        //        case (int)PacketType.JoinRoom:
+                        //            {
+                        //                break;
+                        //            }
+                        //    }
+                    }
 
 
 
