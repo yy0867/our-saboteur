@@ -67,14 +67,6 @@ namespace Saboteur.Forms
 
         }
 
-        private void initializeLantern()
-        {
-            for (int i = 0; i < MAX_PLAYER; i++)
-            {
-                playerLanterns.Add((PictureBox)Controls.Find("playerLantern" + i, true)[0]);
-            }
-        }
-
         private void lanternImageToggle(int index)
         {
             Image lanternOn = Properties.Resources.light_on;
