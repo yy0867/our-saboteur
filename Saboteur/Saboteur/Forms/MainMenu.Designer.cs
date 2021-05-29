@@ -34,11 +34,13 @@ namespace Saboteur.Forms
             this.btnJoinRoom = new System.Windows.Forms.Button();
             this.btnCreateRoom = new System.Windows.Forms.Button();
             this.panJoinRoom = new System.Windows.Forms.Panel();
+            this.btnJoinRequest = new System.Windows.Forms.Button();
             this.txtRoomCode = new System.Windows.Forms.TextBox();
             this.lblInputPassword = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnJoinRequest = new System.Windows.Forms.Button();
             this.picBackground = new System.Windows.Forms.PictureBox();
+            this.txtServerIP = new System.Windows.Forms.TextBox();
+            this.btnConnectServer = new System.Windows.Forms.Button();
             this.panJoinRoom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBackground)).BeginInit();
@@ -84,6 +86,16 @@ namespace Saboteur.Forms
             this.panJoinRoom.Size = new System.Drawing.Size(286, 51);
             this.panJoinRoom.TabIndex = 2;
             // 
+            // btnJoinRequest
+            // 
+            this.btnJoinRequest.Image = ((System.Drawing.Image)(resources.GetObject("btnJoinRequest.Image")));
+            this.btnJoinRequest.Location = new System.Drawing.Point(227, 8);
+            this.btnJoinRequest.Name = "btnJoinRequest";
+            this.btnJoinRequest.Size = new System.Drawing.Size(48, 33);
+            this.btnJoinRequest.TabIndex = 2;
+            this.btnJoinRequest.UseVisualStyleBackColor = true;
+            this.btnJoinRequest.Click += new System.EventHandler(this.btnJoinRequest_Click);
+            // 
             // txtRoomCode
             // 
             this.txtRoomCode.Font = new System.Drawing.Font("예스체", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -114,16 +126,6 @@ namespace Saboteur.Forms
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
             // 
-            // btnJoinRequest
-            // 
-            this.btnJoinRequest.Image = ((System.Drawing.Image)(resources.GetObject("btnJoinRequest.Image")));
-            this.btnJoinRequest.Location = new System.Drawing.Point(227, 8);
-            this.btnJoinRequest.Name = "btnJoinRequest";
-            this.btnJoinRequest.Size = new System.Drawing.Size(48, 33);
-            this.btnJoinRequest.TabIndex = 2;
-            this.btnJoinRequest.UseVisualStyleBackColor = true;
-            this.btnJoinRequest.Click += new System.EventHandler(this.btnJoinRequest_Click);
-            // 
             // picBackground
             // 
             this.picBackground.Image = ((System.Drawing.Image)(resources.GetObject("picBackground.Image")));
@@ -134,10 +136,31 @@ namespace Saboteur.Forms
             this.picBackground.TabIndex = 1;
             this.picBackground.TabStop = false;
             // 
+            // txtServerIP
+            // 
+            this.txtServerIP.Font = new System.Drawing.Font("예스체", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.txtServerIP.Location = new System.Drawing.Point(486, 309);
+            this.txtServerIP.Name = "txtServerIP";
+            this.txtServerIP.Size = new System.Drawing.Size(209, 33);
+            this.txtServerIP.TabIndex = 4;
+            // 
+            // btnConnectServer
+            // 
+            this.btnConnectServer.Font = new System.Drawing.Font("예스체", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnConnectServer.Location = new System.Drawing.Point(713, 309);
+            this.btnConnectServer.Name = "btnConnectServer";
+            this.btnConnectServer.Size = new System.Drawing.Size(59, 33);
+            this.btnConnectServer.TabIndex = 5;
+            this.btnConnectServer.Text = "연결";
+            this.btnConnectServer.UseVisualStyleBackColor = true;
+            this.btnConnectServer.Click += new System.EventHandler(this.btnConnectServer_Click);
+            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnConnectServer);
+            this.Controls.Add(this.txtServerIP);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panJoinRoom);
             this.Controls.Add(this.btnCreateRoom);
@@ -151,6 +174,7 @@ namespace Saboteur.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBackground)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -165,5 +189,7 @@ namespace Saboteur.Forms
         private System.Windows.Forms.Label lblInputPassword;
         private System.Windows.Forms.Button btnJoinRequest;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.TextBox txtServerIP;
+        private System.Windows.Forms.Button btnConnectServer;
     }
 }

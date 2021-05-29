@@ -95,6 +95,8 @@ namespace Saboteur
         // 패킷 전송
         public static void Send(Packet p)
         {
+            Packet.Serialize(p).CopyTo(sendBuffer, 0);
+
             networkStream.Write(sendBuffer, 0, sendBuffer.Length);
             networkStream.Flush();
 
