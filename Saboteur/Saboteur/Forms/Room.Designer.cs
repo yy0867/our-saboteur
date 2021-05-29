@@ -32,7 +32,7 @@ namespace Saboteur.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.chatResultBox = new System.Windows.Forms.TextBox();
+            this.myChatResultBox = new System.Windows.Forms.TextBox();
             this.chatInputBox = new System.Windows.Forms.TextBox();
             this.playerLantern0 = new System.Windows.Forms.PictureBox();
             this.playerLantern1 = new System.Windows.Forms.PictureBox();
@@ -42,6 +42,7 @@ namespace Saboteur.Forms
             this.playerLantern4 = new System.Windows.Forms.PictureBox();
             this.playerLantern5 = new System.Windows.Forms.PictureBox();
             this.btn_start = new System.Windows.Forms.Button();
+            this.otherChatResultBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.playerLantern0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.playerLantern1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.playerLantern2)).BeginInit();
@@ -51,28 +52,27 @@ namespace Saboteur.Forms
             ((System.ComponentModel.ISupportInitialize)(this.playerLantern5)).BeginInit();
             this.SuspendLayout();
             // 
-            // chatResultBox
+            // myChatResultBox
             // 
-            this.chatResultBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(72)))), ((int)(((byte)(53)))));
-            this.chatResultBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.chatResultBox.Cursor = System.Windows.Forms.Cursors.Default;
-            this.chatResultBox.Font = new System.Drawing.Font("돋움", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.chatResultBox.ForeColor = System.Drawing.Color.White;
-            this.chatResultBox.Location = new System.Drawing.Point(385, 253);
-            this.chatResultBox.Multiline = true;
-            this.chatResultBox.Name = "chatResultBox";
-            this.chatResultBox.ReadOnly = true;
-            this.chatResultBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.chatResultBox.Size = new System.Drawing.Size(824, 318);
-            this.chatResultBox.TabIndex = 0;
-            this.chatResultBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.myChatResultBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(72)))), ((int)(((byte)(53)))));
+            this.myChatResultBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.myChatResultBox.Cursor = System.Windows.Forms.Cursors.Default;
+            this.myChatResultBox.Font = new System.Drawing.Font("돋움", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.myChatResultBox.ForeColor = System.Drawing.Color.Goldenrod;
+            this.myChatResultBox.Location = new System.Drawing.Point(881, 253);
+            this.myChatResultBox.Multiline = true;
+            this.myChatResultBox.Name = "myChatResultBox";
+            this.myChatResultBox.ReadOnly = true;
+            this.myChatResultBox.Size = new System.Drawing.Size(318, 318);
+            this.myChatResultBox.TabIndex = 0;
+            this.myChatResultBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // chatInputBox
             // 
-            this.chatInputBox.Location = new System.Drawing.Point(385, 595);
+            this.chatInputBox.Location = new System.Drawing.Point(567, 595);
             this.chatInputBox.Name = "chatInputBox";
             this.chatInputBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.chatInputBox.Size = new System.Drawing.Size(824, 21);
+            this.chatInputBox.Size = new System.Drawing.Size(632, 21);
             this.chatInputBox.TabIndex = 3;
             this.chatInputBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.chatInputBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.chatInputBox_KeyDown);
@@ -169,12 +169,27 @@ namespace Saboteur.Forms
             this.btn_start.TabIndex = 11;
             this.btn_start.UseVisualStyleBackColor = false;
             // 
+            // otherChatResultBox
+            // 
+            this.otherChatResultBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(72)))), ((int)(((byte)(53)))));
+            this.otherChatResultBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.otherChatResultBox.Cursor = System.Windows.Forms.Cursors.Default;
+            this.otherChatResultBox.Font = new System.Drawing.Font("돋움", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.otherChatResultBox.ForeColor = System.Drawing.Color.White;
+            this.otherChatResultBox.Location = new System.Drawing.Point(567, 253);
+            this.otherChatResultBox.Multiline = true;
+            this.otherChatResultBox.Name = "otherChatResultBox";
+            this.otherChatResultBox.ReadOnly = true;
+            this.otherChatResultBox.Size = new System.Drawing.Size(318, 318);
+            this.otherChatResultBox.TabIndex = 12;
+            // 
             // Room
             // 
             this.BackgroundImage = global::Saboteur.Properties.Resources.backGround2;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.Controls.Add(this.otherChatResultBox);
             this.Controls.Add(this.btn_start);
-            this.Controls.Add(this.chatResultBox);
+            this.Controls.Add(this.myChatResultBox);
             this.Controls.Add(this.playerLantern6);
             this.Controls.Add(this.playerLantern5);
             this.Controls.Add(this.playerLantern4);
@@ -200,7 +215,7 @@ namespace Saboteur.Forms
         }
 
 
-        private System.Windows.Forms.TextBox chatResultBox;
+        private System.Windows.Forms.TextBox myChatResultBox;
         private System.Windows.Forms.PictureBox playerLantern0;
         private System.Windows.Forms.TextBox chatInputBox;
         private System.Windows.Forms.PictureBox playerLantern1;
@@ -210,5 +225,6 @@ namespace Saboteur.Forms
         private System.Windows.Forms.PictureBox playerLantern4;
         private System.Windows.Forms.PictureBox playerLantern5;
         private Button btn_start;
+        private TextBox otherChatResultBox;
     }
 }
