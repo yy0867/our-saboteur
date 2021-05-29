@@ -6,12 +6,26 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Net.Sockets;
+using PacketLibrary;
 
 namespace ClientTest
 {
     class ClientTest
     {
-        private static int clientID;
+        private static NetworkStream networkStream;
+        private static byte[] sendBuffer = new byte[1024 * 4];
+        private static byte[] receiveBuffer = new byte[1024 * 4];
+
+        public static RoomInfo PacketRoomInfo;
+
+        private static void Send()
+        {
+            networkStream.Write(sendBuffer, 0, sendBuffer.Length);
+            networkStream.Flush();
+
+            for (int i = 0; i < Packet.MAX_SIZE; i++)
+                sendBuffer[i] = 0;
+        }
 
         static void Main(string[] args)
         {
@@ -27,6 +41,13 @@ namespace ClientTest
                 if (client.Connected)
                 {
                     Console.WriteLine("서버와 연결");
+                    networkStream = client.GetStream();
+
+                    RoomInfo roomPacket = new RoomInfo();
+                    roomPacket.Type = (int)PacketType.RoomInfo;
+
+                    Packet.Serialize(roomPacket).CopyTo(sendBuffer, 0);
+                    
                 }
             }
             catch (SocketException e)

@@ -35,7 +35,12 @@ namespace Server
         // 클라이언트 수 마다 thread
 
         private static int roomCode = 1000;
-        private static RoomInfo PacketRoomInfo;
+        public static RoomInfo PacketRoomInfo;
+
+        private static void TestPrint(int n)
+        {
+            Console.WriteLine(n);
+        } 
 
         private static void SendByClientID(int clientID)
         {
@@ -132,6 +137,14 @@ namespace Server
                 {
                     receiveThread[i] = new Thread(() => ReceiveByClientID(i));
                     isReceiveThreadOn[i] = true;
+                    receiveThread[i].Start();
+
+                    //receiveThread[i] = new Thread(new ParameterizedThreadStart(ReceiveByClientID));
+                    //receiveThread[i].Start(i);
+
+                    //receiveThread[i] = new Thread(() => TestPrint(i));
+                    //receiveThread[i] = new Thread(new ParameterizedThreadStart(TestPrint));
+                    //receiveThread[i].Start(i);
                 }
             }
 
@@ -144,7 +157,10 @@ namespace Server
         {
             // networkStream 배열 Init
             for (int i = 0; i < MAX_CLIENT_NUM; i++)
+            {
+
                 networkStream[i] = null;
+            }
 
             try
             {
