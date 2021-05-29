@@ -26,6 +26,9 @@ namespace Saboteur.Forms
             panJoinRoom.Visible = false;
             btnCreateRoom.Enabled = false;
             btnJoinRoom.Enabled = false;
+
+            // TEST CODE #########################################
+            txtServerIP.Text = "127.0.0.1";
         }
 
 
@@ -65,6 +68,7 @@ namespace Saboteur.Forms
 
             // Request Create Room
             RoomInfo info = new RoomInfo();
+            info.Type = (int)PacketType.RoomInfo;
             Network.Send(info);
 
             ViewController.SwitchScreen(Screen.Room);
@@ -77,6 +81,7 @@ namespace Saboteur.Forms
 
             /// [TODO] send txtRoomCode.Text [x]
             RoomInfo info = new RoomInfo();
+            info.Type = (int)PacketType.RoomInfo;
             info.roomCode = int.Parse(txtRoomCode.Text);
             Network.Send(info);
 

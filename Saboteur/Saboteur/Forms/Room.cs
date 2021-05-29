@@ -40,7 +40,7 @@ namespace Saboteur.Forms
             InitializeComponent();
             initializeLantern();
 
-            updateInfo(mockPacket(3, ""));
+            //updateInfo(mockPacket(3, ""));
             //updateInfo(mockPacket(2, "number 2 msg"));
             //updateInfo(mockPacket(3, "my msg"));
         }
@@ -149,6 +149,7 @@ namespace Saboteur.Forms
         {
             RoomInfo packet = new RoomInfo();
             packet.message = msg;
+            packet.roomCode = this.receivedRoomInfo.roomCode;
             packet.clientID = this.playerID;
 
             return packet;
