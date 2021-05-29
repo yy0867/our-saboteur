@@ -24,7 +24,10 @@ namespace ClientTest
                 client = new TcpClient();
                 client.Connect(serverIP, serverPort);
 
-
+                if (client.Connected)
+                {
+                    Console.WriteLine("서버와 연결");
+                }
             }
             catch (SocketException e)
             {
