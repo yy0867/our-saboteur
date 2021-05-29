@@ -37,10 +37,7 @@ namespace Server
         private static int roomCode = 1000;
         public static RoomInfo PacketRoomInfo;
 
-        private static void TestPrint(int n)
-        {
-            Console.WriteLine(n);
-        } 
+        private static Semaphore sem = new Semaphore(1, 1);
 
         private static void SendByClientID(int clientID)
         {
@@ -62,89 +59,91 @@ namespace Server
 
         private static void ReceiveByClientID(int clientID)
         {
-            for (int i = 0; i < Packet.MAX_SIZE; i++)
-                receiveBuffers[clientID][i] = 0;
-
-            networkStream[clientID].Read(receiveBuffers[clientID], 0, receiveBuffers[clientID].Length);
-            networkStream[clientID].Flush();
-
-            Packet packet = (Packet)Packet.Desserialize(receiveBuffers[clientID]);
-            switch ((int)packet.Type)
+            while (true)
             {
-                case (int)PacketType.RoomInfo:
-                    {
-                        Console.WriteLine("Client로부터 RoomInfo 패킷 Receive");
+                Console.WriteLine(clientID + " ReceiveByClientID");
+                for (int i = 0; i < Packet.MAX_SIZE; i++)
+                {
+                    receiveBuffers[clientID][i] = 0;
+                }
 
-                        PacketRoomInfo = (RoomInfo)Packet.Desserialize(receiveBuffers[clientID]);
+                networkStream[clientID].Read(receiveBuffers[clientID], 0, receiveBuffers[clientID].Length);
+                networkStream[clientID].Flush();
 
-                        // Client에게 Send할 패킷 구성
-                        RoomInfo roomPacket = new RoomInfo();
-                        roomPacket.Type = (int)PacketType.RoomInfo;
-                        roomPacket.roomCode = roomCode;
-
-                         // Client가 CreateRoom 또는 JoinRoom 요청
-                        if (PacketRoomInfo.clientID == Packet.isEmpty)
+                Packet packet = (Packet)Packet.Desserialize(receiveBuffers[clientID]);
+                switch ((int)packet.Type)
+                {
+                    case (int)PacketType.RoomInfo:
                         {
-                            roomPacket.clientID = numClient;
+                            Console.WriteLine("Client로부터 RoomInfo 패킷 Receive");
 
-                            // 1. 방장 Client가 CreateRoom 요청
-                            if (PacketRoomInfo.roomCode == Packet.isEmpty)
+                            PacketRoomInfo = (RoomInfo)Packet.Desserialize(receiveBuffers[clientID]);
+
+                            // Client에게 Send할 패킷 구성
+                            RoomInfo roomPacket = new RoomInfo();
+                            roomPacket.Type = (int)PacketType.RoomInfo;
+                            roomPacket.roomCode = roomCode;
+
+                            // Client가 CreateRoom 또는 JoinRoom 요청
+                            if (PacketRoomInfo.clientID == Packet.isEmpty)
                             {
-                                //roomPacket.players[0] = true;       // 방장 Client
-                                //roomPacket.players[roomPacket.clientID] = true;       // 방장 Client
+                                roomPacket.clientID = numClient;
 
-                                connectedClients[roomPacket.clientID] = true;
-                                roomPacket.players = connectedClients;
-                                //Array.Copy(connectedClient, )
+                                // 1. 방장 Client가 CreateRoom 요청
+                                if (PacketRoomInfo.roomCode == Packet.isEmpty)
+                                {
+                                    //roomPacket.players[0] = true;       // 방장 Client
+                                    //roomPacket.players[roomPacket.clientID] = true;       // 방장 Client
 
-                                //Packet.Serialize(roomPacket).CopyTo(sendBuffer, 0);
-                                Packet.Serialize(roomPacket).CopyTo(sendBuffers[clientID], 0);
-                                SendPacket();
-                                //SendByClientID(PacketRoomInfo.clientID);
+                                    //connectedClients[roomPacket.clientID] = true;
+
+                                    connectedClients.CopyTo(roomPacket.players, 0);
+                                    //Array.Copy(connectedClient, )
+
+                                    //Packet.Serialize(roomPacket).CopyTo(sendBuffer, 0);
+                                    Packet.Serialize(roomPacket).CopyTo(sendBuffers[clientID], 0);
+                                    SendPacket();
+                                    //SendByClientID(PacketRoomInfo.clientID);
+                                }
+                                // 2. Client가 Join Room 요청
+                                else
+                                {
+                                    connectedClients[roomPacket.clientID] = true;
+                                    //roomPacket.players = connectedClients;
+                                    connectedClients.CopyTo(roomPacket.players, 0);
+
+                                    //Packet.Serialize(roomPacket).CopyTo(sendBuffer, 0);a
+                                    Packet.Serialize(roomPacket).CopyTo(sendBuffers[clientID], 0);
+                                    SendPacket();
+                                    //SendByClientID(PacketRoomInfo.clientID);
+                                }
+
+                                numClient++;
                             }
-                            // 2. Client가 Join Room 요청
                             else
                             {
-                                connectedClients[roomPacket.clientID] = true;
-                                roomPacket.players = connectedClients;
-                                //Array.Copy(connectedClient, )
 
-                                //Packet.Serialize(roomPacket).CopyTo(sendBuffer, 0);a
-                                Packet.Serialize(roomPacket).CopyTo(sendBuffers[clientID], 0);
-                                SendPacket();
-                                //SendByClientID(PacketRoomInfo.clientID);
                             }
 
-                            numClient++;
+                            break;
                         }
-                        else
-                        {
+                }
 
-                        }
-
-                        break;
-                    }
+                isReceiveThreadOn[clientID] = false;
             }
-
-            isReceiveThreadOn[clientID] = false;
         }
+
+        private static readonly object indexLock = new object();
 
         private static void ReceiveToAllClient()
         {
             for (int i = 0; i < MAX_CLIENT_NUM; i++)
             {
-                if (!isReceiveThreadOn[i])
+                if (isReceiveThreadOn[i])
                 {
                     receiveThread[i] = new Thread(() => ReceiveByClientID(i));
-                    isReceiveThreadOn[i] = true;
                     receiveThread[i].Start();
-
-                    //receiveThread[i] = new Thread(new ParameterizedThreadStart(ReceiveByClientID));
-                    //receiveThread[i].Start(i);
-
-                    //receiveThread[i] = new Thread(() => TestPrint(i));
-                    //receiveThread[i] = new Thread(new ParameterizedThreadStart(TestPrint));
-                    //receiveThread[i].Start(i);
+                    Thread.Sleep(100);
                 }
             }
 
@@ -158,8 +157,9 @@ namespace Server
             // networkStream 배열 Init
             for (int i = 0; i < MAX_CLIENT_NUM; i++)
             {
-
                 networkStream[i] = null;
+                receiveBuffers[i] = new byte[Packet.MAX_SIZE];
+                sendBuffers[i] = new byte[Packet.MAX_SIZE];
             }
 
             try
@@ -181,6 +181,9 @@ namespace Server
                             Console.WriteLine("클라이언트 {0} 연결", numClient);
                             networkStream[numClient] = client.GetStream();
                             connectedClients[numClient] = true;
+                            isReceiveThreadOn[numClient] = true;
+
+                            numClient++;
 
                             for (int i = 0; i < MAX_CLIENT_NUM; i++)
                             {
@@ -200,8 +203,6 @@ namespace Server
                             else    // JoinRoom
                             {
                             }
-
-                            numClient++;
                         }
 
 

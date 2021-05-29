@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
+using PacketLibrary;
 
 namespace Saboteur.Forms
 {
@@ -23,7 +24,14 @@ namespace Saboteur.Forms
         private void MainMenu_Load(object sender, EventArgs e)
         {
             panJoinRoom.Visible = false;
+            btnCreateRoom.Enabled = false;
+            btnJoinRoom.Enabled = false;
+
+            // TEST CODE #########################################
+            txtServerIP.Text = "127.0.0.1";
         }
+
+
 
         private void btnJoinRoom_Click(object sender, EventArgs e)
         {
@@ -55,35 +63,58 @@ namespace Saboteur.Forms
 
         private void btnCreateRoom_Click(object sender, EventArgs e)
         {
-            // show create room form with modal
-            CreateRoomForm createRoomForm = new CreateRoomForm();
+            if (!Network.isConnected)
+                return;
 
-            createRoomForm.StartPosition = FormStartPosition.CenterParent;
-            
-            if (createRoomForm.ShowDialog() == DialogResult.OK)
-            {
-                ViewController.SwitchScreen(Screen.Room);
-            }
+            // Request Create Room
+            RoomInfo info = new RoomInfo();
+            info.Type = (int)PacketType.RoomInfo;
+            Network.Send(info);
+
+            ViewController.SwitchScreen(Screen.Room);
         }
 
         private void btnJoinRequest_Click(object sender, EventArgs e)
         {
-            /// [TODO] send txtRoomCode.Text [x]
-            /// [TODO] get Info of Room [x]
+            if (!Network.isConnected)
+                return;
 
-            /// [TODO] analyze the info [?]
-            // if (get room info success)
-            //      set ViewModel of Room
-            //      ViewController.SwitchScreen(Screen.Room);
+            /// [TODO] send txtRoomCode.Text [x]
+            RoomInfo info = new RoomInfo();
+            info.Type = (int)PacketType.RoomInfo;
+            info.roomCode = int.Parse(txtRoomCode.Text);
+            Network.Send(info);
 
             // else (failed)
-            MessageBox.Show("일치하는 방이 없습니다. \r\n다시 입력해주세요!", "No Room", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            txtRoomCode.Clear();
-            txtRoomCode.Focus();
+            //MessageBox.Show("일치하는 방이 없습니다. \r\n다시 입력해주세요!", "No Room", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //txtRoomCode.Clear();
+            //txtRoomCode.Focus();
 
             /// [IMPORTANT] TEST CODE
             /// ******** DELETE REQUIRED ********
             ViewController.SwitchScreen(Screen.Room);
+        }
+
+        private void btnConnectServer_Click(object sender, EventArgs e)
+        {
+            Network.setServerIP = txtServerIP.Text;
+            if (Network.Connect())
+            {
+                MessageBox.Show("서버와 정상적으로 연결되었습니다.", "Connected", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                // Network의 Receive Thread 시작
+                Thread receiveThread = new Thread(new ThreadStart(Network.Receive));
+                receiveThread.Start();
+
+                // 버튼 활성화
+                btnCreateRoom.Enabled = true;
+                btnJoinRoom.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("서버와 연결되지 않았습니다.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
         }
     }
 }

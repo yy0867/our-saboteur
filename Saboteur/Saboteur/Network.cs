@@ -18,6 +18,14 @@ namespace Saboteur
     class Network
     {
         public static IPAddress ServerIP;
+        public static string setServerIP
+        {
+            set
+            {
+                ServerIP = IPAddress.Parse(value);
+            }
+        }
+
         public const int Port = 7777;
 
         private static TcpClient client;
@@ -51,42 +59,44 @@ namespace Saboteur
         // 서버 정보 수신
         // Packet으로 정보를 반환, Form에서는 반환된 정보를 통해
         // Form Update를 진행
-        public static Packet Receive()
+        public static void Receive()
         {
-            try
+            while (true)
             {
-                networkStream.Read(readBuffer, 0, Packet.MAX_SIZE);
+                try
+                {
+                    networkStream.Read(readBuffer, 0, Packet.MAX_SIZE);
+                }
+                catch
+                {
+                    if (!client.Connected || networkStream == null)
+                        return;
+
+                    isConnected = false;
+                    networkStream.Close();
+
+                    return;
+                }
+
+                // 패킷 타입 추출
+                Packet packet = (Packet)Packet.Desserialize(readBuffer);
+
+                switch ((int)packet.Type)
+                {
+                    case (int)PacketType.RoomInfo:  // RoomInfo 패킷 받으면
+                        ViewController.Room.updateInfo(packet);
+                        break;
+
+                        // 나중에 패킷 타입 추가되면 작성하기 ##########################
+                }
             }
-            catch
-            {
-                if (!client.Connected || networkStream == null)
-                    return null;
-
-                isConnected = false;
-                networkStream.Close();
-
-                return null;
-            }
-
-            // 패킷 타입 추출
-            Packet packet = (Packet)Packet.Desserialize(readBuffer);
-
-            switch ((int)packet.Type)
-            {
-                case (int)PacketType.RoomInfo:  // RoomInfo 패킷 받으면
-                    RoomInfo info = ParseRoomInfo(packet);
-                    ClearBuffer(BufferType.Read);
-                    return info;
-
-                    // 나중에 패킷 타입 추가되면 작성하기 ##########################
-            }
-
-            return null;
         }
 
         // 패킷 전송
         public static void Send(Packet p)
         {
+            Packet.Serialize(p).CopyTo(sendBuffer, 0);
+
             networkStream.Write(sendBuffer, 0, sendBuffer.Length);
             networkStream.Flush();
 
@@ -104,22 +114,6 @@ namespace Saboteur
                 else
                     sendBuffer[i] = 0;
             }
-        }
-
-        /// ############################################
-        /// ##           Parse Information            ##
-        /// ############################################
-        // Room info Parsing [ RoomInfo Packet --> RoomForm Information ]
-        public static RoomInfo ParseRoomInfo(Packet packet)
-        {
-            RoomInfo received = (RoomInfo)packet;
-            RoomInfo info = new RoomInfo();
-
-            received.players.CopyTo(info.players, 0); // info.players에 복사
-            received.message.CopyTo(info.message, 0); // info.message에 복사
-            info.roomCode = received.roomCode; // roomCode 복사
-
-            return received;
         }
     }
 }

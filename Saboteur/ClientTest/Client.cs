@@ -10,7 +10,7 @@ using PacketLibrary;
 
 namespace ClientTest
 {
-    class ClientTest
+    class Client
     {
         private static NetworkStream networkStream;
         private static byte[] sendBuffer = new byte[1024 * 4];

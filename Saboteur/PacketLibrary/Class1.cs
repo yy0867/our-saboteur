@@ -56,7 +56,15 @@ namespace PacketLibrary
         public int clientID;
         // roomCode 비어있으면 Create Room, 있으면 Join Room
         public bool[] players;       // 접속한 client 
-        public string[] message;
+        public string message;
+
+        public RoomInfo()
+        {
+            roomCode = Packet.isEmpty;
+            clientID = Packet.isEmpty;
+            players = new bool[] { false, false, false, false, false, false, false };
+            message = "";
+        }
     }
 
     //[Serializable]
