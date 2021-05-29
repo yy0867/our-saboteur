@@ -34,6 +34,7 @@ namespace Saboteur.Forms
             roomInfo.message = message;
             return roomInfo;
         }
+        
         public Room()
         {
             InitializeComponent();
@@ -50,6 +51,14 @@ namespace Saboteur.Forms
             this.myChatResultBox.ScrollToCaret();
             this.otherChatResultBox.Select(this.otherChatResultBox.Text.Length, 0);
             this.otherChatResultBox.ScrollToCaret();
+        }
+
+        private void initializeLantern()
+        {
+            for (int i = 0; i < MAX_PLAYER; i++)
+            {
+                playerLanterns.Add((PictureBox)Controls.Find("playerLantern" + i, true)[0]);
+            }
         }
 
         private void Room_Load(object sender, EventArgs e)

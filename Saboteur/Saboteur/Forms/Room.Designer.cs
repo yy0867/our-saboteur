@@ -214,7 +214,6 @@ namespace Saboteur.Forms
 
         }
 
-
         private System.Windows.Forms.TextBox myChatResultBox;
         private System.Windows.Forms.PictureBox playerLantern0;
         private System.Windows.Forms.TextBox chatInputBox;
