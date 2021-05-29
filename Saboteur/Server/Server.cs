@@ -13,17 +13,14 @@ namespace Server
     class Server
     {
         private static TcpListener listener;
-        private static List<Socket> sockets;
+        //private static List<Socket> sockets;
 
-        //private static IPAddress serverIP = IPAddress.Parse("192.168.0.6");
         private static IPAddress serverIP = IPAddress.Parse("127.0.0.1");
         private static int serverPort = 7777;
         private static NetworkStream[] networkStream = new NetworkStream[MAX_CLIENT_NUM];
 
         private static byte[][] sendBuffers = new byte[MAX_CLIENT_NUM][];
         private static byte[][] receiveBuffers = new byte[MAX_CLIENT_NUM][];
-        //private static byte[] sendBuffer = new byte[1024 * 4];
-        //private static byte[] receiveBuffer = new byte[1024 * 4];
 
         private const int MAX_CLIENT_NUM = 7;       // 클라이언트 최대 수(플레이어 최대 수)
         private static int numClient = 0;           // 연결된 클라이언트 수
@@ -39,18 +36,14 @@ namespace Server
 
         private static int roomCode = 1000;
         private static RoomInfo PacketRoomInfo;
-        //private static CreateRoom PacketCreateRoom;
-        //private static JoinRoom PacketJoinRoom;
 
         private static void SendByClientID(int clientID)
         {
-            //networkStream[clientID].Write(sendBuffer, 0, sendBuffer.Length);
             networkStream[clientID].Write(sendBuffers[clientID], 0, sendBuffers[clientID].Length);
             networkStream[clientID].Flush();
 
             for (int i = 0; i < Packet.MAX_SIZE; i++)
                 sendBuffers[clientID][i] = 0;
-            //sendBuffer[i] = 0;
         }
 
         private static void SendPacket()
@@ -66,13 +59,10 @@ namespace Server
         {
             for (int i = 0; i < Packet.MAX_SIZE; i++)
                 receiveBuffers[clientID][i] = 0;
-            //receiveBuffer[i] = 0;
 
-            //networkStream[clientID].Read(receiveBuffer, 0, receiveBuffer.Length);
             networkStream[clientID].Read(receiveBuffers[clientID], 0, receiveBuffers[clientID].Length);
             networkStream[clientID].Flush();
 
-            //Packet packet = (Packet)Packet.Desserialize(receiveBuffer);
             Packet packet = (Packet)Packet.Desserialize(receiveBuffers[clientID]);
             switch ((int)packet.Type)
             {
@@ -80,7 +70,6 @@ namespace Server
                     {
                         Console.WriteLine("Client로부터 RoomInfo 패킷 Receive");
 
-                        //PacketRoomInfo = (RoomInfo)Packet.Desserialize(receiveBuffer);
                         PacketRoomInfo = (RoomInfo)Packet.Desserialize(receiveBuffers[clientID]);
 
                         // Client에게 Send할 패킷 구성
@@ -189,29 +178,11 @@ namespace Server
                             {
                                 ReceiveToAllClient();
 
-                                //// CreateRoom 빈 패킷 Send
-                                //CreateRoom CreateRoomData = new CreateRoom();
-                                //CreateRoomData.Type = (int)PacketType.CreateRoom;
-                                //CreateRoomData.roomCode = 0;
 
-                                //Packet.Serialize(CreateRoomData).CopyTo(sendBuffer, 0);
-                                //Send(0);
 
-                                //Console.WriteLine("CreateRoom 빈 패킷 Send: {0}\n",
-                                //    CreateRoomData.roomCode);
                             }
                             else    // JoinRoom
                             {
-                                //JoinRoom JoinRoomData = new JoinRoom();
-                                //JoinRoomData.Type = (int)PacketType.JoinRoom;
-                                //JoinRoomData.roomCode = 1000;
-                                //JoinRoomData.clientID = numClient;
-
-                                //Packet.Serialize(JoinRoomData).CopyTo(sendBuffer, 0);
-                                //Send(JoinRoomData.clientID);
-
-                                //Console.WriteLine("JoinRoom 패킷 Send: {0}\n",
-                                //    JoinRoomData.roomCode);
                             }
 
                             numClient++;
@@ -225,14 +196,6 @@ namespace Server
                         {
                             // Client로부터 Packet Receive
                             ReceiveToAllClient();
-
-                            //networkStream[0].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                            //networkStream[1].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                            //networkStream[2].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                            //networkStream[3].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                            //networkStream[4].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                            //networkStream[5].Read(receiveBuffer, 0, Packet.MAX_SIZE);
-                            //networkStream[6].Read(receiveBuffer, 0, Packet.MAX_SIZE);
                         }
                         catch
                         {
@@ -268,11 +231,6 @@ namespace Server
                         //            }
                         //    }
                     }
-
-
-
-                    //thread[numClient] = new Thread();
-
 
                     //client.Close();
                 }
