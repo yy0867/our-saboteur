@@ -82,7 +82,13 @@ namespace Saboteur.Forms
             this.receivedRoomInfo = (RoomInfo)packet;
             this.isPlayer = this.receivedRoomInfo.players;
             lanternImageToggle();
+            updateChattingLog(this.receivedRoomInfo.message);
         }
+
+        private void updateChattingLog(string[] newLog) {
+            this.chatResultBox.Lines = newLog;
+        }
+
 
         private void chatInputBox_KeyDown(object sender, KeyEventArgs e)
         {
