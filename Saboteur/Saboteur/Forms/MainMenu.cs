@@ -72,18 +72,18 @@ namespace Saboteur.Forms
 
         private void btnJoinRequest_Click(object sender, EventArgs e)
         {
-            /// [TODO] send txtRoomCode.Text [x]
-            /// [TODO] get Info of Room [x]
+            if (!Network.isConnected)
+                return;
 
-            /// [TODO] analyze the info [?]
-            // if (get room info success)
-            //      set information of Room
-            //      ViewController.SwitchScreen(Screen.Room);
+            /// [TODO] send txtRoomCode.Text [x]
+            RoomInfo info = new RoomInfo();
+            info.roomCode = int.Parse(txtRoomCode.Text);
+            Network.Send(info);
 
             // else (failed)
-            MessageBox.Show("일치하는 방이 없습니다. \r\n다시 입력해주세요!", "No Room", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            txtRoomCode.Clear();
-            txtRoomCode.Focus();
+            //MessageBox.Show("일치하는 방이 없습니다. \r\n다시 입력해주세요!", "No Room", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //txtRoomCode.Clear();
+            //txtRoomCode.Focus();
 
             /// [IMPORTANT] TEST CODE
             /// ******** DELETE REQUIRED ********
