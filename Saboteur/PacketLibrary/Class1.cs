@@ -62,6 +62,7 @@ namespace PacketLibrary
 
         public RoomInfo()
         {
+            this.Type = (int)PacketType.RoomInfo;
             roomCode = Packet.isEmpty;
             clientID = Packet.isEmpty;
             players = new bool[] { false, false, false, false, false, false, false };
@@ -81,6 +82,7 @@ namespace PacketLibrary
         public ErrorCode code;
         public Error(ErrorCode code)
         {
+            this.Type = (int)PacketType.Error;
             this.code = code;
         }
     }

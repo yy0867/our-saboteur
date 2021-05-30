@@ -93,11 +93,10 @@ namespace Server
             sendRoomInfo.clientID = receiveInfo.clientID;
 
             // Client가 CreateRoom 또는 JoinRoom 요청
-            sendRoomInfo.clientID = FindEmptyClientID();
 
             if (sendRoomInfo.clientID == -1)
             {
-                // error
+                sendRoomInfo.clientID = FindEmptyClientID();
             }
 
             enteredPlayers[sendRoomInfo.clientID] = true;
@@ -131,6 +130,7 @@ namespace Server
 
                 // 정보 수신
                 Console.WriteLine("{0}.Receive Thread", clientID);
+                Console.WriteLine("NetworkStream[{0}]: {1}", clientID, receiveBuffer.Length);
                 networkStream[clientID].Read(receiveBuffer, 0, receiveBuffer.Length);
                 networkStream[clientID].Flush();
 

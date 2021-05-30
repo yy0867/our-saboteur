@@ -93,6 +93,7 @@ namespace Saboteur
 
                 // 패킷 타입 추출
                 Packet packet = (Packet)Packet.Desserialize(readBuffer);
+                ClearBuffer(BufferType.Read);
 
                 switch ((int)packet.Type)
                 {
@@ -111,12 +112,12 @@ namespace Saboteur
         // 패킷 전송
         public static void Send(Packet p)
         {
+            ClearBuffer(BufferType.Send);
+
             Packet.Serialize(p).CopyTo(sendBuffer, 0);
 
             networkStream.Write(sendBuffer, 0, sendBuffer.Length);
             networkStream.Flush();
-
-            ClearBuffer(BufferType.Send);
         }
 
         // 타입별 버퍼 초기화 
