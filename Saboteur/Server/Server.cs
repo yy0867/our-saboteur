@@ -17,7 +17,7 @@ namespace Server
         private NetworkStream[] networkStream = new NetworkStream[MAX_CLIENT_NUM];
 
         private IPAddress serverIP = IPAddress.Parse("127.0.0.1");
-        private int serverPort = 7777;
+        private int serverPort = 11000;
 
         private const int MAX_CLIENT_NUM = 7;
         private int numConnectedClient = 0;
@@ -47,12 +47,16 @@ namespace Server
 
         public void Send(int clientID, Packet packet)
         {
-            byte[] sendBuffer = new byte[Packet.MAX_SIZE];
-            initBuffer(sendBuffer);
+            Thread sendThread = new Thread(() =>
+            {
+                byte[] sendBuffer = new byte[Packet.MAX_SIZE];
+                initBuffer(sendBuffer);
 
-            Packet.Serialize(packet).CopyTo(sendBuffer, 0);
-            networkStream[clientID].Write(sendBuffer, 0, sendBuffer.Length);
-            networkStream[clientID].Flush();
+                Packet.Serialize(packet).CopyTo(sendBuffer, 0);
+                networkStream[clientID].Write(sendBuffer, 0, sendBuffer.Length);
+                networkStream[clientID].Flush();
+            };
+            sendThread.Start();
         }
 
         public void SendToAllClient(Packet packet)

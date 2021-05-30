@@ -27,7 +27,7 @@ namespace Saboteur
             }
         }
 
-        public const int Port = 7777;
+        public const int Port = 11000;
 
         private static TcpClient client;
         public static bool isConnected = false;
