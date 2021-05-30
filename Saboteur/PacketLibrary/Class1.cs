@@ -66,18 +66,4 @@ namespace PacketLibrary
             message = "";
         }
     }
-
-    //[Serializable]
-    //public class CreateRoom : Packet
-    //{
-    //    public int roomCode;
-    //    public int clientID;        // 방장 Client ID
-    //}
-
-    //[Serializable]
-    //public class JoinRoom : Packet
-    //{
-    //    public int roomCode;
-    //    public int clientID;
-    //}
 }
