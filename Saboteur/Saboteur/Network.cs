@@ -131,6 +131,8 @@ namespace Saboteur
                 networkStream.Write(sendBuffer, 0, sendBuffer.Length);
                 networkStream.Flush();
             });
+            sendThread.Start();
+
             Thread.Sleep(100);
         }
 
