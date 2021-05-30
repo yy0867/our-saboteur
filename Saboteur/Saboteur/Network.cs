@@ -56,6 +56,19 @@ namespace Saboteur
             return true;
         }
 
+        // 에러 분석
+        // 각각의 에러 처리해서 필요한 작업 수행
+        // 필요하다면 Form Update
+        public static void ParseError(Error error)
+        {
+            switch (error.code)
+            {
+                case ErrorCode.RoomExistException:
+                    ViewController.MainMenu.HandleError(error.code);
+                    break;
+            }
+        }
+
         // 서버 정보 수신
         // Packet으로 정보를 반환, Form에서는 반환된 정보를 통해
         // Form Update를 진행
@@ -83,6 +96,9 @@ namespace Saboteur
 
                 switch ((int)packet.Type)
                 {
+                    case (int)PacketType.Error:
+                        ParseError((Error)packet);
+                        break;
                     case (int)PacketType.RoomInfo:  // RoomInfo 패킷 받으면
                         ViewController.Room.updateInfo(packet);
                         break;
