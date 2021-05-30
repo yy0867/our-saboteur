@@ -91,7 +91,7 @@ namespace Saboteur
 
                 // 패킷 타입 추출
                 Packet packet = (Packet)Packet.Desserialize(readBuffer);
-                ClearBuffer(BufferType.Read);
+                ClearBuffer(readBuffer);
 
                 switch ((int)packet.Type)
                 {
@@ -111,7 +111,7 @@ namespace Saboteur
         public static void Send(Packet p)
         {
             byte[] sendBuffer = new byte[Packet.MAX_SIZE];
-            ClearBuffer(BufferType.Send);
+            ClearBuffer(sendBuffer);
 
             Packet.Serialize(p).CopyTo(sendBuffer, 0);
 
@@ -121,14 +121,11 @@ namespace Saboteur
 
         // 타입별 버퍼 초기화 
         // Usage: ClearBuffer(BufferType.Send / Read)
-        private static void ClearBuffer(BufferType type)
+        private static void ClearBuffer(byte[] buffer)
         {
             for (int i = 0; i < Packet.MAX_SIZE; i++)
             {
-                if (type == BufferType.Read)
-                    readBuffer[i] = 0;
-                else
-                    sendBuffer[i] = 0;
+                buffer[i] = 0;
             }
         }
     }
