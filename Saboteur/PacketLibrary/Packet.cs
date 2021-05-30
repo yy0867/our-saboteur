@@ -10,7 +10,8 @@ namespace PacketLibrary
 {
     public enum PacketType
     {
-        RoomInfo = 0
+        RoomInfo = 0,
+        GameInfo
     }
 
     [Serializable]
@@ -66,4 +67,25 @@ namespace PacketLibrary
             message = "";
         }
     }
+
+    [Serializable]
+    public class GameInfo : Packet
+    {
+        public int clientID;
+        public string message;
+    }
+
+    //[Serializable]
+    //public class CreateRoom : Packet
+    //{
+    //    public int roomCode;
+    //    public int clientID;        // 방장 Client ID
+    //}
+
+    //[Serializable]
+    //public class JoinRoom : Packet
+    //{
+    //    public int roomCode;
+    //    public int clientID;
+    //}
 }

@@ -17,6 +17,7 @@ namespace Saboteur.Forms
     public partial class Room : UserControl
     {
         const int MAX_PLAYER = 7;
+        const int SERVER_ID = -1;
         List<PictureBox> playerLanterns = new List<PictureBox>();
         bool[] isPlayer = new bool[MAX_PLAYER];
         int playerID = -1;
@@ -45,13 +46,6 @@ namespace Saboteur.Forms
             //updateInfo(mockPacket(3, "my msg"));
         }
 
-        private void initializeScroll()
-        {
-            this.myChatResultBox.Select(this.myChatResultBox.Text.Length, 0);
-            this.myChatResultBox.ScrollToCaret();
-            this.otherChatResultBox.Select(this.otherChatResultBox.Text.Length, 0);
-            this.otherChatResultBox.ScrollToCaret();
-        }
 
         private void InitializeLantern()
         {
@@ -93,39 +87,45 @@ namespace Saboteur.Forms
             this.receivedRoomInfo = (RoomInfo)packet;
             this.isPlayer = this.receivedRoomInfo.players;
             lanternImageToggle();
-            if (this.playerID == -1)
+            if (this.playerID == SERVER_ID)
                 this.playerID = this.receivedRoomInfo.clientID;
+            if (this.playerID == 0)
+                this.btn_start.Visible = true;
 
             updateChattingLog(this.receivedRoomInfo.message, this.receivedRoomInfo.clientID);
         }
 
-        private void updateChattingLog(string[] newLog) {
-            this.myChatResultBox.Lines = newLog;
-        }
-
-        private string convertMessage(string msg)
+        private string convertMessage(string msg, int ID)
         {
-            return "\r\n" + msg + " : [ " + this.playerID + " ] ";
-        }
-
-        private string convertMessage(string msg, int otherID)
-        {
-            return "\r\n" +" [ "+ otherID + " ] : " + msg;
+            if (ID == this.playerID)
+                return msg + " : [ " + this.playerID + " ] \r\n";
+            else if (ID == SERVER_ID)
+                return "******** " + msg + " ********\r\n";
+            return "[ "+ ID + " ] : " + msg + "\r\n";
         }
         private void updateChattingLog(string newMessage, int receivedID)
         {
             if (!newMessage.Equals(""))
             {
-                if(receivedID == this.playerID)
+                var convertedMessage = convertMessage(newMessage, receivedID);
+                this.chatResultBox.AppendText(convertedMessage);
+                int endPosition = convertedMessage.Length;
+                int startPosition = this.chatResultBox.Text.Length - endPosition + 1;
+                this.chatResultBox.Select(startPosition, endPosition);
+                if (receivedID == this.playerID)
                 {
-                    this.myChatResultBox.AppendText(convertMessage(newMessage));
-                    this.otherChatResultBox.AppendText("\r\n");
-                } else
+                    this.chatResultBox.SelectionAlignment = HorizontalAlignment.Right;
+                    this.chatResultBox.SelectionColor = Color.Goldenrod;
+                    this.chatResultBox.SelectionFont = new Font(this.chatResultBox.Font, FontStyle.Bold | FontStyle.Underline);
+                } else if (receivedID == SERVER_ID)
                 {
-                    this.myChatResultBox.AppendText("\r\n");
-                    this.otherChatResultBox.AppendText(convertMessage(newMessage, receivedID));
+                    this.chatResultBox.SelectionAlignment = HorizontalAlignment.Center;
+                    this.chatResultBox.SelectionColor = Color.Green;
+                    this.chatResultBox.SelectionFont = new Font("돋움", 15, FontStyle.Italic | FontStyle.Bold);
                 }
             }
+            this.chatResultBox.Select(this.chatResultBox.Text.Length, 0);
+            this.chatResultBox.ScrollToCaret();
         }
 
 
@@ -141,6 +141,7 @@ namespace Saboteur.Forms
                 //test
                 //updateInfo((mockPacket(3, newChat))); //send mock
                 //updateInfo((mockPacket(5, "responed"))); // receive mock
+                //updateInfo((mockPacket(SERVER_ID, "server"))); // receive mock
             }
         }
 
@@ -155,5 +156,18 @@ namespace Saboteur.Forms
             return packet;
         }
 
+        private GameInfo getGameStartPacket()
+        {
+            GameInfo packet = new GameInfo();
+            packet.message = "";
+            packet.clientID = this.playerID;
+
+            return packet;
+        }
+
+        private void btn_start_Click(object sender, EventArgs e)
+        {
+            Network.Send(getGameStartPacket());
+        }
     }
 }

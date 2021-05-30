@@ -89,6 +89,15 @@ namespace Saboteur
 
                         // 나중에 패킷 타입 추가되면 작성하기 ##########################
                 }
+
+                switch ((int)packet.Type)
+                {
+                    case (int)PacketType.GameInfo:  // GameInfo 패킷 받으면
+                        //ViewController.Game.updateInfo(packet);
+                        break;
+
+                        // 나중에 패킷 타입 추가되면 작성하기 ##########################
+                }
             }
         }
 
