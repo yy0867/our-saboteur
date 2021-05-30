@@ -47,12 +47,17 @@ namespace Server
 
         public void Send(int clientID, Packet packet)
         {
-            byte[] sendBuffer = new byte[Packet.MAX_SIZE];
-            initBuffer(sendBuffer);
+            Thread sendThread = new Thread(() =>
+            {
+                byte[] sendBuffer = new byte[Packet.MAX_SIZE];
+                initBuffer(sendBuffer);
 
-            Packet.Serialize(packet).CopyTo(sendBuffer, 0);
-            networkStream[clientID].Write(sendBuffer, 0, sendBuffer.Length);
-            networkStream[clientID].Flush();
+                Packet.Serialize(packet).CopyTo(sendBuffer, 0);
+                networkStream[clientID].Write(sendBuffer, 0, sendBuffer.Length);
+                networkStream[clientID].Flush();
+            });
+            sendThread.Start();
+            Thread.Sleep(100);
         }
 
         public void SendToAllClient(Packet packet)
@@ -183,7 +188,7 @@ namespace Server
                             Thread receiveThread = new Thread(() => ReceiveByClientID(numConnectedClient));
                             receiveThread.Start();
 
-                            Thread.Sleep(100);
+                            Thread.Sleep(1000);
 
                             numConnectedClient++;
                         }
