@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Net.Sockets;
 using PacketLibrary;
 
@@ -121,12 +122,16 @@ namespace Saboteur
         // 패킷 전송
         public static void Send(Packet p)
         {
-            ClearBuffer(BufferType.Send);
+            Thread sendThread = new Thread(() =>
+            {
+                ClearBuffer(BufferType.Send);
 
-            Packet.Serialize(p).CopyTo(sendBuffer, 0);
+                Packet.Serialize(p).CopyTo(sendBuffer, 0);
 
-            networkStream.Write(sendBuffer, 0, sendBuffer.Length);
-            networkStream.Flush();
+                networkStream.Write(sendBuffer, 0, sendBuffer.Length);
+                networkStream.Flush();
+            });
+            Thread.Sleep(100);
         }
 
         // 타입별 버퍼 초기화 
