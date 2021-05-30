@@ -72,11 +72,14 @@ namespace Saboteur.Forms
             Image lanternOn = Properties.Resources.light_on;
             Image lanternOff = Properties.Resources.light_off;
 
-            if (isPlayer[index])
-                playerLanterns[index].Image = lanternOn;
-            else
-                playerLanterns[index].Image = lanternOff;
-            isPlayer[index] = !isPlayer[index];
+            playerLanterns[index].Invoke((MethodInvoker)(() => {
+                if (isPlayer[index])
+                    playerLanterns[index].Image = lanternOn;
+                else
+                    playerLanterns[index].Image = lanternOff;
+                isPlayer[index] = !isPlayer[index];
+            }));
+            
         }
 
         private void lanternImageToggle()
@@ -119,12 +122,23 @@ namespace Saboteur.Forms
             {
                 if(receivedID == this.playerID)
                 {
-                    this.myChatResultBox.AppendText(convertMessage(newMessage));
-                    this.otherChatResultBox.AppendText("\r\n");
+                    this.myChatResultBox.Invoke((MethodInvoker)(()=>{
+                        this.myChatResultBox.AppendText(convertMessage(newMessage));
+                    }));
+                    this.otherChatResultBox.Invoke((MethodInvoker)(() => {
+                        this.otherChatResultBox.AppendText("\r\n");
+                    }));
+                    
                 } else
                 {
-                    this.myChatResultBox.AppendText("\r\n");
-                    this.otherChatResultBox.AppendText(convertMessage(newMessage, receivedID));
+                    this.myChatResultBox.Invoke((MethodInvoker)(() => {
+                        this.myChatResultBox.AppendText("\r\n");
+                    }));
+                    this.otherChatResultBox.Invoke((MethodInvoker)(() => {
+                        this.otherChatResultBox.AppendText(convertMessage(newMessage, receivedID));
+                    }));
+                    
+                    
                 }
             }
         }
@@ -135,7 +149,12 @@ namespace Saboteur.Forms
             if (e.KeyCode == Keys.Enter)
             {
                 var newChat = this.chatInputBox.Text;
-                Network.Send(getMessagePacket(newChat));
+                int i = 0;
+                Task task = Task.Run(() =>
+                {
+                    Network.Send(getMessagePacket(i.ToString()));
+                });
+                    
                 
                 this.chatInputBox.ResetText();
 
