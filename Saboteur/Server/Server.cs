@@ -80,7 +80,8 @@ namespace Server
             // Client에게 Send할 패킷 구성
             RoomInfo sendRoomInfo = new RoomInfo();
             sendRoomInfo.roomCode = this.roomCode;
-            sendRoomInfo.clientID = receiveInfo.clientID;
+            sendRoomInfo.clientID = receiveInfo.clientID == Packet.isEmpty 
+                ? FindEmptyClientID() : receiveInfo.clientID;
             sendRoomInfo.message = receiveInfo.message;
 
             Console.WriteLine("Client[{0}]: {1}", sendRoomInfo.clientID, sendRoomInfo.message);
