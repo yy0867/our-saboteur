@@ -89,6 +89,8 @@ namespace Saboteur.Forms
             lanternImageToggle();
             if (this.playerID == -1)
                 this.playerID = this.receivedRoomInfo.clientID;
+            if (this.playerID == 0)
+                this.btn_start.Visible = true;
 
             updateChattingLog(this.receivedRoomInfo.message, this.receivedRoomInfo.clientID);
         }
