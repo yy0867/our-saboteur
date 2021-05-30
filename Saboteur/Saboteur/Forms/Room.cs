@@ -22,7 +22,7 @@ namespace Saboteur.Forms
         bool[] isPlayer = new bool[MAX_PLAYER];
         int playerID = -1;
         
-        private string serverIP = "127.0.0.1";
+        private string serverIP = "172.30.1.37";
 
         RoomInfo receivedRoomInfo;
 
@@ -65,7 +65,7 @@ namespace Saboteur.Forms
             Image lanternOn = Properties.Resources.light_on;
             Image lanternOff = Properties.Resources.light_off;
 
-            playerLanterns[index].Invoke((MethodInvoker)(() => {
+            this.Invoke((MethodInvoker)(() => {
                 if (isPlayer[index])
                     playerLanterns[index].Image = lanternOn;
                 else
@@ -92,7 +92,11 @@ namespace Saboteur.Forms
             if (this.playerID == SERVER_ID)
                 this.playerID = this.receivedRoomInfo.clientID;
             if (this.playerID == 0)
-                this.btn_start.Visible = true;
+            {
+                this.Invoke((MethodInvoker)(()=>{ this.btn_start.Visible = true; }));
+                
+            }
+                
 
             updateChattingLog(this.receivedRoomInfo.message, this.receivedRoomInfo.clientID);
         }
@@ -107,11 +111,9 @@ namespace Saboteur.Forms
         }
         private void updateChattingLog(string newMessage, int receivedID)
         {
-            this.chatResultBox.Invoke((MethodInvoker)(() => {
+            this.Invoke((MethodInvoker)(() => {
                 if (!newMessage.Equals(""))
                 {
-
-
                     var convertedMessage = convertMessage(newMessage, receivedID);
                     this.chatResultBox.AppendText(convertedMessage);
                     int endPosition = convertedMessage.Length;
@@ -142,7 +144,13 @@ namespace Saboteur.Forms
                 var newChat = this.chatInputBox.Text;
                 Task task = Task.Run(() =>
                 {
-                    Network.Send(getMessagePacket(newChat));
+                    int i = 0;
+                    while (i < 1000)
+                    {
+                        //Network.Send(getMessagePacket(newChat));
+                        Network.Send(getMessagePacket(i.ToString()));
+                        i++;
+                    }
                 });
                 
                 
