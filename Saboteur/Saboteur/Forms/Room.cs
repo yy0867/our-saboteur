@@ -65,11 +65,13 @@ namespace Saboteur.Forms
             Image lanternOn = Properties.Resources.light_on;
             Image lanternOff = Properties.Resources.light_off;
 
-            if (isPlayer[index])
-                playerLanterns[index].Image = lanternOn;
-            else
-                playerLanterns[index].Image = lanternOff;
-            isPlayer[index] = !isPlayer[index];
+            playerLanterns[index].Invoke((MethodInvoker)(() => {
+                if (isPlayer[index])
+                    playerLanterns[index].Image = lanternOn;
+                else
+                    playerLanterns[index].Image = lanternOff;
+                isPlayer[index] = !isPlayer[index];
+            }));
         }
 
         private void lanternImageToggle()
@@ -105,27 +107,31 @@ namespace Saboteur.Forms
         }
         private void updateChattingLog(string newMessage, int receivedID)
         {
-            if (!newMessage.Equals(""))
-            {
-                var convertedMessage = convertMessage(newMessage, receivedID);
-                this.chatResultBox.AppendText(convertedMessage);
-                int endPosition = convertedMessage.Length;
-                int startPosition = this.chatResultBox.Text.Length - endPosition + 1;
-                this.chatResultBox.Select(startPosition, endPosition);
-                if (receivedID == this.playerID)
+            this.chatResultBox.Invoke((MethodInvoker)(() => {
+                if (!newMessage.Equals(""))
                 {
-                    this.chatResultBox.SelectionAlignment = HorizontalAlignment.Right;
-                    this.chatResultBox.SelectionColor = Color.Goldenrod;
-                    this.chatResultBox.SelectionFont = new Font(this.chatResultBox.Font, FontStyle.Bold | FontStyle.Underline);
-                } else if (receivedID == SERVER_ID)
-                {
-                    this.chatResultBox.SelectionAlignment = HorizontalAlignment.Center;
-                    this.chatResultBox.SelectionColor = Color.Green;
-                    this.chatResultBox.SelectionFont = new Font("돋움", 15, FontStyle.Italic | FontStyle.Bold);
+
+
+                    var convertedMessage = convertMessage(newMessage, receivedID);
+                    this.chatResultBox.AppendText(convertedMessage);
+                    int endPosition = convertedMessage.Length;
+                    int startPosition = this.chatResultBox.Text.Length - endPosition + 1;
+                    this.chatResultBox.Select(startPosition, endPosition);
+                    if (receivedID == this.playerID)
+                    {
+                        this.chatResultBox.SelectionAlignment = HorizontalAlignment.Right;
+                        this.chatResultBox.SelectionColor = Color.Goldenrod;
+                        this.chatResultBox.SelectionFont = new Font(this.chatResultBox.Font, FontStyle.Bold | FontStyle.Underline);
+                    } else if (receivedID == SERVER_ID)
+                    {
+                        this.chatResultBox.SelectionAlignment = HorizontalAlignment.Center;
+                        this.chatResultBox.SelectionColor = Color.Green;
+                        this.chatResultBox.SelectionFont = new Font("돋움", 15, FontStyle.Italic | FontStyle.Bold);
+                    }
                 }
-            }
-            this.chatResultBox.Select(this.chatResultBox.Text.Length, 0);
-            this.chatResultBox.ScrollToCaret();
+                this.chatResultBox.Select(this.chatResultBox.Text.Length, 0);
+                this.chatResultBox.ScrollToCaret();
+            }));
         }
 
 
@@ -134,7 +140,11 @@ namespace Saboteur.Forms
             if (e.KeyCode == Keys.Enter)
             {
                 var newChat = this.chatInputBox.Text;
-                Network.Send(getMessagePacket(newChat));
+                Task task = Task.Run(() =>
+                {
+                    Network.Send(getMessagePacket(newChat));
+                });
+                
                 
                 this.chatInputBox.ResetText();
 
