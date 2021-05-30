@@ -24,6 +24,7 @@ namespace Server
 
         private int numConnectedClient = 0;
         private bool[] connectedClients = { false, false, false, false, false, false, false };
+        private bool[] enteredPlayers = { false, false, false, false, false, false, false };
         private bool isGameStarted = false;
 
         private bool[] isReceiveThreadOn = { false, false, false, false, false, false, false };
@@ -33,7 +34,7 @@ namespace Server
         private int roomCode = 1000;
         public RoomInfo PacketRoomInfo;
 
-        private Semaphore sem = new Semaphore(1, 1);
+        //private Semaphore sem = new Semaphore(1, 1);
 
 
 
@@ -70,6 +71,8 @@ namespace Server
                             networkStream[numConnectedClient] = client.GetStream();
                             connectedClients[numConnectedClient] = true;
                             isReceiveThreadOn[numConnectedClient] = true;
+
+                            Console.WriteLine("Number of Connected Clients: {0}", numConnectedClient);
 
                             numConnectedClient++;
 
@@ -148,7 +151,7 @@ namespace Server
 
         public void ReceiveByClientID(int clientID)
         {
-            Console.WriteLine("ReceiveByClientID({0}) Enter", clientID);
+            Console.WriteLine("ReceiveThread({0}) On", clientID);
 
             while (true)
             {
@@ -179,6 +182,9 @@ namespace Server
                                 connectedClients[sendRoomInfo.clientID] = true;
                                 connectedClients.CopyTo(sendRoomInfo.players, 0);
 
+                                for (int i = 0; i < sendRoomInfo.players.Length; i++)
+                                    Console.WriteLine("player{0}: {1}", i, sendRoomInfo.players[i]);
+
                                 // 1. 방장 Client가 CreateRoom 요청
                                 if (PacketRoomInfo.roomCode == Packet.isEmpty)
                                 {
@@ -192,7 +198,7 @@ namespace Server
                                     SendToAllClient();
                                 }
 
-                                numConnectedClient++;
+                                //numConnectedClient++;
                             }
 
                             break;
@@ -204,12 +210,13 @@ namespace Server
                 isReceiveThreadOn[clientID] = false;
             }
 
-            Console.WriteLine("ReceiveByClientID({0}) Exit", clientID);
+            Console.WriteLine("ReceiveThread({0}) Off", clientID);
         }
 
         public void ReceiveFromAllClient()
         {
-            for (int i = 0; i < MAX_CLIENT_NUM; i++)
+            //for (int i = 0; i < MAX_CLIENT_NUM; i++)
+            for (int i = 0; i < numConnectedClient; i++)
             {
                 if (isReceiveThreadOn[i])
                 {
