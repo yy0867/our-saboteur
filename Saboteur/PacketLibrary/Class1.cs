@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,8 @@ namespace PacketLibrary
 {
     public enum PacketType
     {
-        RoomInfo = 0
+        RoomInfo = 0,
+        Error,
     }
 
     [Serializable]
@@ -18,6 +20,7 @@ namespace PacketLibrary
     {
         public int Length;
         public int Type;
+        public int clientID;
         public const int MAX_SIZE = 1024 * 4;
         public const int isEmpty = -1;
 
@@ -53,7 +56,6 @@ namespace PacketLibrary
     public class RoomInfo : Packet
     {
         public int roomCode;
-        public int clientID;
         // roomCode 비어있으면 Create Room, 있으면 Join Room
         public bool[] players;       // 접속한 client 
         public string message;
@@ -64,6 +66,22 @@ namespace PacketLibrary
             clientID = Packet.isEmpty;
             players = new bool[] { false, false, false, false, false, false, false };
             message = "";
+        }
+    }
+
+    public enum ErrorCode
+    {
+        RoomExistException = 0,
+
+    }
+
+    [Serializable]
+    public class Error: Packet
+    {
+        public ErrorCode code;
+        public Error(ErrorCode code)
+        {
+            this.code = code;
         }
     }
 }

@@ -116,5 +116,16 @@ namespace Saboteur.Forms
                 return;
             }
         }
+
+        public void HandleError(ErrorCode error)
+        {
+            switch (error)
+            {
+                case ErrorCode.RoomExistException:
+                    ViewController.SwitchScreen(Screen.MainMenu);
+                    MessageBox.Show("이미 방이 존재합니다.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+            }
+        }
     }
 }
