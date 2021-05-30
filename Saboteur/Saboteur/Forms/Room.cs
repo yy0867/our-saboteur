@@ -41,7 +41,7 @@ namespace Saboteur.Forms
             InitializeComponent();
             InitializeLantern();
 
-            updateInfo(mockPacket(3, ""));
+            //updateInfo(mockPacket(3, ""));
             //updateInfo(mockPacket(2, "number 2 msg"));
             //updateInfo(mockPacket(3, "my msg"));
         }
@@ -87,7 +87,7 @@ namespace Saboteur.Forms
             this.receivedRoomInfo = (RoomInfo)packet;
             this.isPlayer = this.receivedRoomInfo.players;
             lanternImageToggle();
-            if (this.playerID == -1)
+            if (this.playerID == SERVER_ID)
                 this.playerID = this.receivedRoomInfo.clientID;
             if (this.playerID == 0)
                 this.btn_start.Visible = true;
@@ -141,7 +141,7 @@ namespace Saboteur.Forms
                 //test
                 //updateInfo((mockPacket(3, newChat))); //send mock
                 //updateInfo((mockPacket(5, "responed"))); // receive mock
-                //updateInfo((mockPacket(-1, "server"))); // receive mock
+                //updateInfo((mockPacket(SERVER_ID, "server"))); // receive mock
             }
         }
 
