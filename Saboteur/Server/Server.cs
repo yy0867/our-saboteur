@@ -81,6 +81,9 @@ namespace Server
             RoomInfo sendRoomInfo = new RoomInfo();
             sendRoomInfo.roomCode = this.roomCode;
             sendRoomInfo.clientID = receiveInfo.clientID;
+            sendRoomInfo.message = receiveInfo.message;
+
+            Console.WriteLine("Client[{0}]: {1}", sendRoomInfo.clientID, sendRoomInfo.message);
 
             // Client가 CreateRoom 또는 JoinRoom 요청
 
@@ -89,9 +92,6 @@ namespace Server
 
             enteredPlayers[sendRoomInfo.clientID] = true;
             enteredPlayers.CopyTo(sendRoomInfo.players, 0); // 서버에 저장된 최신 데이터를 클라이언트로 보냄
-
-            for (int i = 0; i < sendRoomInfo.players.Length; i++)
-                Console.WriteLine("player{0}: {1}, NetworkStream[{0}]: {2}", i, sendRoomInfo.players[i], networkStream[i]);
 
             // 1. 방장 Client가 CreateRoom 요청
             if (receiveInfo.roomCode == Packet.isEmpty)
