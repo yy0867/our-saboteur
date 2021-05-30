@@ -32,9 +32,6 @@ namespace Saboteur
         public static bool isConnected = false;
         public static NetworkStream networkStream;
 
-        public static byte[] sendBuffer = new byte[Packet.MAX_SIZE];
-        public static byte[] readBuffer = new byte[Packet.MAX_SIZE];
-
         // 클라이언트 --> 서버 연결
         // true -> Success / false -> Fail 
         // false면 폼에서 호출한 후 Error MessageBox 띄우기
@@ -74,6 +71,7 @@ namespace Saboteur
         // Form Update를 진행
         public static void Receive()
         {
+            byte[] readBuffer = new byte[Packet.MAX_SIZE];
             while (true)
             {
                 try
@@ -112,6 +110,7 @@ namespace Saboteur
         // 패킷 전송
         public static void Send(Packet p)
         {
+            byte[] sendBuffer = new byte[Packet.MAX_SIZE];
             ClearBuffer(BufferType.Send);
 
             Packet.Serialize(p).CopyTo(sendBuffer, 0);
