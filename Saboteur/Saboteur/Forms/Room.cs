@@ -153,5 +153,18 @@ namespace Saboteur.Forms
             return packet;
         }
 
+        private GameInfo getGameStartPacket()
+        {
+            GameInfo packet = new GameInfo();
+            packet.message = "";
+            packet.clientID = this.playerID;
+
+            return packet;
+        }
+
+        private void btn_start_Click(object sender, EventArgs e)
+        {
+            Network.Send(getGameStartPacket());
+        }
     }
 }

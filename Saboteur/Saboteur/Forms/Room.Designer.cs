@@ -152,6 +152,7 @@ namespace Saboteur.Forms
             this.btn_start.Size = new System.Drawing.Size(234, 78);
             this.btn_start.TabIndex = 11;
             this.btn_start.UseVisualStyleBackColor = false;
+            this.btn_start.Click += new System.EventHandler(this.btn_start_Click);
             // 
             // chatResultBox
             // 
