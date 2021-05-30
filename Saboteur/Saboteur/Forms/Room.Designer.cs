@@ -87,7 +87,7 @@ namespace Saboteur.Forms
             // 
             this.playerLantern2.BackColor = System.Drawing.Color.Transparent;
             this.playerLantern2.Image = global::Saboteur.Properties.Resources.light_off;
-            this.playerLantern2.Location = new System.Drawing.Point(537, -19);
+            this.playerLantern2.Location = new System.Drawing.Point(381, 117);
             this.playerLantern2.Name = "playerLantern2";
             this.playerLantern2.Size = new System.Drawing.Size(130, 130);
             this.playerLantern2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -109,7 +109,7 @@ namespace Saboteur.Forms
             // 
             this.playerLantern3.BackColor = System.Drawing.Color.Transparent;
             this.playerLantern3.Image = global::Saboteur.Properties.Resources.light_off;
-            this.playerLantern3.Location = new System.Drawing.Point(385, 117);
+            this.playerLantern3.Location = new System.Drawing.Point(517, 0);
             this.playerLantern3.Name = "playerLantern3";
             this.playerLantern3.Size = new System.Drawing.Size(130, 130);
             this.playerLantern3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
