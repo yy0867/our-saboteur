@@ -34,7 +34,8 @@ namespace Server
         private int roomCode = 1000;
         public RoomInfo PacketRoomInfo;
 
-        //private Semaphore sem = new Semaphore(1, 1);
+        private object lockObject = new object();
+        private Semaphore sem = new Semaphore(1, 1);
 
 
 
@@ -179,10 +180,10 @@ namespace Server
                             if (PacketRoomInfo.clientID == Packet.isEmpty)
                             {
                                 sendRoomInfo.clientID = numConnectedClient;
-                                //connectedClients[sendRoomInfo.clientID] = true;
-                                //connectedClients.CopyTo(sendRoomInfo.players, 0);
                                 enteredPlayers[clientID] = true;
                                 enteredPlayers.CopyTo(sendRoomInfo.players, 0);
+                                //connectedClients[sendRoomInfo.clientID] = true;
+                                //connectedClients.CopyTo(sendRoomInfo.players, 0);
 
                                 for (int i = 0; i < sendRoomInfo.players.Length; i++)
                                     Console.WriteLine("player{0}: {1}", i, sendRoomInfo.players[i]);
