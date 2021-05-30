@@ -144,13 +144,7 @@ namespace Saboteur.Forms
                 var newChat = this.chatInputBox.Text;
                 Task task = Task.Run(() =>
                 {
-                    int i = 0;
-                    while (i < 1000)
-                    {
-                        //Network.Send(getMessagePacket(newChat));
-                        Network.Send(getMessagePacket(i.ToString()));
-                        i++;
-                    }
+                    Network.Send(getMessagePacket(newChat));
                 });
                 
                 
@@ -185,7 +179,10 @@ namespace Saboteur.Forms
 
         private void btn_start_Click(object sender, EventArgs e)
         {
-            Network.Send(getGameStartPacket());
+            Task task = Task.Run(() =>
+            {
+                Network.Send(getGameStartPacket());
+            });
         }
     }
 }
