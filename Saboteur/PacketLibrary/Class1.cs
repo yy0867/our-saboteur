@@ -12,6 +12,8 @@ namespace PacketLibrary
     public enum PacketType
     {
         RoomInfo = 0,
+
+
         Error,
     }
 
@@ -62,6 +64,7 @@ namespace PacketLibrary
 
         public RoomInfo()
         {
+            this.Type = (int)PacketType.RoomInfo;
             roomCode = Packet.isEmpty;
             clientID = Packet.isEmpty;
             players = new bool[] { false, false, false, false, false, false, false };
@@ -69,10 +72,12 @@ namespace PacketLibrary
         }
     }
 
+    // ~~Packet 생성자에 PacketType 초기화해주기
+
     public enum ErrorCode
     {
         RoomExistException = 0,
-
+        NoRoomExistException,
     }
 
     [Serializable]
@@ -81,6 +86,7 @@ namespace PacketLibrary
         public ErrorCode code;
         public Error(ErrorCode code)
         {
+            this.Type = (int)PacketType.Error;
             this.code = code;
         }
     }
