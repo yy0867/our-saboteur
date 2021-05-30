@@ -18,8 +18,8 @@ namespace Server
 
         private IPAddress serverIP = IPAddress.Parse("127.0.0.1");
         private int serverPort = 7777;
-        private const int MAX_CLIENT_NUM = 7;
 
+        private const int MAX_CLIENT_NUM = 7;
         private int numConnectedClient = 0;
         private bool[] connectedClients = { false, false, false, false, false, false, false };
         private bool[] enteredPlayers = { false, false, false, false, false, false, false };
@@ -35,11 +35,9 @@ namespace Server
 
         public Server()
         {
-            // networkStream 배열, sendBuffers, receiveBuffer 초기화 및 할당
+            // networkStream 배열 초기화
             for (int i = 0; i < MAX_CLIENT_NUM; i++)
-            {
                 networkStream[i] = null;
-            }
         }
 
         public void Run()
@@ -50,6 +48,7 @@ namespace Server
         public void Send(int clientID, Packet packet)
         {
             byte[] sendBuffer = new byte[Packet.MAX_SIZE];
+            initBuffer(sendBuffer);
 
             Packet.Serialize(packet).CopyTo(sendBuffer, 0);
             networkStream[clientID].Write(sendBuffer, 0, sendBuffer.Length);
@@ -94,11 +93,9 @@ namespace Server
             sendRoomInfo.clientID = receiveInfo.clientID;
 
             // Client가 CreateRoom 또는 JoinRoom 요청
-            sendRoomInfo.clientID = FindEmptyClientID();
-
-            if (sendRoomInfo.clientID == -1)
+            if (sendRoomInfo.clientID == Packet.isEmpty)
             {
-                // error
+                sendRoomInfo.clientID = FindEmptyClientID();
             }
 
             enteredPlayers[sendRoomInfo.clientID] = true;
@@ -190,7 +187,6 @@ namespace Server
                         }
                     }
                 }
-
             }
             catch (SocketException e)
             {
