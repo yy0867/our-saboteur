@@ -38,7 +38,7 @@ namespace Saboteur.Forms
         public Room()
         {
             InitializeComponent();
-            initializeLantern();
+            InitializeLantern();
 
             //updateInfo(mockPacket(3, ""));
             //updateInfo(mockPacket(2, "number 2 msg"));
@@ -53,7 +53,7 @@ namespace Saboteur.Forms
             this.otherChatResultBox.ScrollToCaret();
         }
 
-        private void initializeLantern()
+        private void InitializeLantern()
         {
             for (int i = 0; i < MAX_PLAYER; i++)
             {
@@ -66,7 +66,6 @@ namespace Saboteur.Forms
            
 
         }
-
         private void lanternImageToggle(int index)
         {
             Image lanternOn = Properties.Resources.light_on;
@@ -151,6 +150,7 @@ namespace Saboteur.Forms
             packet.message = msg;
             packet.roomCode = this.receivedRoomInfo.roomCode;
             packet.clientID = this.playerID;
+            packet.roomCode = this.receivedRoomInfo.roomCode;
 
             return packet;
         }
