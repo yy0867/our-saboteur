@@ -47,17 +47,12 @@ namespace Server
 
         public void Send(int clientID, Packet packet)
         {
-            Thread sendThread = new Thread(() =>
-            {
-                byte[] sendBuffer = new byte[Packet.MAX_SIZE];
-                initBuffer(sendBuffer);
+            Console.WriteLine("client {0} send message", packet.clientID);
+            byte[] sendBuffer = new byte[Packet.MAX_SIZE];
 
-                Packet.Serialize(packet).CopyTo(sendBuffer, 0);
-                networkStream[clientID].Write(sendBuffer, 0, sendBuffer.Length);
-                networkStream[clientID].Flush();
-            });
-            sendThread.Start();
-            Thread.Sleep(100);
+            Packet.Serialize(packet).CopyTo(sendBuffer, 0);
+            networkStream[clientID].Write(sendBuffer, 0, sendBuffer.Length);
+            networkStream[clientID].Flush();
         }
 
         public void SendToAllClient(Packet packet)
@@ -92,10 +87,7 @@ namespace Server
 
             // Client가 CreateRoom 또는 JoinRoom 요청
 
-            if (sendRoomInfo.clientID == Packet.isEmpty)
-                sendRoomInfo.clientID = FindEmptyClientID();
-
-            enteredPlayers[sendRoomInfo.clientID] = true;
+            enteredPlayers[receiveInfo.clientID] = true;
             enteredPlayers.CopyTo(sendRoomInfo.players, 0); // 서버에 저장된 최신 데이터를 클라이언트로 보냄
 
             // 1. 방장 Client가 CreateRoom 요청
@@ -129,7 +121,6 @@ namespace Server
         public void ReceiveByClientID(int clientID)
         {
             byte[] receiveBuffer = new byte[Packet.MAX_SIZE];
-            Console.WriteLine("Receive Thread[{0}] On", clientID);
 
             while (true)
             {
@@ -188,7 +179,7 @@ namespace Server
                             Thread receiveThread = new Thread(() => ReceiveByClientID(numConnectedClient));
                             receiveThread.Start();
 
-                            Thread.Sleep(1000);
+                            Thread.Sleep(100);
 
                             numConnectedClient++;
                         }

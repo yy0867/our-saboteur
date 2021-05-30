@@ -12,9 +12,8 @@ namespace PacketLibrary
     public enum PacketType
     {
         RoomInfo = 0,
-
-
         Error,
+        GameInfo
     }
 
     [Serializable]
@@ -88,6 +87,17 @@ namespace PacketLibrary
         {
             this.Type = (int)PacketType.Error;
             this.code = code;
+        }
+    }
+
+    [Serializable]
+    public class GameInfo : Packet
+    {
+        public string message;
+
+        public GameInfo()
+        {
+            this.Type = (int)PacketType.GameInfo;
         }
     }
 }
