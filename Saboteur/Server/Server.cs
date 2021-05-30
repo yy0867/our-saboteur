@@ -18,8 +18,8 @@ namespace Server
 
         private IPAddress serverIP = IPAddress.Parse("127.0.0.1");
         private int serverPort = 7777;
-        private const int MAX_CLIENT_NUM = 7;
 
+        private const int MAX_CLIENT_NUM = 7;
         private int numConnectedClient = 0;
         private bool[] connectedClients = { false, false, false, false, false, false, false };
         private bool[] enteredPlayers = { false, false, false, false, false, false, false };
@@ -28,17 +28,16 @@ namespace Server
         private int roomCode = 1000;
         private bool isRoomExist = false;
 
-        //private Semaphore sem = new Semaphore(1, 1);
+        private object lockObject = new object();
+        private Semaphore sem = new Semaphore(1, 1);
 
 
 
         public Server()
         {
-            // networkStream 배열, sendBuffers, receiveBuffer 초기화 및 할당
+            // networkStream 배열 초기화
             for (int i = 0; i < MAX_CLIENT_NUM; i++)
-            {
                 networkStream[i] = null;
-            }
         }
 
         public void Run()
@@ -49,6 +48,7 @@ namespace Server
         public void Send(int clientID, Packet packet)
         {
             byte[] sendBuffer = new byte[Packet.MAX_SIZE];
+            initBuffer(sendBuffer);
 
             Packet.Serialize(packet).CopyTo(sendBuffer, 0);
             networkStream[clientID].Write(sendBuffer, 0, sendBuffer.Length);
@@ -58,9 +58,7 @@ namespace Server
         public void SendToAllClient(Packet packet)
         {
             for (int i = 0; i < numConnectedClient; i++)
-            {
                 Send(i, packet);
-            }
         }
 
         private int FindEmptyClientID()
@@ -77,43 +75,47 @@ namespace Server
 
         private void ProcessRoomInfo(RoomInfo receiveInfo)
         {
-            if (isRoomExist)
-            {
-                Error error = new Error(ErrorCode.RoomExistException);
-                Send(receiveInfo.clientID, error);
-                return;
-            }
-
             Console.WriteLine("Client {0}으로부터 RoomInfo 패킷 Receive", receiveInfo.clientID);
 
             // Client에게 Send할 패킷 구성
             RoomInfo sendRoomInfo = new RoomInfo();
-            sendRoomInfo.Type = (int)PacketType.RoomInfo;
             sendRoomInfo.roomCode = this.roomCode;
             sendRoomInfo.clientID = receiveInfo.clientID;
+            sendRoomInfo.message = receiveInfo.message;
+
+            Console.WriteLine("Client[{0}]: {1}", sendRoomInfo.clientID, sendRoomInfo.message);
 
             // Client가 CreateRoom 또는 JoinRoom 요청
 
-            if (sendRoomInfo.clientID == -1)
-            {
+            if (sendRoomInfo.clientID == Packet.isEmpty)
                 sendRoomInfo.clientID = FindEmptyClientID();
-            }
 
             enteredPlayers[sendRoomInfo.clientID] = true;
             enteredPlayers.CopyTo(sendRoomInfo.players, 0); // 서버에 저장된 최신 데이터를 클라이언트로 보냄
 
-            for (int i = 0; i < sendRoomInfo.players.Length; i++)
-                Console.WriteLine("player{0}: {1}, NetworkStream[{0}]: {2}", i, sendRoomInfo.players[i], networkStream[i]);
-
             // 1. 방장 Client가 CreateRoom 요청
             if (receiveInfo.roomCode == Packet.isEmpty)
             {
+                if (isRoomExist)
+                {
+                    Error error = new Error(ErrorCode.RoomExistException);
+                    Send(receiveInfo.clientID, error);
+                    return;
+                }
+
                 SendToAllClient(sendRoomInfo);
                 isRoomExist = true;
             }
             else    // 2. Client가 Join Room 요청
             {
+                if (!isRoomExist)
+                {
+                    Error error = new Error(ErrorCode.NoRoomExistException);
+                    Send(receiveInfo.clientID, error);
+                    return;
+                }
 
+                SendToAllClient(sendRoomInfo);
             }
         }
 
@@ -122,15 +124,15 @@ namespace Server
         public void ReceiveByClientID(int clientID)
         {
             byte[] receiveBuffer = new byte[Packet.MAX_SIZE];
-            Console.WriteLine("ReceiveThread({0}) On", clientID);
+            Console.WriteLine("Receive Thread[{0}] On", clientID);
 
             while (true)
             {
                 initBuffer(receiveBuffer);
 
                 // 정보 수신
-                Console.WriteLine("{0}.Receive Thread", clientID);
-                Console.WriteLine("NetworkStream[{0}]: {1}", clientID, receiveBuffer.Length);
+                Console.WriteLine("Receive Thread[{0}]: {1}", clientID, networkStream[clientID]);
+
                 networkStream[clientID].Read(receiveBuffer, 0, receiveBuffer.Length);
                 networkStream[clientID].Flush();
 
@@ -147,15 +149,13 @@ namespace Server
                 }
             }
 
-            Console.WriteLine("ReceiveThread({0}) Off", clientID);
+            Console.WriteLine("Receive Thread[{0}] Off", clientID);
         }
 
         private void initBuffer(byte[] buffer)
         {
             for (int i = 0; i < Packet.MAX_SIZE; i++)
-            {
                 buffer[i] = 0;
-            }
         }
 
         public void Connect()
@@ -189,7 +189,6 @@ namespace Server
                         }
                     }
                 }
-
             }
             catch (SocketException e)
             {

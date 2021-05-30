@@ -12,6 +12,8 @@ namespace PacketLibrary
     public enum PacketType
     {
         RoomInfo = 0,
+
+
         Error,
         GameInfo
     }
@@ -71,10 +73,12 @@ namespace PacketLibrary
         }
     }
 
+    // ~~Packet 생성자에 PacketType 초기화해주기
+
     public enum ErrorCode
     {
         RoomExistException = 0,
-
+        NoRoomExistException,
     }
 
     [Serializable]
