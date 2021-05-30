@@ -12,8 +12,6 @@ namespace PacketLibrary
     public enum PacketType
     {
         RoomInfo = 0,
-
-
         Error,
         GameInfo
     }
@@ -96,5 +94,10 @@ namespace PacketLibrary
     public class GameInfo : Packet
     {
         public string message;
+
+        public GameInfo()
+        {
+            this.Type = (int)PacketType.GameInfo;
+        }
     }
 }

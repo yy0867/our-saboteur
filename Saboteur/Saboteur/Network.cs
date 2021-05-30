@@ -33,9 +33,6 @@ namespace Saboteur
         public static bool isConnected = false;
         public static NetworkStream networkStream;
 
-        public static byte[] sendBuffer = new byte[Packet.MAX_SIZE];
-        public static byte[] readBuffer = new byte[Packet.MAX_SIZE];
-
         // 클라이언트 --> 서버 연결
         // true -> Success / false -> Fail 
         // false면 폼에서 호출한 후 Error MessageBox 띄우기
@@ -75,6 +72,7 @@ namespace Saboteur
         // Form Update를 진행
         public static void Receive()
         {
+            byte[] readBuffer = new byte[Packet.MAX_SIZE];
             while (true)
             {
                 try
@@ -94,7 +92,7 @@ namespace Saboteur
 
                 // 패킷 타입 추출
                 Packet packet = (Packet)Packet.Desserialize(readBuffer);
-                ClearBuffer(BufferType.Read);
+                ClearBuffer(readBuffer);
 
                 switch ((int)packet.Type)
                 {
@@ -122,30 +120,22 @@ namespace Saboteur
         // 패킷 전송
         public static void Send(Packet p)
         {
-            Thread sendThread = new Thread(() =>
-            {
-                ClearBuffer(BufferType.Send);
+            byte[] sendBuffer = new byte[Packet.MAX_SIZE];
+            ClearBuffer(sendBuffer);
 
-                Packet.Serialize(p).CopyTo(sendBuffer, 0);
+            Packet.Serialize(p).CopyTo(sendBuffer, 0);
 
-                networkStream.Write(sendBuffer, 0, sendBuffer.Length);
-                networkStream.Flush();
-            });
-            sendThread.Start();
-
-            Thread.Sleep(100);
+            networkStream.Write(sendBuffer, 0, sendBuffer.Length);
+            networkStream.Flush();
         }
 
         // 타입별 버퍼 초기화 
         // Usage: ClearBuffer(BufferType.Send / Read)
-        private static void ClearBuffer(BufferType type)
+        private static void ClearBuffer(byte[] buffer)
         {
             for (int i = 0; i < Packet.MAX_SIZE; i++)
             {
-                if (type == BufferType.Read)
-                    readBuffer[i] = 0;
-                else
-                    sendBuffer[i] = 0;
+                buffer[i] = 0;
             }
         }
     }
