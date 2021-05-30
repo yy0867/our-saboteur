@@ -123,14 +123,10 @@ namespace Saboteur
             byte[] sendBuffer = new byte[Packet.MAX_SIZE];
             ClearBuffer(sendBuffer);
 
-                Packet.Serialize(p).CopyTo(sendBuffer, 0);
+            Packet.Serialize(p).CopyTo(sendBuffer, 0);
 
-                networkStream.Write(sendBuffer, 0, sendBuffer.Length);
-                networkStream.Flush();
-            });
-            sendThread.Start();
-
-            Thread.Sleep(100);
+            networkStream.Write(sendBuffer, 0, sendBuffer.Length);
+            networkStream.Flush();
         }
 
         // 타입별 버퍼 초기화 
