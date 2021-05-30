@@ -17,7 +17,7 @@ namespace Server
         private NetworkStream[] networkStream = new NetworkStream[MAX_CLIENT_NUM];
 
         private IPAddress serverIP = IPAddress.Parse("127.0.0.1");
-        private int serverPort = 7777;
+        private int serverPort = 11000;
 
         private const int MAX_CLIENT_NUM = 7;
         private int numConnectedClient = 0;
