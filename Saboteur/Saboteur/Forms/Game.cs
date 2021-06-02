@@ -111,11 +111,5 @@ namespace Saboteur.Forms
             picFieldBackground.Image = Properties.Resources.game_background;
             g = picFieldBackground.CreateGraphics();
         }
-
-        //private void picFieldBackground_Paint(object sender, PaintEventArgs e)
-        //{
-        //    ShowGrid();
-        //}
-        // ###### Grid Methods - End ######
     }
 }
