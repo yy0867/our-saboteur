@@ -111,7 +111,7 @@ namespace Saboteur.Forms
         private void HideGrid()
         {
             g.Dispose();
-            picFieldBackground.Image = Properties.Resources.game_background;
+            picFieldBackground.Image = Properties.Resources.field_Back;
             g = picFieldBackground.CreateGraphics();
         }
     }
