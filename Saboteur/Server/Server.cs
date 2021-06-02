@@ -18,7 +18,7 @@ namespace Server
         private TcpListener listener;
         private NetworkStream[] networkStream = new NetworkStream[MAX_CLIENT_NUM];
 
-        private IPAddress serverIP = IPAddress.Parse("127.0.0.1");
+        private IPAddress serverIP = IPAddress.Parse("172.30.1.37");
         private int serverPort = 11000;
 
         private const int MAX_CLIENT_NUM = 7;
@@ -66,8 +66,22 @@ namespace Server
 
         public void SendToAllClient(Packet packet)
         {
-            for (int i = 0; i < numConnectedClient; i++)
-                Send(i, packet);
+            Task task = Task.Run(() => {
+                for (int i = 0; i < numConnectedClient; i++)
+                    Send(i, packet);
+            });
+            
+        }
+ 
+        public void SendToExistClient(Packet packet)
+        {
+            Task task = Task.Run(() => {
+                for (int i = 0; i < numConnectedClient; i++)
+                {
+                    if(enteredPlayers[i])
+                        Send(i, packet);
+                }
+            });
         }
 
         private int FindEmptyClientID()
@@ -122,7 +136,7 @@ namespace Server
                     return;
                 }
 
-                SendToAllClient(sendRoomInfo);
+                SendToExistClient(sendRoomInfo);
             }
         }
 

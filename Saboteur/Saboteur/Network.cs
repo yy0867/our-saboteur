@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Net.Sockets;
 using PacketLibrary;
 
@@ -100,6 +101,15 @@ namespace Saboteur
                         break;
                     case (int)PacketType.RoomInfo:  // RoomInfo 패킷 받으면
                         ViewController.Room.updateInfo(packet);
+                        break;
+
+                        // 나중에 패킷 타입 추가되면 작성하기 ##########################
+                }
+
+                switch ((int)packet.Type)
+                {
+                    case (int)PacketType.GameInfo:  // GameInfo 패킷 받으면
+                        //ViewController.Game.updateInfo(packet);
                         break;
 
                         // 나중에 패킷 타입 추가되면 작성하기 ##########################
