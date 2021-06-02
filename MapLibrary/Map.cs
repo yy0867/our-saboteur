@@ -10,8 +10,8 @@ namespace MapLibrary
 {
     static class CONST
     {
-        public const int MAP_COL = 20; // 행
-        public const int MAP_ROW = 13; // 열
+        public const int MAP_COL = 17; // 행
+        public const int MAP_ROW = 7; // 열
         public const int START_R = 3;
         public const int START_C = 3;
         public const int DESTINATION_R = 10;

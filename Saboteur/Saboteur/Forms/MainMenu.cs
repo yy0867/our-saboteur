@@ -28,7 +28,7 @@ namespace Saboteur.Forms
             btnJoinRoom.Enabled = false;
 
             // TEST CODE #########################################
-            txtServerIP.Text = "172.30.1.37";
+            txtServerIP.Text = "127.0.0.1";
         }
 
 
