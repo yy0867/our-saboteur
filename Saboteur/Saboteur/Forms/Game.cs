@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using PacketLibrary;
 using MapLibrary;
@@ -16,6 +16,7 @@ namespace Saboteur.Forms
     struct Point
     {
         public int X, Y;
+
         public void SetPosition(int X, int Y)
         {
             this.X = X;
@@ -34,6 +35,7 @@ namespace Saboteur.Forms
         private bool isMouseDown = false;
         Point mouseDragPrev = new Point();
         Point mouseDragStart = new Point();
+        Point rectPrev = new Point();
 
         Map field = new Map();
 
@@ -51,7 +53,6 @@ namespace Saboteur.Forms
 
         public void updateInfo(Packet packet)
         {
-
         }
 
         private void picCard_MouseDown(object sender, MouseEventArgs e)
@@ -73,6 +74,8 @@ namespace Saboteur.Forms
             {
                 card.Left += (e.X - mouseDragPrev.X);
                 card.Top += (e.Y - mouseDragPrev.Y);
+
+                SetPredictionRect(card.Left + e.X, card.Top + e.Y);
             }
         }
 
@@ -85,7 +88,7 @@ namespace Saboteur.Forms
                 MoveToStartPosition(card);
                 isMouseDown = false;
 
-                HideGrid();
+                EraseGraphics();
             }
         }
 
@@ -109,11 +112,32 @@ namespace Saboteur.Forms
                 g.DrawLine(pen, fieldLeftPadding, i, fieldLeftPadding + fieldSize.Width, i);
         }
 
-        private void HideGrid()
+        private void EraseGraphics()
         {
-            g.Dispose();
-            picFieldBackground.Image = Properties.Resources.game_background;
-            g = picFieldBackground.CreateGraphics();
+            picFieldBackground.Refresh();
         }
+
+        private void SetPredictionRect(int X, int Y)
+        {
+            if (X < fieldLeftPadding || X > fieldLeftPadding + fieldSize.Width ||
+                Y < fieldTopPadding || Y > fieldTopPadding + fieldSize.Height) return;
+
+            int row = (Y - fieldTopPadding) / cardHeight;
+            int col = (X - fieldLeftPadding) / cardWidth;
+
+            int left = fieldLeftPadding + col * cardWidth;
+            int top = fieldTopPadding + row * cardHeight;
+
+            if (rectPrev.X != left || rectPrev.Y != top)
+            {
+                EraseGraphics();
+                ShowGrid();
+                rectPrev.X = left; rectPrev.Y = top;
+                Rectangle rect = new Rectangle(left, top, cardWidth, cardHeight);
+                Brush brush = new SolidBrush(Color.GreenYellow);
+                g.FillRectangle(brush, rect);
+            }
+        }
+        // ###### Grid Methods - End ######
     }
 }
