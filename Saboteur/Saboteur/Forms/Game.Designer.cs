@@ -29,9 +29,7 @@ namespace Saboteur.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Game));
             this.picFieldBackground = new System.Windows.Forms.PictureBox();
-            this.panDeck = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.lblDeck = new System.Windows.Forms.Label();
             this.pictureBox10 = new System.Windows.Forms.PictureBox();
@@ -68,24 +66,15 @@ namespace Saboteur.Forms
             this.picFieldBackground.TabIndex = 0;
             this.picFieldBackground.TabStop = false;
             // 
-            // panDeck
-            // 
-            this.panDeck.BackColor = System.Drawing.SystemColors.Control;
-            this.panDeck.ForeColor = System.Drawing.Color.Transparent;
-            this.panDeck.Location = new System.Drawing.Point(1365, 0);
-            this.panDeck.Name = "panDeck";
-            this.panDeck.Size = new System.Drawing.Size(216, 881);
-            this.panDeck.TabIndex = 1;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("예스체", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(1469, 967);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(25, 28);
+            this.label1.Size = new System.Drawing.Size(24, 25);
             this.label1.TabIndex = 12;
             this.label1.Text = "7";
             // 
@@ -93,11 +82,11 @@ namespace Saboteur.Forms
             // 
             this.lblDeck.AutoSize = true;
             this.lblDeck.BackColor = System.Drawing.Color.Transparent;
-            this.lblDeck.Font = new System.Drawing.Font("예스체", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblDeck.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblDeck.ForeColor = System.Drawing.Color.White;
             this.lblDeck.Location = new System.Drawing.Point(1196, 967);
             this.lblDeck.Name = "lblDeck";
-            this.lblDeck.Size = new System.Drawing.Size(38, 28);
+            this.lblDeck.Size = new System.Drawing.Size(36, 25);
             this.lblDeck.TabIndex = 11;
             this.lblDeck.Text = "40";
             // 
@@ -216,11 +205,11 @@ namespace Saboteur.Forms
             // 
             this.lblDeckNum.AutoSize = true;
             this.lblDeckNum.BackColor = System.Drawing.Color.Transparent;
-            this.lblDeckNum.Font = new System.Drawing.Font("예스체", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblDeckNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblDeckNum.ForeColor = System.Drawing.Color.White;
             this.lblDeckNum.Location = new System.Drawing.Point(1155, 921);
             this.lblDeckNum.Name = "lblDeckNum";
-            this.lblDeckNum.Size = new System.Drawing.Size(119, 28);
+            this.lblDeckNum.Size = new System.Drawing.Size(104, 25);
             this.lblDeckNum.TabIndex = 12;
             this.lblDeckNum.Text = "남은 카드 수";
             // 
@@ -228,11 +217,11 @@ namespace Saboteur.Forms
             // 
             this.lblUsedCard.AutoSize = true;
             this.lblUsedCard.BackColor = System.Drawing.Color.Transparent;
-            this.lblUsedCard.Font = new System.Drawing.Font("예스체", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblUsedCard.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblUsedCard.ForeColor = System.Drawing.Color.White;
             this.lblUsedCard.Location = new System.Drawing.Point(1426, 921);
             this.lblUsedCard.Name = "lblUsedCard";
-            this.lblUsedCard.Size = new System.Drawing.Size(113, 28);
+            this.lblUsedCard.Size = new System.Drawing.Size(98, 25);
             this.lblUsedCard.TabIndex = 13;
             this.lblUsedCard.Text = "사용된 카드";
             // 
@@ -240,8 +229,7 @@ namespace Saboteur.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
-            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.Controls.Add(this.lblUsedCard);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblDeckNum);
@@ -255,7 +243,6 @@ namespace Saboteur.Forms
             this.Controls.Add(this.picCard7);
             this.Controls.Add(this.picCard2);
             this.Controls.Add(this.picCard1);
-            this.Controls.Add(this.panDeck);
             this.Controls.Add(this.picFieldBackground);
             this.Name = "Game";
             this.Size = new System.Drawing.Size(1581, 1041);
@@ -277,7 +264,6 @@ namespace Saboteur.Forms
 
         #endregion
         private System.Windows.Forms.PictureBox picFieldBackground;
-        private System.Windows.Forms.Panel panDeck;
         private System.Windows.Forms.PictureBox picCard1;
         private System.Windows.Forms.PictureBox picCard2;
         private System.Windows.Forms.PictureBox picCard7;
