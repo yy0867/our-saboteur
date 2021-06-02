@@ -33,6 +33,8 @@ namespace Saboteur.Forms
         Point mouseDragPrev = new Point();
         Point mouseDragStart = new Point();
 
+        Graphics g = null;
+
         public Game()
         {
             InitializeComponent();
@@ -40,7 +42,7 @@ namespace Saboteur.Forms
 
         private void Game_Load(object sender, EventArgs e)
         {
-
+            g = picFieldBackground.CreateGraphics();
         }
 
         public void updateInfo(Packet packet)
@@ -55,6 +57,8 @@ namespace Saboteur.Forms
             isMouseDown = true;
             mouseDragPrev.SetPosition(e.X, e.Y);
             mouseDragStart.SetPosition(card.Left, card.Top);
+
+            ShowGrid();
         }
 
         private void picCard_MouseMove(object sender, MouseEventArgs e)
@@ -65,8 +69,6 @@ namespace Saboteur.Forms
             {
                 card.Left += (e.X - mouseDragPrev.X);
                 card.Top += (e.Y - mouseDragPrev.Y);
-
-
             }
         }
 
@@ -78,6 +80,8 @@ namespace Saboteur.Forms
             {
                 MoveToStartPosition(card);
                 isMouseDown = false;
+
+                HideGrid();
             }
         }
 
@@ -88,7 +92,7 @@ namespace Saboteur.Forms
         }
 
         // ###### Grid Methods - Start ######
-        private void ShowGrid(Graphics g)
+        private void ShowGrid()
         {
             Pen pen = new Pen(Color.White);
             pen.DashStyle = DashStyle.Dash;
@@ -103,13 +107,15 @@ namespace Saboteur.Forms
 
         private void HideGrid()
         {
-
+            g.Dispose();
+            picFieldBackground.Image = Properties.Resources.game_background;
+            g = picFieldBackground.CreateGraphics();
         }
 
-        private void picFieldBackground_Paint(object sender, PaintEventArgs e)
-        {
-            ShowGrid(e.Graphics);
-        }
+        //private void picFieldBackground_Paint(object sender, PaintEventArgs e)
+        //{
+        //    ShowGrid();
+        //}
         // ###### Grid Methods - End ######
     }
 }

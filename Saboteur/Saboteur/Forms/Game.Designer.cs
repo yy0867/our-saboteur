@@ -67,7 +67,6 @@ namespace Saboteur.Forms
             this.picFieldBackground.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picFieldBackground.TabIndex = 0;
             this.picFieldBackground.TabStop = false;
-            this.picFieldBackground.Paint += new System.Windows.Forms.PaintEventHandler(this.picFieldBackground_Paint);
             // 
             // panDeck
             // 
