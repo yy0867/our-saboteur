@@ -8,6 +8,8 @@ using System.Threading;
 using System.Net.Sockets;
 using System.IO;
 using PacketLibrary;
+using CardLibrary;
+using MapLibrary;
 
 namespace Server
 {
@@ -31,6 +33,13 @@ namespace Server
         private object lockObject = new object();
         private Semaphore sem = new Semaphore(1, 1);
 
+
+        /* -------------------- Map, Card -------------------- */
+        private Map[] fields;
+        private Card[] remainCards;
+        private Card[] frontUsedCards;
+        private Card[] backUsedCards;
+        private PlayerState[] playersState;
 
 
         public Server()
@@ -143,6 +152,11 @@ namespace Server
                         break;
 
                         // 다른 패킷 case
+
+
+
+
+
                 }
             }
 
