@@ -26,14 +26,31 @@ namespace Saboteur
             switch (screen)
             {
                 case Screen.MainMenu:
+                    SetViewSize(false);
                     MainForm.mainForm.mainPanel.Controls.Add(ViewController.MainMenu);
                     break;
                 case Screen.Game:
+                    SetViewSize(true);
                     MainForm.mainForm.mainPanel.Controls.Add(ViewController.Game);
                     break;
                 case Screen.Room:
+                    SetViewSize(false);
                     MainForm.mainForm.mainPanel.Controls.Add(ViewController.Room);
                     break;
+            }
+        }
+
+        private static void SetViewSize(bool isGameForm)
+        {
+            if (isGameForm)
+            {
+                MainForm.mainForm.Width = 1600;
+                MainForm.mainForm.Height = 900;
+            } 
+            else
+            {
+                MainForm.mainForm.Width = 1280;
+                MainForm.mainForm.Height = 720;
             }
         }
     }

@@ -29,145 +29,67 @@ namespace Saboteur.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.picBackground = new System.Windows.Forms.PictureBox();
             this.panDeck = new System.Windows.Forms.Panel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
-            this.pictureBox7 = new System.Windows.Forms.PictureBox();
-            this.pictureBox8 = new System.Windows.Forms.PictureBox();
-            this.pictureBox9 = new System.Windows.Forms.PictureBox();
-            this.pictureBox10 = new System.Windows.Forms.PictureBox();
-            this.lblDeck = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.lblDeck = new System.Windows.Forms.Label();
+            this.pictureBox10 = new System.Windows.Forms.PictureBox();
+            this.pictureBox9 = new System.Windows.Forms.PictureBox();
+            this.picCard1 = new System.Windows.Forms.PictureBox();
+            this.picCard2 = new System.Windows.Forms.PictureBox();
+            this.picCard7 = new System.Windows.Forms.PictureBox();
+            this.picCard6 = new System.Windows.Forms.PictureBox();
+            this.picCard5 = new System.Windows.Forms.PictureBox();
+            this.picCard4 = new System.Windows.Forms.PictureBox();
+            this.picCard3 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.picBackground)).BeginInit();
             this.panDeck.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picCard1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picCard2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picCard7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picCard6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picCard5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picCard4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picCard3)).BeginInit();
             this.SuspendLayout();
             // 
-            // pictureBox1
+            // picBackground
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Image = global::Saboteur.Properties.Resources.game_background;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 76);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1064, 451);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.picBackground.BackColor = System.Drawing.Color.Transparent;
+            this.picBackground.Image = global::Saboteur.Properties.Resources.game_background;
+            this.picBackground.Location = new System.Drawing.Point(0, 76);
+            this.picBackground.Name = "picBackground";
+            this.picBackground.Size = new System.Drawing.Size(1375, 623);
+            this.picBackground.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBackground.TabIndex = 0;
+            this.picBackground.TabStop = false;
             // 
             // panDeck
             // 
             this.panDeck.BackColor = System.Drawing.SystemColors.Control;
+            this.panDeck.BackgroundImage = global::Saboteur.Properties.Resources.borad0;
             this.panDeck.Controls.Add(this.label1);
             this.panDeck.Controls.Add(this.lblDeck);
             this.panDeck.Controls.Add(this.pictureBox10);
             this.panDeck.Controls.Add(this.pictureBox9);
             this.panDeck.ForeColor = System.Drawing.Color.Transparent;
-            this.panDeck.Location = new System.Drawing.Point(1064, 76);
+            this.panDeck.Location = new System.Drawing.Point(1381, 76);
             this.panDeck.Name = "panDeck";
-            this.panDeck.Size = new System.Drawing.Size(200, 451);
+            this.panDeck.Size = new System.Drawing.Size(200, 623);
             this.panDeck.TabIndex = 1;
             // 
-            // pictureBox2
+            // label1
             // 
-            this.pictureBox2.Image = global::Saboteur.Properties.Resources.card;
-            this.pictureBox2.Location = new System.Drawing.Point(99, 538);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(82, 132);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 2;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = global::Saboteur.Properties.Resources.card;
-            this.pictureBox3.Location = new System.Drawing.Point(252, 538);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(82, 132);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox3.TabIndex = 3;
-            this.pictureBox3.TabStop = false;
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Image = global::Saboteur.Properties.Resources.card;
-            this.pictureBox4.Location = new System.Drawing.Point(1064, 538);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(82, 132);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox4.TabIndex = 4;
-            this.pictureBox4.TabStop = false;
-            // 
-            // pictureBox5
-            // 
-            this.pictureBox5.Image = global::Saboteur.Properties.Resources.card;
-            this.pictureBox5.Location = new System.Drawing.Point(900, 538);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(82, 132);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox5.TabIndex = 5;
-            this.pictureBox5.TabStop = false;
-            // 
-            // pictureBox6
-            // 
-            this.pictureBox6.Image = global::Saboteur.Properties.Resources.card;
-            this.pictureBox6.Location = new System.Drawing.Point(735, 538);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(82, 132);
-            this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox6.TabIndex = 6;
-            this.pictureBox6.TabStop = false;
-            // 
-            // pictureBox7
-            // 
-            this.pictureBox7.Image = global::Saboteur.Properties.Resources.card;
-            this.pictureBox7.Location = new System.Drawing.Point(570, 538);
-            this.pictureBox7.Name = "pictureBox7";
-            this.pictureBox7.Size = new System.Drawing.Size(82, 132);
-            this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox7.TabIndex = 7;
-            this.pictureBox7.TabStop = false;
-            // 
-            // pictureBox8
-            // 
-            this.pictureBox8.Image = global::Saboteur.Properties.Resources.card;
-            this.pictureBox8.Location = new System.Drawing.Point(408, 538);
-            this.pictureBox8.Name = "pictureBox8";
-            this.pictureBox8.Size = new System.Drawing.Size(82, 132);
-            this.pictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox8.TabIndex = 8;
-            this.pictureBox8.TabStop = false;
-            // 
-            // pictureBox9
-            // 
-            this.pictureBox9.Image = global::Saboteur.Properties.Resources.card;
-            this.pictureBox9.Location = new System.Drawing.Point(59, 35);
-            this.pictureBox9.Name = "pictureBox9";
-            this.pictureBox9.Size = new System.Drawing.Size(82, 132);
-            this.pictureBox9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox9.TabIndex = 9;
-            this.pictureBox9.TabStop = false;
-            // 
-            // pictureBox10
-            // 
-            this.pictureBox10.Image = global::Saboteur.Properties.Resources.card;
-            this.pictureBox10.Location = new System.Drawing.Point(59, 263);
-            this.pictureBox10.Name = "pictureBox10";
-            this.pictureBox10.Size = new System.Drawing.Size(82, 132);
-            this.pictureBox10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox10.TabIndex = 10;
-            this.pictureBox10.TabStop = false;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("예스체", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(86, 398);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(25, 28);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "7";
             // 
             // lblDeck
             // 
@@ -180,59 +102,159 @@ namespace Saboteur.Forms
             this.lblDeck.TabIndex = 11;
             this.lblDeck.Text = "40";
             // 
-            // label1
+            // pictureBox10
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("예스체", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(82, 398);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(25, 28);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "7";
+            this.pictureBox10.Image = global::Saboteur.Properties.Resources.card;
+            this.pictureBox10.Location = new System.Drawing.Point(59, 263);
+            this.pictureBox10.Name = "pictureBox10";
+            this.pictureBox10.Size = new System.Drawing.Size(82, 132);
+            this.pictureBox10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox10.TabIndex = 10;
+            this.pictureBox10.TabStop = false;
+            // 
+            // pictureBox9
+            // 
+            this.pictureBox9.Image = global::Saboteur.Properties.Resources.card;
+            this.pictureBox9.Location = new System.Drawing.Point(59, 35);
+            this.pictureBox9.Name = "pictureBox9";
+            this.pictureBox9.Size = new System.Drawing.Size(82, 132);
+            this.pictureBox9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox9.TabIndex = 9;
+            this.pictureBox9.TabStop = false;
+            // 
+            // picCard1
+            // 
+            this.picCard1.Image = global::Saboteur.Properties.Resources.card;
+            this.picCard1.Location = new System.Drawing.Point(114, 716);
+            this.picCard1.Name = "picCard1";
+            this.picCard1.Size = new System.Drawing.Size(82, 132);
+            this.picCard1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picCard1.TabIndex = 2;
+            this.picCard1.TabStop = false;
+            this.picCard1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseDown);
+            this.picCard1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseMove);
+            this.picCard1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseUp);
+            // 
+            // picCard2
+            // 
+            this.picCard2.Image = global::Saboteur.Properties.Resources.card;
+            this.picCard2.Location = new System.Drawing.Point(310, 716);
+            this.picCard2.Name = "picCard2";
+            this.picCard2.Size = new System.Drawing.Size(82, 132);
+            this.picCard2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picCard2.TabIndex = 3;
+            this.picCard2.TabStop = false;
+            this.picCard2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseDown);
+            this.picCard2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseMove);
+            this.picCard2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseUp);
+            // 
+            // picCard7
+            // 
+            this.picCard7.Image = global::Saboteur.Properties.Resources.card;
+            this.picCard7.Location = new System.Drawing.Point(1302, 716);
+            this.picCard7.Name = "picCard7";
+            this.picCard7.Size = new System.Drawing.Size(82, 132);
+            this.picCard7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picCard7.TabIndex = 4;
+            this.picCard7.TabStop = false;
+            this.picCard7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseDown);
+            this.picCard7.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseMove);
+            this.picCard7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseUp);
+            // 
+            // picCard6
+            // 
+            this.picCard6.Image = global::Saboteur.Properties.Resources.card;
+            this.picCard6.Location = new System.Drawing.Point(1117, 716);
+            this.picCard6.Name = "picCard6";
+            this.picCard6.Size = new System.Drawing.Size(82, 132);
+            this.picCard6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picCard6.TabIndex = 5;
+            this.picCard6.TabStop = false;
+            this.picCard6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseDown);
+            this.picCard6.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseMove);
+            this.picCard6.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseUp);
+            // 
+            // picCard5
+            // 
+            this.picCard5.Image = global::Saboteur.Properties.Resources.card;
+            this.picCard5.Location = new System.Drawing.Point(923, 716);
+            this.picCard5.Name = "picCard5";
+            this.picCard5.Size = new System.Drawing.Size(82, 132);
+            this.picCard5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picCard5.TabIndex = 6;
+            this.picCard5.TabStop = false;
+            this.picCard5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseDown);
+            this.picCard5.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseMove);
+            this.picCard5.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseUp);
+            // 
+            // picCard4
+            // 
+            this.picCard4.Image = global::Saboteur.Properties.Resources.card;
+            this.picCard4.Location = new System.Drawing.Point(720, 716);
+            this.picCard4.Name = "picCard4";
+            this.picCard4.Size = new System.Drawing.Size(82, 132);
+            this.picCard4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picCard4.TabIndex = 7;
+            this.picCard4.TabStop = false;
+            this.picCard4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseDown);
+            this.picCard4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseMove);
+            this.picCard4.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseUp);
+            // 
+            // picCard3
+            // 
+            this.picCard3.Image = global::Saboteur.Properties.Resources.card;
+            this.picCard3.Location = new System.Drawing.Point(516, 716);
+            this.picCard3.Name = "picCard3";
+            this.picCard3.Size = new System.Drawing.Size(82, 132);
+            this.picCard3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picCard3.TabIndex = 8;
+            this.picCard3.TabStop = false;
+            this.picCard3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseDown);
+            this.picCard3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseMove);
+            this.picCard3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseUp);
             // 
             // Game
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.pictureBox8);
-            this.Controls.Add(this.pictureBox7);
-            this.Controls.Add(this.pictureBox6);
-            this.Controls.Add(this.pictureBox5);
-            this.Controls.Add(this.pictureBox4);
-            this.Controls.Add(this.pictureBox3);
-            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.picCard3);
+            this.Controls.Add(this.picCard4);
+            this.Controls.Add(this.picCard5);
+            this.Controls.Add(this.picCard6);
+            this.Controls.Add(this.picCard7);
+            this.Controls.Add(this.picCard2);
+            this.Controls.Add(this.picCard1);
             this.Controls.Add(this.panDeck);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.picBackground);
             this.Name = "Game";
-            this.Size = new System.Drawing.Size(1264, 681);
+            this.Size = new System.Drawing.Size(1581, 861);
             this.Load += new System.EventHandler(this.Game_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBackground)).EndInit();
             this.panDeck.ResumeLayout(false);
             this.panDeck.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picCard1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picCard2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picCard7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picCard6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picCard5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picCard4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picCard3)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox picBackground;
         private System.Windows.Forms.Panel panDeck;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.PictureBox pictureBox4;
-        private System.Windows.Forms.PictureBox pictureBox5;
-        private System.Windows.Forms.PictureBox pictureBox6;
-        private System.Windows.Forms.PictureBox pictureBox7;
-        private System.Windows.Forms.PictureBox pictureBox8;
+        private System.Windows.Forms.PictureBox picCard1;
+        private System.Windows.Forms.PictureBox picCard2;
+        private System.Windows.Forms.PictureBox picCard7;
+        private System.Windows.Forms.PictureBox picCard6;
+        private System.Windows.Forms.PictureBox picCard5;
+        private System.Windows.Forms.PictureBox picCard4;
+        private System.Windows.Forms.PictureBox picCard3;
         private System.Windows.Forms.PictureBox pictureBox10;
         private System.Windows.Forms.PictureBox pictureBox9;
         private System.Windows.Forms.Label label1;
