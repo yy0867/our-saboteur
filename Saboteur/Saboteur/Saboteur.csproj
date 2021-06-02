@@ -159,6 +159,8 @@
     <Content Include="resources\cards\item_road\road\road_up_down_left_right_blocked.png" />
     <Content Include="resources\cards\item_road\road\road_up_down_right_blocked.png" />
     <Content Include="resources\cards\item_road\road\road_up_left_right_blocked.png" />
+    <None Include="resources\sprites\player_off.png" />
+    <None Include="resources\sprites\player_on.png" />
     <None Include="resources\transparent.png" />
     <None Include="resources\game_background.jpg" />
     <Content Include="resources\icons\frame.png" />
@@ -167,6 +169,11 @@
     <Content Include="resources\icons\light_on.png" />
     <Content Include="resources\icons\right_arrow_.png" />
     <None Include="resources\sprites\backGround2.png" />
+    <None Include="resources\sprites\field_Back_default.png" />
+    <None Include="resources\sprites\field_Back.png" />
+    <None Include="resources\sprites\blocked_lantern.png" />
+    <None Include="resources\sprites\blocked_cart.png" />
+    <None Include="resources\sprites\blocked_pickaxe.png" />
     <Content Include="resources\sprites\mainmenu_background.jpg" />
     <Content Include="resources\sprites\mainmenu_bottom.jpg" />
   </ItemGroup>
