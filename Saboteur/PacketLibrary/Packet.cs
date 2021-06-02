@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using CardLibrary;
+using MapLibrary;
 
 namespace PacketLibrary
 {
@@ -90,10 +92,31 @@ namespace PacketLibrary
         }
     }
 
+    public class PlayerState
+    {
+        public bool isDestroyedPickaxe;
+        public bool isDestroyedLantern;
+        public bool isDestroyedCart;
+    }
+
     [Serializable]
     public class GameInfo : Packet
     {
+        public int clientID;
+        public bool isSaboteur;
+        public bool isTurn;                 // 해당 Player가 현재 Turn인지
         public string message;
+        //public Card curUsedCard;            // 현재 사용한 카드
+        //public bool isCardUsed;
+        // curUsedCard를 사용 했는지(front) or 버렸는지(back)
+
+        public Map fields;                // 현재까지 놓여진 맵(필드), Dest Card 포함
+        public List<Card> holdingCards;         // 해당 Player가 소지하고 있는 Card들
+        public List<Card> deckCards;            // 남은 카드
+        public List<Card> frontUsedCards;       // 사용한 카드 - 앞면이 보이게 버림
+        public List<Card> backUsedCards;        // 버려진 카드 - 뒷면이 보이게 버림
+        public List<PlayerState> playersState;  // 모든 플레이어의 state 정보(장비 파괴 상태)
+
 
         public GameInfo()
         {

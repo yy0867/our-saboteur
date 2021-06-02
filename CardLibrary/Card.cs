@@ -40,9 +40,24 @@ namespace CardLibrary
         NORIGHT = UP | DOWN | LEFT,
         ALL = UP | DOWN | LEFT | RIGHT
     }
+
+    public enum CType
+    {
+        NONE = 0,
+        CAVE,
+        MAP,
+        ROCK_DOWN,
+        EQ_REPAIR,
+        EQ_DESTRUCTION
+    }
+
     public class Card
     {
-        
+        protected CType cType;
+        public CType getType()
+        {
+            return this.cType;
+        }
     }
 
     public class CaveCard : Card
@@ -181,5 +196,10 @@ namespace CardLibrary
     public class MapCard : ActionCard
     {
         
+    }
+
+    public class RockDownCard : ActionCard
+    {
+
     }
 }
