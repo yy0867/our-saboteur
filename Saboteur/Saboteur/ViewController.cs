@@ -45,7 +45,7 @@ namespace Saboteur
             if (isGameForm)
             {
                 MainForm.mainForm.Width = 1600;
-                MainForm.mainForm.Height = 900;
+                MainForm.mainForm.Height = 1080;
             } 
             else
             {
