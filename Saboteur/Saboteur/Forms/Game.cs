@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,11 @@ namespace Saboteur.Forms
 
     public partial class Game : UserControl
     {
+        private const int cardWidth = 77;
+        private const int cardHeight = 125;
+        private const int fieldLeftPadding = 28;
+        private const int fieldTopPadding = 3;
+
         private bool isMouseDown = false;
         Point mouseDragPrev = new Point();
         Point mouseDragStart = new Point();
@@ -34,6 +40,7 @@ namespace Saboteur.Forms
 
         private void Game_Load(object sender, EventArgs e)
         {
+
         }
 
         public void updateInfo(Packet packet)
@@ -58,6 +65,8 @@ namespace Saboteur.Forms
             {
                 card.Left += (e.X - mouseDragPrev.X);
                 card.Top += (e.Y - mouseDragPrev.Y);
+
+
             }
         }
 
@@ -77,5 +86,35 @@ namespace Saboteur.Forms
             card.Left = mouseDragStart.X;
             card.Top = mouseDragStart.Y;
         }
+
+        // ###### Grid Methods - Start ######
+        private void CreateGrid(Graphics g)
+        {
+            Pen pen = new Pen(Color.White);
+            pen.DashStyle = DashStyle.Dash;
+            pen.DashPattern = new float[] { 5, 7 };
+
+            for (int i = fieldLeftPadding; i < picFieldBackground.Width; i += cardWidth)
+                g.DrawLine(pen, i, 0, i, picFieldBackground.Height);
+
+            for (int i = fieldTopPadding; i < picFieldBackground.Height; i += cardHeight)
+                g.DrawLine(pen, 0, i, picFieldBackground.Width, i);
+        }
+
+        private void ShowGrid()
+        {
+
+        }
+
+        private void HideGrid()
+        {
+
+        }
+
+        private void picFieldBackground_Paint(object sender, PaintEventArgs e)
+        {
+            CreateGrid(e.Graphics);
+        }
+        // ###### Grid Methods - End ######
     }
 }

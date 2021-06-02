@@ -30,7 +30,7 @@ namespace Saboteur.Forms
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Game));
-            this.picBackground = new System.Windows.Forms.PictureBox();
+            this.picFieldBackground = new System.Windows.Forms.PictureBox();
             this.panDeck = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.lblDeck = new System.Windows.Forms.Label();
@@ -45,7 +45,7 @@ namespace Saboteur.Forms
             this.picCard3 = new System.Windows.Forms.PictureBox();
             this.lblDeckNum = new System.Windows.Forms.Label();
             this.lblUsedCard = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.picBackground)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picFieldBackground)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picCard1)).BeginInit();
@@ -57,16 +57,17 @@ namespace Saboteur.Forms
             ((System.ComponentModel.ISupportInitialize)(this.picCard3)).BeginInit();
             this.SuspendLayout();
             // 
-            // picBackground
+            // picFieldBackground
             // 
-            this.picBackground.BackColor = System.Drawing.Color.Transparent;
-            this.picBackground.Image = global::Saboteur.Properties.Resources.game_background;
-            this.picBackground.Location = new System.Drawing.Point(0, 0);
-            this.picBackground.Name = "picBackground";
-            this.picBackground.Size = new System.Drawing.Size(1365, 881);
-            this.picBackground.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBackground.TabIndex = 0;
-            this.picBackground.TabStop = false;
+            this.picFieldBackground.BackColor = System.Drawing.Color.Transparent;
+            this.picFieldBackground.Image = global::Saboteur.Properties.Resources.game_background;
+            this.picFieldBackground.Location = new System.Drawing.Point(0, 0);
+            this.picFieldBackground.Name = "picFieldBackground";
+            this.picFieldBackground.Size = new System.Drawing.Size(1365, 881);
+            this.picFieldBackground.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picFieldBackground.TabIndex = 0;
+            this.picFieldBackground.TabStop = false;
+            this.picFieldBackground.Paint += new System.Windows.Forms.PaintEventHandler(this.picFieldBackground_Paint);
             // 
             // panDeck
             // 
@@ -106,7 +107,7 @@ namespace Saboteur.Forms
             this.pictureBox10.Image = global::Saboteur.Properties.Resources.card;
             this.pictureBox10.Location = new System.Drawing.Point(1332, 897);
             this.pictureBox10.Name = "pictureBox10";
-            this.pictureBox10.Size = new System.Drawing.Size(82, 132);
+            this.pictureBox10.Size = new System.Drawing.Size(77, 125);
             this.pictureBox10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox10.TabIndex = 10;
             this.pictureBox10.TabStop = false;
@@ -116,7 +117,7 @@ namespace Saboteur.Forms
             this.pictureBox9.Image = global::Saboteur.Properties.Resources.card;
             this.pictureBox9.Location = new System.Drawing.Point(1064, 897);
             this.pictureBox9.Name = "pictureBox9";
-            this.pictureBox9.Size = new System.Drawing.Size(82, 132);
+            this.pictureBox9.Size = new System.Drawing.Size(77, 125);
             this.pictureBox9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox9.TabIndex = 9;
             this.pictureBox9.TabStop = false;
@@ -126,7 +127,7 @@ namespace Saboteur.Forms
             this.picCard1.Image = global::Saboteur.Properties.Resources.card;
             this.picCard1.Location = new System.Drawing.Point(24, 897);
             this.picCard1.Name = "picCard1";
-            this.picCard1.Size = new System.Drawing.Size(82, 132);
+            this.picCard1.Size = new System.Drawing.Size(77, 125);
             this.picCard1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picCard1.TabIndex = 2;
             this.picCard1.TabStop = false;
@@ -139,7 +140,7 @@ namespace Saboteur.Forms
             this.picCard2.Image = global::Saboteur.Properties.Resources.card;
             this.picCard2.Location = new System.Drawing.Point(135, 897);
             this.picCard2.Name = "picCard2";
-            this.picCard2.Size = new System.Drawing.Size(82, 132);
+            this.picCard2.Size = new System.Drawing.Size(77, 125);
             this.picCard2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picCard2.TabIndex = 3;
             this.picCard2.TabStop = false;
@@ -152,7 +153,7 @@ namespace Saboteur.Forms
             this.picCard7.Image = global::Saboteur.Properties.Resources.card;
             this.picCard7.Location = new System.Drawing.Point(698, 897);
             this.picCard7.Name = "picCard7";
-            this.picCard7.Size = new System.Drawing.Size(82, 132);
+            this.picCard7.Size = new System.Drawing.Size(77, 125);
             this.picCard7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picCard7.TabIndex = 4;
             this.picCard7.TabStop = false;
@@ -165,7 +166,7 @@ namespace Saboteur.Forms
             this.picCard6.Image = global::Saboteur.Properties.Resources.card;
             this.picCard6.Location = new System.Drawing.Point(586, 897);
             this.picCard6.Name = "picCard6";
-            this.picCard6.Size = new System.Drawing.Size(82, 132);
+            this.picCard6.Size = new System.Drawing.Size(77, 125);
             this.picCard6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picCard6.TabIndex = 5;
             this.picCard6.TabStop = false;
@@ -178,7 +179,7 @@ namespace Saboteur.Forms
             this.picCard5.Image = global::Saboteur.Properties.Resources.card;
             this.picCard5.Location = new System.Drawing.Point(472, 897);
             this.picCard5.Name = "picCard5";
-            this.picCard5.Size = new System.Drawing.Size(82, 132);
+            this.picCard5.Size = new System.Drawing.Size(77, 125);
             this.picCard5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picCard5.TabIndex = 6;
             this.picCard5.TabStop = false;
@@ -191,7 +192,7 @@ namespace Saboteur.Forms
             this.picCard4.Image = global::Saboteur.Properties.Resources.card;
             this.picCard4.Location = new System.Drawing.Point(360, 897);
             this.picCard4.Name = "picCard4";
-            this.picCard4.Size = new System.Drawing.Size(82, 132);
+            this.picCard4.Size = new System.Drawing.Size(77, 125);
             this.picCard4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picCard4.TabIndex = 7;
             this.picCard4.TabStop = false;
@@ -204,7 +205,7 @@ namespace Saboteur.Forms
             this.picCard3.Image = global::Saboteur.Properties.Resources.card;
             this.picCard3.Location = new System.Drawing.Point(247, 897);
             this.picCard3.Name = "picCard3";
-            this.picCard3.Size = new System.Drawing.Size(82, 132);
+            this.picCard3.Size = new System.Drawing.Size(77, 125);
             this.picCard3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picCard3.TabIndex = 8;
             this.picCard3.TabStop = false;
@@ -256,11 +257,11 @@ namespace Saboteur.Forms
             this.Controls.Add(this.picCard2);
             this.Controls.Add(this.picCard1);
             this.Controls.Add(this.panDeck);
-            this.Controls.Add(this.picBackground);
+            this.Controls.Add(this.picFieldBackground);
             this.Name = "Game";
             this.Size = new System.Drawing.Size(1581, 1041);
             this.Load += new System.EventHandler(this.Game_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.picBackground)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picFieldBackground)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picCard1)).EndInit();
@@ -276,7 +277,7 @@ namespace Saboteur.Forms
         }
 
         #endregion
-        private System.Windows.Forms.PictureBox picBackground;
+        private System.Windows.Forms.PictureBox picFieldBackground;
         private System.Windows.Forms.Panel panDeck;
         private System.Windows.Forms.PictureBox picCard1;
         private System.Windows.Forms.PictureBox picCard2;
