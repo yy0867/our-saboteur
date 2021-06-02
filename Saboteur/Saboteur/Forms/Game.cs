@@ -29,6 +29,7 @@ namespace Saboteur.Forms
         private const int cardHeight = 125;
         private const int fieldLeftPadding = 28;
         private const int fieldTopPadding = 3;
+        private Size fieldSize = new Size(CONST.MAP_COL * cardWidth, CONST.MAP_ROW * cardHeight);
 
         private bool isMouseDown = false;
         Point mouseDragPrev = new Point();
@@ -101,11 +102,11 @@ namespace Saboteur.Forms
             pen.DashStyle = DashStyle.Dash;
             pen.DashPattern = new float[] { 5, 7 };
 
-            for (int i = fieldLeftPadding; i < picFieldBackground.Width; i += cardWidth)
-                g.DrawLine(pen, i, 0, i, picFieldBackground.Height);
+            for (int i = fieldLeftPadding; i <= fieldLeftPadding + fieldSize.Width; i += cardWidth)
+                g.DrawLine(pen, i, fieldTopPadding, i, fieldTopPadding + fieldSize.Height);
 
-            for (int i = fieldTopPadding; i < picFieldBackground.Height; i += cardHeight)
-                g.DrawLine(pen, 0, i, picFieldBackground.Width, i);
+            for (int i = fieldTopPadding; i <= fieldTopPadding + fieldSize.Height; i += cardHeight)
+                g.DrawLine(pen, fieldLeftPadding, i, fieldLeftPadding + fieldSize.Width, i);
         }
 
         private void HideGrid()
