@@ -77,6 +77,7 @@ namespace MapLibrary
         public void RockDown(Point point)
         {
             caveCards[point.R, point.C].setDir(Dir.NONE);
+            caveCards[point.R, point.C].setIsConnected(false);
         }
         public void MapAdd(Point point, CaveCard cave)
         {
