@@ -8,7 +8,7 @@ using System.Collections;
 
 namespace MapLibrary
 {
-    static class CONST
+    public static class CONST
     {
         public const int MAP_COL = 17; // 행
         public const int MAP_ROW = 7; // 열
