@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PacketLibrary;
+using MapLibrary;
 
 namespace Saboteur.Forms
 {
@@ -32,6 +33,8 @@ namespace Saboteur.Forms
         private bool isMouseDown = false;
         Point mouseDragPrev = new Point();
         Point mouseDragStart = new Point();
+
+        Map field = new Map();
 
         Graphics g = null;
 
