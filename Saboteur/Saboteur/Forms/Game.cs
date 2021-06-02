@@ -62,6 +62,7 @@ namespace Saboteur.Forms
         private void Game_Load(object sender, EventArgs e)
         {
             g = picFieldBackground.CreateGraphics();
+            field.MapInit();
         }
 
         public void updateInfo(Packet packet)
@@ -94,12 +95,16 @@ namespace Saboteur.Forms
         }
 
         // Release on Grid
-        private void ReleaseOnGrid()
+        private void ProcessGrid(Point gridPoint)
         {
+            // TEST
+            selectedCard = new CaveCard(Dir.ALL, true);
+            // TEST
+
             // is CaveCard
             if (selectedCard is CaveCard)
             {
-
+                Attach(gridPoint, (CaveCard)selectedCard);
             }
 
             // is RockDownCard
@@ -117,34 +122,40 @@ namespace Saboteur.Forms
 
         private void picCard_MouseUp(object sender, MouseEventArgs e)
         {
-            PictureBox card = (PictureBox)sender;
-
             if (isMouseDown)
             {
-                MoveToStartPosition(card);
+                //MoveToStartPosition(card);
                 isMouseDown = false;
-
                 EraseGraphics();
 
                 // ##################### ADD DOWN BY USING METHOD ########################
                 // Release on Grid
-                Point? gridPoint = GetGridPoint(card.Left + e.X, card.Top + e.Y); // Mouse Pointer Position
+                Point? gridPoint = GetGridPoint(selectedPic.Left + e.X, selectedPic.Top + e.Y); // Mouse Pointer Position
 
                 if (gridPoint.HasValue) // is in grid
                 {
-                    ReleaseOnGrid();
-                    return;
+                    ProcessGrid((Point)gridPoint);
                 }
 
-                // Release on Player
+                //// Release on Player
+                // else if ()
+                // {
 
+                // }
 
-                // Release on Deck
+                //// Release on Deck
+                // else if ()
+                // {
 
+                // }
 
                 // ..?
 
                 // ##################### ADD UP ########################
+                else
+                {
+                    MoveToStartPosition(selectedPic);
+                }
 
                 selectedPic = null;
                 selectedCard = null;
@@ -187,6 +198,7 @@ namespace Saboteur.Forms
                 {
                     EraseGraphics();
                     ShowGrid();
+
                     rectPrev.X = point.X; rectPrev.Y = point.Y;
                     Rectangle rect = new Rectangle(point.X, point.Y, cardWidth, cardHeight);
                     Brush brush = new SolidBrush(Color.GreenYellow);
@@ -202,8 +214,14 @@ namespace Saboteur.Forms
 
             field.MapAdd(new MapLibrary.Point(row, col), cave);
 
-            selectedPic.Left = X;
-            selectedPic.Top = Y;
+            selectedPic.Left = X + 12;  // ################### 임시방편 
+            selectedPic.Top = Y + 10;   // ################### 임시방편
+        }
+
+        // override Attach()
+        private void Attach(Point point, CaveCard cave)
+        {
+            Attach(point.X, point.Y, cave);
         }
 
         private Point? GetGridPoint(int X, int Y)
