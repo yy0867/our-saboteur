@@ -88,7 +88,7 @@ namespace Saboteur.Forms
         }
 
         // ###### Grid Methods - Start ######
-        private void CreateGrid(Graphics g)
+        private void ShowGrid(Graphics g)
         {
             Pen pen = new Pen(Color.White);
             pen.DashStyle = DashStyle.Dash;
@@ -101,11 +101,6 @@ namespace Saboteur.Forms
                 g.DrawLine(pen, 0, i, picFieldBackground.Width, i);
         }
 
-        private void ShowGrid()
-        {
-
-        }
-
         private void HideGrid()
         {
 
@@ -113,7 +108,7 @@ namespace Saboteur.Forms
 
         private void picFieldBackground_Paint(object sender, PaintEventArgs e)
         {
-            CreateGrid(e.Graphics);
+            ShowGrid(e.Graphics);
         }
         // ###### Grid Methods - End ######
     }
