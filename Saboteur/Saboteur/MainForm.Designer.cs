@@ -38,13 +38,13 @@ namespace Saboteur
             this.mainPanel.Location = new System.Drawing.Point(0, 0);
             this.mainPanel.Margin = new System.Windows.Forms.Padding(6);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(1250, 645);
+            this.mainPanel.Size = new System.Drawing.Size(1260, 677);
             this.mainPanel.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1250, 645);
+            this.ClientSize = new System.Drawing.Size(1260, 677);
             this.Controls.Add(this.mainPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Margin = new System.Windows.Forms.Padding(6);

@@ -16,5 +16,10 @@ namespace Saboteur.Forms
         {
             InitializeComponent();
         }
+
+        private void Game_Load(object sender, EventArgs e)
+        {
+            panDeck.BackColor = Color.FromArgb(0, 0, 0, 0);
+        }
     }
 }

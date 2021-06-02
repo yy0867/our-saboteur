@@ -159,6 +159,8 @@
     <Content Include="resources\cards\item_road\road\road_up_down_left_right_blocked.png" />
     <Content Include="resources\cards\item_road\road\road_up_down_right_blocked.png" />
     <Content Include="resources\cards\item_road\road\road_up_left_right_blocked.png" />
+    <None Include="resources\transparent.png" />
+    <None Include="resources\game_background.jpg" />
     <Content Include="resources\icons\frame.png" />
     <Content Include="resources\icons\gear.png" />
     <Content Include="resources\icons\light_off.png" />
