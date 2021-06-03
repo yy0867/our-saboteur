@@ -29,6 +29,8 @@ namespace Saboteur.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Game));
             this.label1 = new System.Windows.Forms.Label();
             this.lblDeck = new System.Windows.Forms.Label();
             this.lblDeckNum = new System.Windows.Forms.Label();
@@ -78,6 +80,7 @@ namespace Saboteur.Forms
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.imgCards = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.player_0_pickaxe)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_0_lantern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_0_cart)).BeginInit();
@@ -324,8 +327,8 @@ namespace Saboteur.Forms
             // picFieldBackground
             // 
             this.picFieldBackground.BackColor = System.Drawing.Color.Transparent;
-            this.picFieldBackground.BackgroundImage = global::Saboteur.Properties.Resources.field_Back;
             this.picFieldBackground.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.picFieldBackground.Image = global::Saboteur.Properties.Resources.field_Back;
             this.picFieldBackground.Location = new System.Drawing.Point(0, 0);
             this.picFieldBackground.Name = "picFieldBackground";
             this.picFieldBackground.Size = new System.Drawing.Size(1365, 881);
@@ -681,6 +684,51 @@ namespace Saboteur.Forms
             this.label8.TabIndex = 12;
             this.label8.Text = "7";
             // 
+            // imgCards
+            // 
+            this.imgCards.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgCards.ImageStream")));
+            this.imgCards.TransparentColor = System.Drawing.Color.Transparent;
+            this.imgCards.Images.SetKeyName(0, "character_back.png");
+            this.imgCards.Images.SetKeyName(1, "character_miner.png");
+            this.imgCards.Images.SetKeyName(2, "character_saboteur.png");
+            this.imgCards.Images.SetKeyName(3, "goal_back.png");
+            this.imgCards.Images.SetKeyName(4, "goal_gold.png");
+            this.imgCards.Images.SetKeyName(5, "goal_stone_down_left.png");
+            this.imgCards.Images.SetKeyName(6, "goal_stone_down_right.png");
+            this.imgCards.Images.SetKeyName(7, "gold_1.png");
+            this.imgCards.Images.SetKeyName(8, "gold_2.png");
+            this.imgCards.Images.SetKeyName(9, "gold_3.png");
+            this.imgCards.Images.SetKeyName(10, "gold_back.png");
+            this.imgCards.Images.SetKeyName(11, "item_block_cart.png");
+            this.imgCards.Images.SetKeyName(12, "item_block_lantern.png");
+            this.imgCards.Images.SetKeyName(13, "item_block_pickax.png");
+            this.imgCards.Images.SetKeyName(14, "item_destroy.png");
+            this.imgCards.Images.SetKeyName(15, "item_map.png");
+            this.imgCards.Images.SetKeyName(16, "item_unblock_cart.png");
+            this.imgCards.Images.SetKeyName(17, "item_unblock_lantern.png");
+            this.imgCards.Images.SetKeyName(18, "item_unblock_lantern_cart.png");
+            this.imgCards.Images.SetKeyName(19, "item_unblock_pickax.png");
+            this.imgCards.Images.SetKeyName(20, "item_unblock_pickax_cart.png");
+            this.imgCards.Images.SetKeyName(21, "item_unblock_pickax_lantern.png");
+            this.imgCards.Images.SetKeyName(22, "item_road_back.png");
+            this.imgCards.Images.SetKeyName(23, "road_down_left.png");
+            this.imgCards.Images.SetKeyName(24, "road_down_left_blocked.png");
+            this.imgCards.Images.SetKeyName(25, "road_down_right.png");
+            this.imgCards.Images.SetKeyName(26, "road_down_right_blocked.png");
+            this.imgCards.Images.SetKeyName(27, "road_left_right.png");
+            this.imgCards.Images.SetKeyName(28, "road_left_right_blocked.png");
+            this.imgCards.Images.SetKeyName(29, "road_left_right_down.png");
+            this.imgCards.Images.SetKeyName(30, "road_right_blocked.png");
+            this.imgCards.Images.SetKeyName(31, "road_start.png");
+            this.imgCards.Images.SetKeyName(32, "road_up_blocked.png");
+            this.imgCards.Images.SetKeyName(33, "road_up_down.png");
+            this.imgCards.Images.SetKeyName(34, "road_up_down_blocked.png");
+            this.imgCards.Images.SetKeyName(35, "road_up_down_left.png");
+            this.imgCards.Images.SetKeyName(36, "road_up_down_left_right.png");
+            this.imgCards.Images.SetKeyName(37, "road_up_down_left_right_blocked.png");
+            this.imgCards.Images.SetKeyName(38, "road_up_down_right_blocked.png");
+            this.imgCards.Images.SetKeyName(39, "road_up_left_right_blocked.png");
+            // 
             // Game
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -833,5 +881,6 @@ namespace Saboteur.Forms
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ImageList imgCards;
     }
 }
