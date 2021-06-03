@@ -163,6 +163,17 @@ namespace CardLibrary
                 return true;
             else return false;
         }
+
+        public static bool operator ==(CaveCard lhs, CaveCard rhs)
+        {
+            return lhs.dir == rhs.dir
+                && lhs.isConnected == rhs.isConnected;
+        }
+        public static bool operator !=(CaveCard lhs, CaveCard rhs)
+        {
+            return lhs.dir != rhs.dir
+                || lhs.isConnected != rhs.isConnected;
+        }
     }
 
     public class StartCard : CaveCard
@@ -235,10 +246,5 @@ namespace CardLibrary
         {
             this.cType = CType.MAP;
         }
-    }
-
-    public class RockDownCard : ActionCard
-    {
-
     }
 }

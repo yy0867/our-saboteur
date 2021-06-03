@@ -38,6 +38,7 @@ namespace Saboteur.Forms
         private const int cardHeight = 125;
         private const int fieldLeftPadding = 28;
         private const int fieldTopPadding = 3;
+        private const int handPadding = 30;
         private Size fieldSize = new Size(CONST.MAP_COL * cardWidth, CONST.MAP_ROW * cardHeight);
 
         private const int START_CARD_INDEX = 31;
@@ -52,16 +53,71 @@ namespace Saboteur.Forms
         Point rectPrev = new Point();           // for grid rect
 
         // Game Instances
+        CaveCard[,] prevMap = new CaveCard[CONST.MAP_ROW, CONST.MAP_COL];
         Map field = new Map();
         Card selectedCard = null;               // which card is selected
         PictureBox selectedPic = null;          // selectedCard's Image
 
         // Graphics Instances
         Graphics g = null;
+        List<PictureBox> pictureBoxes = new List<PictureBox>();
+
+        // TEST
+        private void MockSendPacket()
+        {
+            GameInfo mock = new GameInfo();
+
+            MapLibrary.Point point;
+            CaveCard card;
+
+            mock.fields.MapInit();
+
+            #region(MockingTest_Field)
+            for (int i = 0; i < 4; i++)
+            {
+                point = new MapLibrary.Point(3, 5 + i);
+                card = new CaveCard(Dir.RIGHTLEFT, true);
+
+                mock.fields.MapAdd(point, card);
+            }
+
+            point = new MapLibrary.Point(3, 9);
+            card = new CaveCard(Dir.LEFTUP, true);
+            mock.fields.MapAdd(point, card);
+
+            for (int i = 0; i < 2; i++)
+            {
+                point = new MapLibrary.Point(2 - i, 9);
+                card = new CaveCard(Dir.DOWNUP, true);
+
+                mock.fields.MapAdd(point, card);
+            }
+
+            point = new MapLibrary.Point(0, 9);
+            card = new CaveCard(Dir.DOWNUP, false);
+
+            mock.fields.MapAdd(point, card);
+            #endregion
+
+            #region(MockingTest_Hand)
+            mock.holdingCards.Add(new CaveCard(Dir.ALL, true));
+            mock.holdingCards.Add(new CaveCard(Dir.LEFTDOWN, true));
+            mock.holdingCards.Add(new CaveCard(Dir.UP, false));
+            mock.holdingCards.Add(new CaveCard(Dir.LEFT, true));
+            mock.holdingCards.Add(new CaveCard(Dir.NOLEFT, true));
+            #endregion
+
+            updateInfo(mock);
+        }
+        // TEST
 
         public Game()
         {
             InitializeComponent();
+
+            for (int i = 0; i < CONST.MAP_ROW; i++)
+                for (int j = 0; j < CONST.MAP_COL; j++)
+                    prevMap[i, j] = new CaveCard();
         }
 
         private void Game_Load(object sender, EventArgs e)
@@ -92,18 +148,22 @@ namespace Saboteur.Forms
 
                 field.MapAdd(point, card);
             }
-
-            point = new MapLibrary.Point(0, 9);
-            card = new CaveCard(Dir.DOWNUP, false);
-
-            field.MapAdd(point, card);
             // TEST
 
             DrawCardOnField();
+
+            // TEST 
+            MockSendPacket();
+            // TEST 
         }
 
         public void updateInfo(Packet packet)
         {
+            GameInfo info = (GameInfo)packet;
+
+            field = info.fields;
+            DrawCardOnField();
+            DrawHands(info.holdingCards);
         }
 
         private void picCard_MouseDown(object sender, MouseEventArgs e)
@@ -116,6 +176,7 @@ namespace Saboteur.Forms
 
             // ************ SET selectedCard ************** // 
             // selectedCard = ~~~~; // 
+            DeleteImage(3, 7);
 
             ShowGrid();
         }
@@ -198,6 +259,18 @@ namespace Saboteur.Forms
                 this.selectedCard = null;
             }
         }
+
+        // ###### Draw Hands Methods - Start ######
+        private void DrawHands(List<Card> holdingCards)
+        {
+            Point location = new Point(handPadding, 897);
+
+            foreach (Card card in holdingCards) { 
+                AddImage(location, GetCardImage(card), true);
+                location.X += (handPadding + cardWidth);
+            }
+        }
+        // ###### Draw Hands Methods - End ######
 
         // ###### Draw Card Methods - Start ######
         private void Rotate(Image image)
@@ -343,7 +416,7 @@ namespace Saboteur.Forms
             return null;
         }
 
-        private void AddImage(Point location, Image cardImage)
+        private void AddImage(Point location, Image cardImage, bool isMoveable = false)
         {
             PictureBox pic = new PictureBox();
 
@@ -357,6 +430,33 @@ namespace Saboteur.Forms
 
             this.Controls.Add(pic);
             pic.BringToFront();
+
+            pictureBoxes.Add(pic);
+
+            if (isMoveable)
+            {
+                pic.MouseDown += new MouseEventHandler(this.picCard_MouseDown);
+                pic.MouseMove += new MouseEventHandler(this.picCard_MouseMove);
+                pic.MouseUp += new MouseEventHandler(this.picCard_MouseUp);
+            }
+        }
+
+        private void DeleteImage(int row, int col)
+        {
+            Point point = ConvertCoordsToLocation(row, col);
+            point.X += cardWidth / 2;
+            point.Y += cardHeight / 2;
+
+            for (int i = 0; i < this.pictureBoxes.Count; i++)
+            {
+                if (this.pictureBoxes[i].Left < point.X && point.X < this.pictureBoxes[i].Left + this.pictureBoxes[i].Width &&
+                    this.pictureBoxes[i].Top < point.Y && point.Y < this.pictureBoxes[i].Top + this.pictureBoxes[i].Height)
+                {
+                    this.Controls.Remove(this.pictureBoxes[i]);
+                    this.pictureBoxes.RemoveAt(i);
+                    return;
+                }
+            }
         }
 
         private void DrawCardOnField()
@@ -369,6 +469,10 @@ namespace Saboteur.Forms
                 for (int j = 0; j < CONST.MAP_COL; j++)
                 {
                     curCard = field.GetCard(i, j);
+
+                    if (prevMap[i, j] == curCard)
+                        continue;
+
                     location = ConvertCoordsToLocation(i, j);
 
                     // Draw Start Card
@@ -391,6 +495,8 @@ namespace Saboteur.Forms
                         if (curImage != null)
                             AddImage(location, curImage);
                     }
+
+                    prevMap[i, j] = curCard;
                 }
             }
         }
