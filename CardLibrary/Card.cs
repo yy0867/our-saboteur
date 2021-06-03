@@ -236,9 +236,4 @@ namespace CardLibrary
             this.cType = CType.MAP;
         }
     }
-
-    public class RockDownCard : ActionCard
-    {
-
-    }
 }
