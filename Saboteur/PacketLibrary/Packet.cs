@@ -102,7 +102,6 @@ namespace PacketLibrary
     [Serializable]
     public class GameInfo : Packet
     {
-        public int clientID;
         public bool isSaboteur;
         public bool isTurn;                 // 해당 Player가 현재 Turn인지
         public string message;
