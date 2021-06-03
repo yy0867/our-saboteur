@@ -8,6 +8,8 @@ using System.Threading;
 using System.Net.Sockets;
 using System.IO;
 using PacketLibrary;
+using CardLibrary;
+using MapLibrary;
 
 namespace Server
 {
@@ -31,6 +33,15 @@ namespace Server
         private object lockObject = new object();
         private Semaphore sem = new Semaphore(1, 1);
 
+
+        /* -------------------- Map, Card -------------------- */
+        private Map fields;
+        private List<Card> deckCards;
+        private List<Card> frontUsedCards;
+        private List<Card> backUsedCards;
+        private List<PlayerState> playersState;
+
+        private bool isFirstGameInfo = true;
 
 
         public Server()
@@ -61,7 +72,6 @@ namespace Server
                 for (int i = 0; i < numConnectedClient; i++)
                     Send(i, packet);
             });
-            
         }
  
         public void SendToExistClient(Packet packet)
@@ -91,7 +101,6 @@ namespace Server
         {
             Console.WriteLine("Client {0}으로부터 RoomInfo 패킷 Receive", receiveInfo.clientID);
 
-            // Client에게 Send할 패킷 구성
             RoomInfo sendRoomInfo = new RoomInfo();
             sendRoomInfo.roomCode = this.roomCode;
             sendRoomInfo.clientID = receiveInfo.clientID == Packet.isEmpty 
@@ -131,6 +140,88 @@ namespace Server
             }
         }
 
+        private void ProcessGameInfo(GameInfo receiveInfo)
+        {
+            // 게임 시작 직후 받은 GameInfo 패킷
+            if (this.isFirstGameInfo)
+            {
+                // 딜러가 각 클라이언트 GameInfo 셋팅
+
+
+                this.isFirstGameInfo = false;
+            }
+            // 게임 진행
+            else
+            {
+                Console.WriteLine("Client {0}으로부터 GameInfo 패킷 Receive", receiveInfo.clientID);
+
+                GameInfo sendGameInfo = new GameInfo();
+                for (int i = 0; i < this.numConnectedClient; i++)
+                {
+                    sendGameInfo.clientID = i;
+                    Send(i, sendGameInfo);
+                }
+
+
+                //switch (receiveInfo.curUsedCard.getType())
+                //{
+                //    case CType.CAVE:
+                //        {
+                //            break;
+                //        }
+
+                //    case CType.MAP:
+                //        {
+                //            // (Client에서 알아서 보여줌)
+                //            ProcessMapCard(receiveInfo);
+                //            break;
+                //        }
+
+                //    case CType.ROCK_DOWN:
+                //        {
+                //            ProcessRockDown(receiveInfo);
+                //            break;
+                //        }
+
+                //    case CType.EQ_REPAIR:
+                //        {
+                //            // 도구 분류
+
+                //            break;
+                //        }
+
+                //    case CType.EQ_DESTRUCTION:
+                //        {
+                //            // 도구 분류
+
+                //            break;
+                //        }
+                //}
+            }
+        }
+
+        //private void ProcessMapCard(GameInfo receiveInfo)
+        //{
+        //    //this.deckCards.Remove((MapCard)receiveInfo.curUsedCard);
+        //    if (receiveInfo.isCardUsed)     // 카드 사용한 경우(front로 버림)
+        //        this.frontUsedCards.Add((MapCard)receiveInfo.curUsedCard);
+        //    else        // 카드 사용하지 않은 경우(back으로 버림)
+        //        this.backUsedCards.Add((MapCard)receiveInfo.curUsedCard);
+        //}
+
+        //private void ProcessRockDown(GameInfo receiveInfo)
+        //{
+        //    // Field에서 해당 길 파괴
+
+        //    //this.deckCards.Remove((RockDownCard)receiveInfo.curUsedCard);
+        //    if (receiveInfo.isCardUsed) {   // 카드 사용한 경우(front로 버림)
+        //        this.frontUsedCards.Add((RockDownCard)receiveInfo.curUsedCard);
+        //    }
+        //    else        // 카드 사용하지 않은 경우(back으로 버림)
+        //        this.backUsedCards.Add((RockDownCard)receiveInfo.curUsedCard);
+        //}
+
+
         // ########## Receive Functions - END #########
 
         public void ReceiveByClientID(int clientID)
@@ -156,7 +247,14 @@ namespace Server
                         ProcessRoomInfo((RoomInfo)receivePacket);
                         break;
 
-                        // 다른 패킷 case
+                    case (int)PacketType.GameInfo:
+                        ProcessGameInfo((GameInfo)receivePacket);
+                        break;
+
+                    // 다른 패킷 case
+
+
+
                 }
             }
 

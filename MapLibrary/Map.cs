@@ -37,8 +37,8 @@ namespace MapLibrary
 
         public Map()
         {
+            //caveCards = new CaveCard[CONST.MAPSIZE, CONST.MAPSIZE];
             caveCards = new CaveCard[CONST.MAP_ROW, CONST.MAP_COL];
-            
         }
 
         public void MapInit()

@@ -44,5 +44,15 @@
     <Compile Include="Packet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CardLibrary\CardLibrary.csproj">
+      <Project>{bd34a993-1775-4ec6-bf52-97a1e6ae543d}</Project>
+      <Name>CardLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MapLibrary\MapLibrary.csproj">
+      <Project>{87018293-ac98-4906-bb03-b193897d612f}</Project>
+      <Name>MapLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
