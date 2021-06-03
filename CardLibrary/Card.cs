@@ -40,20 +40,52 @@ namespace CardLibrary
         NORIGHT = UP | DOWN | LEFT,
         ALL = UP | DOWN | LEFT | RIGHT
     }
+
+    public enum CType
+    {
+        NONE = 0,
+        CAVE = 1,
+        MAP,
+        ROCK_DOWN,
+        EQ_REPAIR,
+        EQ_DESTRUCTION
+    }
+
+    public enum Tool
+    {
+        PICKAXE = 0,
+        LATTERN = 1,
+        CART,
+        PICKLATTERN,
+        PICKCART,
+        LATTERNCART
+    }
+
     public class Card
     {
-        
+        protected CType cType = CType.NONE;
+
+        public void setType(CType cType)
+        {
+            this.cType = cType;
+        }
+
+        public CType getType()
+        {
+            return this.cType;
+        }
     }
 
     public class CaveCard : Card
     {
         protected bool isConnected;
         protected Dir dir;
-
+        
         public CaveCard()
         {
             dir = Dir.NONE;
             isConnected = false;
+            cType = CType.CAVE;
         }
         public CaveCard(Dir dir, bool isConnected)
         {
@@ -121,6 +153,10 @@ namespace CardLibrary
             return isConnected;
         }
 
+        public void setIsConnected(bool isConnected)
+        {
+            this.isConnected = isConnected;
+        }
         public bool isEmpty()
         {
             if (this.dir == Dir.NONE)
@@ -160,26 +196,44 @@ namespace CardLibrary
     }
     public class ActionCard : Card
     {
-        
     }
 
     public class EquipmentCard : ActionCard
     {
-
+        protected Tool tool;
+        public EquipmentCard(CType cType, Tool tool)
+        {
+            this.cType = cType;
+            this.tool = tool;
+        }
     }
 
+    public class RockDownCard : ActionCard {
+        public RockDownCard()
+        {
+            this.cType = CType.ROCK_DOWN;
+        }
+    }
+
+    /*
     public class EqDestructionCard : EquipmentCard
     {
-
+        public EqDestructionCard(CType type)
+        {
+            this.type = type;
+        }
     }
 
     public class EqRepairCard : EquipmentCard
     {
 
     }
-
+    */
     public class MapCard : ActionCard
     {
-        
+        public MapCard()
+        {
+            this.cType = CType.MAP;
+        }
     }
 }
