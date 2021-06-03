@@ -327,8 +327,8 @@ namespace Saboteur.Forms
             // picFieldBackground
             // 
             this.picFieldBackground.BackColor = System.Drawing.Color.Transparent;
+            this.picFieldBackground.BackgroundImage = global::Saboteur.Properties.Resources.field_Back;
             this.picFieldBackground.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.picFieldBackground.Image = global::Saboteur.Properties.Resources.field_Back;
             this.picFieldBackground.Location = new System.Drawing.Point(0, 0);
             this.picFieldBackground.Name = "picFieldBackground";
             this.picFieldBackground.Size = new System.Drawing.Size(1365, 881);
