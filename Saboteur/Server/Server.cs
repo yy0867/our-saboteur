@@ -72,7 +72,6 @@ namespace Server
                 for (int i = 0; i < numConnectedClient; i++)
                     Send(i, packet);
             });
-            
         }
  
         public void SendToExistClient(Packet packet)
@@ -157,7 +156,11 @@ namespace Server
                 Console.WriteLine("Client {0}으로부터 GameInfo 패킷 Receive", receiveInfo.clientID);
 
                 GameInfo sendGameInfo = new GameInfo();
-                
+                for (int i = 0; i < this.numConnectedClient; i++)
+                {
+                    sendGameInfo.clientID = i;
+                    Send(i, sendGameInfo);
+                }
 
 
                 //switch (receiveInfo.curUsedCard.getType())

@@ -37,12 +37,8 @@ namespace MapLibrary
 
         public Map()
         {
-<<<<<<< HEAD
-            caveCards = new CaveCard[CONST.MAPSIZE, CONST.MAPSIZE];
-=======
+            //caveCards = new CaveCard[CONST.MAPSIZE, CONST.MAPSIZE];
             caveCards = new CaveCard[CONST.MAP_ROW, CONST.MAP_COL];
-            
->>>>>>> c7557e07ea1fd7f964e2a961e8d1f10403996e7a
         }
 
         public void MapInit()
