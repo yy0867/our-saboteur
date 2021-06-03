@@ -162,6 +162,20 @@ namespace Saboteur.Forms
             }
         }
 
+        // ###### Draw Card Methods - Start ######
+        private void DrawCardOnField()
+        {
+            Card curCard = null;
+            for (int i = 0; i < CONST.MAP_ROW; i++)
+            {
+                for (int j = 0; j < CONST.MAP_COL; j++)
+                {
+                    curCard = field.GetCard(i, j);
+                }
+            }
+        }
+        // ###### Draw Card Methods - End ######
+
         private void MoveToStartPosition(PictureBox card)
         {
             card.Left = mouseDragStart.X;
