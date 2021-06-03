@@ -159,16 +159,33 @@
     <Content Include="resources\cards\item_road\road\road_up_down_left_right_blocked.png" />
     <Content Include="resources\cards\item_road\road\road_up_down_right_blocked.png" />
     <Content Include="resources\cards\item_road\road\road_up_left_right_blocked.png" />
+    <None Include="resources\sprites\player_off.png" />
+    <None Include="resources\sprites\player_on.png" />
+    <None Include="resources\transparent.png" />
+    <None Include="resources\game_background.jpg" />
     <Content Include="resources\icons\frame.png" />
     <Content Include="resources\icons\gear.png" />
     <Content Include="resources\icons\light_off.png" />
     <Content Include="resources\icons\light_on.png" />
     <Content Include="resources\icons\right_arrow_.png" />
     <None Include="resources\sprites\backGround2.png" />
+    <None Include="resources\sprites\field_Back_default.png" />
+    <None Include="resources\sprites\field_Back.png" />
+    <None Include="resources\sprites\blocked_lantern.png" />
+    <None Include="resources\sprites\blocked_cart.png" />
+    <None Include="resources\sprites\blocked_pickaxe.png" />
     <Content Include="resources\sprites\mainmenu_background.jpg" />
     <Content Include="resources\sprites\mainmenu_bottom.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CardLibrary\CardLibrary.csproj">
+      <Project>{bd34a993-1775-4ec6-bf52-97a1e6ae543d}</Project>
+      <Name>CardLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MapLibrary\MapLibrary.csproj">
+      <Project>{87018293-ac98-4906-bb03-b193897d612f}</Project>
+      <Name>MapLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PacketLibrary\PacketLibrary.csproj">
       <Project>{80ebbea2-b16a-4882-96d3-b651cdaf130a}</Project>
       <Name>PacketLibrary</Name>
