@@ -13,7 +13,7 @@ namespace MapLibrary
         public const int MAP_COL = 17; // 행
         public const int MAP_ROW = 7; // 열
         public const int START_R = 3;
-        public const int START_C = 3;
+        public const int START_C = 4;
         public const int DESTINATION_R = 10;
         public const int DESTINATION_C = 10;
     }
@@ -104,23 +104,29 @@ namespace MapLibrary
         private bool CanBeConntectedSurrounding(Point point, CaveCard cave)
         {
             int r = point.R, c = point.C;
-            if (r > 0 && !caveCards[r - 1, c].isEmpty() && 
+            bool result = false;
+
+            if (!(r > 0 && !caveCards[r - 1, c].isEmpty() && 
                 (caveCards[r - 1, c].getDir() & Dir.RIGHT) == Dir.NONE &&
-                (cave.getDir() & Dir.LEFT) == Dir.NONE)
-                return false;
-            if (c > 0 && !caveCards[r, c - 1].isEmpty() && 
+                (cave.getDir() & Dir.LEFT) == Dir.NONE))
+                result = true;
+
+            if (!(c > 0 && !caveCards[r, c - 1].isEmpty() && 
                 (caveCards[r, c - 1].getDir() & Dir.DOWN) == Dir.NONE &&
-                (cave.getDir() & Dir.UP) == Dir.NONE)
-                return false;
-            if (r < CONST.MAP_ROW - 1 && !caveCards[r + 1, c].isEmpty() && 
+                (cave.getDir() & Dir.UP) == Dir.NONE))
+                result = true;
+
+            if (!(r < CONST.MAP_ROW - 1 && !caveCards[r + 1, c].isEmpty() && 
                 (caveCards[r + 1, c].getDir() & Dir.LEFT) == Dir.NONE &&
-                (cave.getDir() & Dir.RIGHT) == Dir.NONE)
-                return false;
-            if (c < CONST.MAP_COL - 1 && !caveCards[r, c + 1].isEmpty() &&
+                (cave.getDir() & Dir.RIGHT) == Dir.NONE))
+                result = true;
+
+            if (!(c < CONST.MAP_COL - 1 && !caveCards[r, c + 1].isEmpty() &&
                 (caveCards[r, c + 1].getDir() & Dir.UP) == Dir.NONE &&
-                (cave.getDir() & Dir.DOWN) == Dir.NONE)
-                return false;
-            return true;
+                (cave.getDir() & Dir.DOWN) == Dir.NONE))
+                result = true;
+
+            return result;
         }      
         
         private bool isConntectedStart(Point currentPoint)
@@ -139,8 +145,13 @@ namespace MapLibrary
                 for(int i = 0; i < ctr.Length-1; i++)
                 {
                     int r = visitedPoint.R + ctr[i], c = visitedPoint.C + ctr[i + 1];  // 주변 좌표       
-                    if (isValidated(new Point(r, c)) && visited[r, c] == false)
+                    Point point = new Point(r, c);
+
+                    if (isValidated(point) && visited[r, c] == false)
                     {
+                        if (isStart(point)) 
+                            return true;
+
                         visited[r, c] = true;
                         queue.Enqueue(new Point(r, c));
                     }

@@ -68,6 +68,37 @@ namespace Saboteur.Forms
         {
             g = picFieldBackground.CreateGraphics();
             field.MapInit();
+
+            // TEST
+            MapLibrary.Point point;
+            CaveCard card;
+
+            for (int i = 0; i < 4; i++)
+            {
+                point = new MapLibrary.Point(3, 5 + i);
+                card = new CaveCard(Dir.RIGHTLEFT, true);
+
+                field.MapAdd(point, card);
+            }
+
+            point = new MapLibrary.Point(3, 9);
+            card = new CaveCard(Dir.LEFTUP, true);
+            field.MapAdd(point, card);
+
+            for (int i = 0; i < 2; i++)
+            {
+                point = new MapLibrary.Point(2 - i, 9);
+                card = new CaveCard(Dir.DOWNUP, true);
+
+                field.MapAdd(point, card);
+            }
+
+            point = new MapLibrary.Point(0, 9);
+            card = new CaveCard(Dir.DOWNUP, false);
+
+            field.MapAdd(point, card);
+            // TEST
+
             DrawCardOnField();
         }
 
@@ -128,10 +159,10 @@ namespace Saboteur.Forms
 
         private void picCard_MouseUp(object sender, MouseEventArgs e)
         {
-            if (isMouseDown)
+            if (this.isMouseDown)
             {
                 //MoveToStartPosition(card);
-                isMouseDown = false;
+                this.isMouseDown = false;
                 EraseGraphics();
 
                 // ##################### ADD DOWN BY USING METHOD ########################
@@ -160,11 +191,11 @@ namespace Saboteur.Forms
                 // ##################### ADD UP ########################
                 else
                 {
-                    MoveToStartPosition(selectedPic);
+                    MoveToStartPosition(this.selectedPic);
                 }
 
-                selectedPic = null;
-                selectedCard = null;
+                this.selectedPic = null;
+                this.selectedCard = null;
             }
         }
 
@@ -316,14 +347,16 @@ namespace Saboteur.Forms
         {
             PictureBox pic = new PictureBox();
 
-            pic.Image = cardImage;
             pic.SizeMode = PictureBoxSizeMode.StretchImage;
-            pic.Name = location.X.ToString() + ", " + location.Y.ToString();
+            pic.Name = location.X + "," + location.Y;
             pic.Location = new System.Drawing.Point(location.X, location.Y);
             pic.Size = new Size(cardWidth, cardHeight);
-            //pic.BringToFront();
+            pic.Image = cardImage;
+            pic.BackColor = Color.Black;
+            pic.Parent = picFieldBackground;
 
             this.Controls.Add(pic);
+            pic.BringToFront();
         }
 
         private void DrawCardOnField()
@@ -347,13 +380,16 @@ namespace Saboteur.Forms
                     // Draw Dest Card
                     else if (curCard is DestCard)
                     {
-
+                        AddImage(location, imgCards.Images["goal_back.png"]);
                     } 
 
                     // Draw Cave Card
                     else
                     {
+                        Image curImage = GetCardImage(curCard);
 
+                        if (curImage != null)
+                            AddImage(location, curImage);
                     }
                 }
             }
