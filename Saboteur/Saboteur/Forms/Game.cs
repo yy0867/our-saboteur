@@ -214,8 +214,8 @@ namespace Saboteur.Forms
 
             field.MapAdd(new MapLibrary.Point(row, col), cave);
 
-            selectedPic.Left = X + 12;  // ################### 임시방편 
-            selectedPic.Top = Y + 10;   // ################### 임시방편
+            selectedPic.Left = X;
+            selectedPic.Top = Y;
         }
 
         // override Attach()
