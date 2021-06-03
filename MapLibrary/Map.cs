@@ -52,15 +52,17 @@ namespace MapLibrary
             {
                 for(int j = 0; j<CONST.MAP_COL; j++)
                 {
-                    if (i == 9 && j == 3) caveCards[i, j] = new StartCard();
-                    else if(j == 9)
+                    if (i == 3 && j == 4) caveCards[i, j] = new StartCard();
+                    else if(j == 12)
                     {
-                        if(i == 7)
+                        if (i == 1)
                             caveCards[i, j] = new DestCard(false, false, dest[0]);
-                        else if(i == 9)
+                        else if (i == 3)
                             caveCards[i, j] = new DestCard(false, false, dest[1]);
-                        else if(i == 11)
+                        else if (i == 5)
                             caveCards[i, j] = new DestCard(false, false, dest[2]);
+                        else
+                            caveCards[i, j] = new CaveCard();
                     }  
                     else
                         caveCards[i, j] = new CaveCard();
