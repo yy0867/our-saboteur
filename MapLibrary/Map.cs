@@ -70,14 +70,14 @@ namespace MapLibrary
             }
         }
 
-        public Card GetCard(int R, int C)
+        public CaveCard GetCard(int R, int C)
         {
             if (R < 0 || R > CONST.MAP_ROW || C < 0 || C > CONST.MAP_COL)
                 return null;
             return caveCards[R, C];
         }
 
-        public Card GetCard(Point point)
+        public CaveCard GetCard(Point point)
         {
             return GetCard(point.R, point.C);
         }

@@ -165,12 +165,13 @@ namespace Saboteur.Forms
         // ###### Draw Card Methods - Start ######
         private void DrawCardOnField()
         {
-            Card curCard = null;
+            CaveCard curCard = null;
             for (int i = 0; i < CONST.MAP_ROW; i++)
             {
                 for (int j = 0; j < CONST.MAP_COL; j++)
                 {
                     curCard = field.GetCard(i, j);
+                    
                 }
             }
         }
