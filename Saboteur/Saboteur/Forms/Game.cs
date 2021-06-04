@@ -219,6 +219,10 @@ namespace Saboteur.Forms
                     else
                     {
                         ProcessGrid((Point)gridPoint);
+
+                        selectedPic.MouseUp -= picCard_MouseUp;
+                        selectedPic.MouseDown -= picCard_MouseDown;
+                        selectedPic.MouseMove -= picCard_MouseMove;
                     }
                 }
 
@@ -241,10 +245,6 @@ namespace Saboteur.Forms
                 {
                     MoveToStartPosition(selectedPic);
                 }
-
-                selectedPic.MouseUp -= picCard_MouseUp;
-                selectedPic.MouseDown -= picCard_MouseDown;
-                selectedPic.MouseMove -= picCard_MouseMove;
             }
         }
 
