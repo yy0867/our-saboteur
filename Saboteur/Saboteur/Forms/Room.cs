@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using System.IO;
 using System.Threading;
 using PacketLibrary;
-using System.Drawing;
 
 namespace Saboteur.Forms
 {

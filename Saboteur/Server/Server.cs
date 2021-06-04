@@ -31,16 +31,18 @@ namespace Server
         private int roomCode = 1000;
         private bool isRoomExist = false;
 
-        private object lockObject = new object();
-        private Semaphore sem = new Semaphore(1, 1);
+        private int curTurnPlayer = 0;      // 현재 Turn인 Player
+
+        //private object lockObject = new object();
+        //private Semaphore sem = new Semaphore(1, 1);
 
 
         /* -------------------- Map, Card -------------------- */
         private Map fields;
         private List<Card> deckCards;
-        private List<Card> frontUsedCards;
-        private List<Card> backUsedCards;
-        private List<PlayerState> playersState;
+        private List<Card> frontUsedCards = new List<Card>();
+        private List<Card> backUsedCards = new List<Card>();
+        private List<PlayerState> playersState = new List<PlayerState>();
 
         private bool isFirstGameInfo = true;
 
@@ -96,6 +98,14 @@ namespace Server
             return -1;
         }
 
+        private int GetNextTurnPlayer()
+        {
+            this.curTurnPlayer++;
+            if (this.curTurnPlayer == this.numConnectedClient)
+                this.curTurnPlayer = 0;
+            return this.curTurnPlayer;
+        }
+
         // ########## Receive Functions #########
 
         private void ProcessRoomInfo(RoomInfo receiveInfo)
@@ -144,19 +154,37 @@ namespace Server
         private void ProcessGameInfo(GameInfo receiveInfo)
         {
             GameInfo sendGameInfo = new GameInfo();
+            Map fields = new Map();
             Dealer dealer = new Dealer(this.numConnectedClient);
-            dealer.CardInit();
-            
+            dealer.CardListInit();
+            dealer.DeckCardsInit();
+            bool[] roleArr = dealer.defineRole(this.connectedClients);
+
             // 게임 시작 직후 받은 GameInfo 패킷
             if (this.isFirstGameInfo)
             {
-                // 딜러가 각 클라이언트 GameInfo 셋팅
+                fields.MapInit();
+                this.fields = fields;
+                Dictionary<int, List<Card>> DicCardsPerPlayer = dealer.cardDivide();
+
                 for (int i = 0; i < this.numConnectedClient; i++)
                 {
                     sendGameInfo.clientID = i;
-                    sendGameInfo.holdingCards = dealer.cardLIst;
-                    
+                    sendGameInfo.holdingCards = DicCardsPerPlayer[i];
+                    sendGameInfo.fields = fields;
+                    sendGameInfo.deckCards = dealer.deckCards;
 
+                    // deckCards 계산 처리
+
+                    if (i == 0)     // 0번 플레이어부터 Turn 시작
+                        sendGameInfo.isTurn = true;
+                    else
+                        sendGameInfo.isTurn = false;
+
+                    if (roleArr[i])
+                        sendGameInfo.isSaboteur = true;
+                    else
+                        sendGameInfo.isSaboteur = false;
 
                     Send(i, sendGameInfo);
                 }
