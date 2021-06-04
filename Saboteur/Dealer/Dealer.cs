@@ -10,6 +10,7 @@ using PacketLibrary;
 namespace DealerLibrary
 {
     // 카드 개수
+    [Serializable]
     static class CardNumInfo
     {
         public const int TOTAL_CARD = 67;
@@ -24,12 +25,14 @@ namespace DealerLibrary
         public const int CAVE_CARD = 40;
     }
 
+    [Serializable]
     public static class JOB
     {
         public const bool MINER = false;
         public const bool SABOTUER = true;
     }
 
+    [Serializable]
     public class Dealer
     {
         private int playerNum;

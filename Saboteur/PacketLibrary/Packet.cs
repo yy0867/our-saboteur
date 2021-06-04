@@ -92,6 +92,7 @@ namespace PacketLibrary
         }
     }
 
+    [Serializable]
     public class PlayerState
     {
         public bool isDestroyedPickaxe;
@@ -119,6 +120,17 @@ namespace PacketLibrary
         public GameInfo()
         {
             this.Type = (int)PacketType.GameInfo;
+
+            this.isSaboteur = false;
+            this.isTurn = false;
+            this.message = "";
+
+            this.fields = new Map();
+            this.holdingCards = new List<Card>();
+            this.deckCards = new List<Card>();
+            this.frontUsedCards = new List<Card>();
+            this.backUsedCards = new List<Card>();
+            this.playersState = new List<PlayerState>();
         }
     }
 }

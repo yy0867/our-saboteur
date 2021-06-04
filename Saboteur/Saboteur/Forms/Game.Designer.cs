@@ -40,14 +40,7 @@ namespace Saboteur.Forms
             this.player_0_cart = new System.Windows.Forms.PictureBox();
             this.player0_icon = new System.Windows.Forms.PictureBox();
             this.pictureBox10 = new System.Windows.Forms.PictureBox();
-            this.picCard3 = new System.Windows.Forms.PictureBox();
-            this.picCard4 = new System.Windows.Forms.PictureBox();
-            this.picCard5 = new System.Windows.Forms.PictureBox();
             this.pictureBox9 = new System.Windows.Forms.PictureBox();
-            this.picCard6 = new System.Windows.Forms.PictureBox();
-            this.picCard7 = new System.Windows.Forms.PictureBox();
-            this.picCard2 = new System.Windows.Forms.PictureBox();
-            this.picCard1 = new System.Windows.Forms.PictureBox();
             this.picFieldBackground = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.player_1_cart = new System.Windows.Forms.PictureBox();
@@ -86,14 +79,7 @@ namespace Saboteur.Forms
             ((System.ComponentModel.ISupportInitialize)(this.player_0_cart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player0_icon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picCard3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picCard4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picCard5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picCard6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picCard7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picCard2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picCard1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picFieldBackground)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_1_cart)).BeginInit();
@@ -223,45 +209,6 @@ namespace Saboteur.Forms
             this.pictureBox10.TabIndex = 10;
             this.pictureBox10.TabStop = false;
             // 
-            // picCard3
-            // 
-            this.picCard3.Image = global::Saboteur.Properties.Resources.card;
-            this.picCard3.Location = new System.Drawing.Point(247, 897);
-            this.picCard3.Name = "picCard3";
-            this.picCard3.Size = new System.Drawing.Size(77, 125);
-            this.picCard3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picCard3.TabIndex = 8;
-            this.picCard3.TabStop = false;
-            this.picCard3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseDown);
-            this.picCard3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseMove);
-            this.picCard3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseUp);
-            // 
-            // picCard4
-            // 
-            this.picCard4.Image = global::Saboteur.Properties.Resources.card;
-            this.picCard4.Location = new System.Drawing.Point(360, 897);
-            this.picCard4.Name = "picCard4";
-            this.picCard4.Size = new System.Drawing.Size(77, 125);
-            this.picCard4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picCard4.TabIndex = 7;
-            this.picCard4.TabStop = false;
-            this.picCard4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseDown);
-            this.picCard4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseMove);
-            this.picCard4.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseUp);
-            // 
-            // picCard5
-            // 
-            this.picCard5.Image = global::Saboteur.Properties.Resources.card;
-            this.picCard5.Location = new System.Drawing.Point(472, 897);
-            this.picCard5.Name = "picCard5";
-            this.picCard5.Size = new System.Drawing.Size(77, 125);
-            this.picCard5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picCard5.TabIndex = 6;
-            this.picCard5.TabStop = false;
-            this.picCard5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseDown);
-            this.picCard5.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseMove);
-            this.picCard5.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseUp);
-            // 
             // pictureBox9
             // 
             this.pictureBox9.Image = global::Saboteur.Properties.Resources.card;
@@ -271,58 +218,6 @@ namespace Saboteur.Forms
             this.pictureBox9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox9.TabIndex = 9;
             this.pictureBox9.TabStop = false;
-            // 
-            // picCard6
-            // 
-            this.picCard6.Image = global::Saboteur.Properties.Resources.card;
-            this.picCard6.Location = new System.Drawing.Point(586, 897);
-            this.picCard6.Name = "picCard6";
-            this.picCard6.Size = new System.Drawing.Size(77, 125);
-            this.picCard6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picCard6.TabIndex = 5;
-            this.picCard6.TabStop = false;
-            this.picCard6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseDown);
-            this.picCard6.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseMove);
-            this.picCard6.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseUp);
-            // 
-            // picCard7
-            // 
-            this.picCard7.Image = global::Saboteur.Properties.Resources.card;
-            this.picCard7.Location = new System.Drawing.Point(698, 897);
-            this.picCard7.Name = "picCard7";
-            this.picCard7.Size = new System.Drawing.Size(77, 125);
-            this.picCard7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picCard7.TabIndex = 4;
-            this.picCard7.TabStop = false;
-            this.picCard7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseDown);
-            this.picCard7.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseMove);
-            this.picCard7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseUp);
-            // 
-            // picCard2
-            // 
-            this.picCard2.Image = global::Saboteur.Properties.Resources.card;
-            this.picCard2.Location = new System.Drawing.Point(135, 897);
-            this.picCard2.Name = "picCard2";
-            this.picCard2.Size = new System.Drawing.Size(77, 125);
-            this.picCard2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picCard2.TabIndex = 3;
-            this.picCard2.TabStop = false;
-            this.picCard2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseDown);
-            this.picCard2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseMove);
-            this.picCard2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseUp);
-            // 
-            // picCard1
-            // 
-            this.picCard1.Image = global::Saboteur.Properties.Resources.card;
-            this.picCard1.Location = new System.Drawing.Point(24, 897);
-            this.picCard1.Name = "picCard1";
-            this.picCard1.Size = new System.Drawing.Size(77, 125);
-            this.picCard1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picCard1.TabIndex = 2;
-            this.picCard1.TabStop = false;
-            this.picCard1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseDown);
-            this.picCard1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseMove);
-            this.picCard1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picCard_MouseUp);
             // 
             // picFieldBackground
             // 
@@ -774,15 +669,8 @@ namespace Saboteur.Forms
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblDeckNum);
             this.Controls.Add(this.pictureBox10);
-            this.Controls.Add(this.picCard3);
             this.Controls.Add(this.lblDeck);
-            this.Controls.Add(this.picCard4);
-            this.Controls.Add(this.picCard5);
             this.Controls.Add(this.pictureBox9);
-            this.Controls.Add(this.picCard6);
-            this.Controls.Add(this.picCard7);
-            this.Controls.Add(this.picCard2);
-            this.Controls.Add(this.picCard1);
             this.Controls.Add(this.picFieldBackground);
             this.DoubleBuffered = true;
             this.Name = "Game";
@@ -793,14 +681,7 @@ namespace Saboteur.Forms
             ((System.ComponentModel.ISupportInitialize)(this.player_0_cart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player0_icon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picCard3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picCard4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picCard5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picCard6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picCard7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picCard2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picCard1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picFieldBackground)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_1_cart)).EndInit();
@@ -833,13 +714,6 @@ namespace Saboteur.Forms
 
         #endregion
         private System.Windows.Forms.PictureBox picFieldBackground;
-        private System.Windows.Forms.PictureBox picCard1;
-        private System.Windows.Forms.PictureBox picCard2;
-        private System.Windows.Forms.PictureBox picCard7;
-        private System.Windows.Forms.PictureBox picCard6;
-        private System.Windows.Forms.PictureBox picCard5;
-        private System.Windows.Forms.PictureBox picCard4;
-        private System.Windows.Forms.PictureBox picCard3;
         private System.Windows.Forms.PictureBox pictureBox10;
         private System.Windows.Forms.PictureBox pictureBox9;
         private System.Windows.Forms.Label label1;
