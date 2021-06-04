@@ -168,6 +168,12 @@ namespace DealerLibrary
             deckCards = Suffle(deckCards);
         }
 
+        public void RemoveCardsFromDeck(List<Card> usedCards)
+        {
+            foreach (var card in usedCards)
+                deckCards.Remove(card);
+        }
+
         // 인자 bool[] players: 
         public bool[] defineRole(bool[] players)
         {

@@ -165,7 +165,10 @@ namespace Server
             {
                 fields.MapInit();
                 this.fields = fields;
+                
                 Dictionary<int, List<Card>> DicCardsPerPlayer = dealer.cardDivide();
+                for (int i = 0; i < this.numConnectedClient; i++)
+                    dealer.RemoveCardsFromDeck(DicCardsPerPlayer[i]);
 
                 for (int i = 0; i < this.numConnectedClient; i++)
                 {
@@ -173,8 +176,6 @@ namespace Server
                     sendGameInfo.holdingCards = DicCardsPerPlayer[i];
                     sendGameInfo.fields = fields;
                     sendGameInfo.deckCards = dealer.deckCards;
-
-                    // deckCards 계산 처리
 
                     if (i == 0)     // 0번 플레이어부터 Turn 시작
                         sendGameInfo.isTurn = true;
