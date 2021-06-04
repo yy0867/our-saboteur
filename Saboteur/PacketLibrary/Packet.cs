@@ -24,7 +24,7 @@ namespace PacketLibrary
         public int Length;
         public int Type;
         public int clientID;
-        public const int MAX_SIZE = 1024 * 4;
+        public const int MAX_SIZE = 1024 * 20;
         public const int isEmpty = -1;
 
         public Packet()

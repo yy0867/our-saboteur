@@ -90,6 +90,7 @@ namespace CardLibrary
             isConnected = false;
             cType = CType.CAVE;
         }
+
         public CaveCard(Dir dir, bool isConnected)
         {
             this.dir = dir;

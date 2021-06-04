@@ -153,6 +153,8 @@ namespace Server
 
         private void ProcessGameInfo(GameInfo receiveInfo)
         {
+            Console.WriteLine("Client {0}으로부터 GameInfo 패킷 Receive", receiveInfo.clientID);
+
             GameInfo sendGameInfo = new GameInfo();
             Map fields = new Map();
             Dealer dealer = new Dealer(this.numConnectedClient);
@@ -195,8 +197,6 @@ namespace Server
             // 게임 진행: Turn만 정해서 GameInfo 패킷 Send
             else
             {
-                Console.WriteLine("Client {0}으로부터 GameInfo 패킷 Receive", receiveInfo.clientID);
-
                 int nextTurnPlayer = GetNextTurnPlayer();
 
                 for (int i = 0; i < this.numConnectedClient; i++)

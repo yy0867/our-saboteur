@@ -7,14 +7,17 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Net.Sockets;
 using PacketLibrary;
+using CardLibrary;
+using MapLibrary;
+using DealerLibrary;
 
 namespace ClientTest
 {
     class Client
     {
         private static NetworkStream networkStream;
-        private static byte[] sendBuffer = new byte[1024 * 4];
-        private static byte[] receiveBuffer = new byte[1024 * 4];
+        private static byte[] sendBuffer = new byte[Packet.MAX_SIZE];
+        private static byte[] receiveBuffer = new byte[Packet.MAX_SIZE];
 
         public static RoomInfo PacketRoomInfo;
 
@@ -32,9 +35,8 @@ namespace ClientTest
             TcpClient client = null;
             try
             {
-                //IPAddress serverIP = IPAddress.Parse("192.168.0.6");
                 IPAddress serverIP = IPAddress.Parse("127.0.0.1");
-                int serverPort = 7777;
+                int serverPort = 11000;
                 client = new TcpClient();
                 client.Connect(serverIP, serverPort);
 
