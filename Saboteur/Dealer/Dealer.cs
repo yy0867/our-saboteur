@@ -7,7 +7,7 @@ using CardLibrary;
 using MapLibrary;
 using PacketLibrary;
 
-namespace Dealer
+namespace DealerLibrary
 {
     static class CardNumInfo
     {
@@ -30,7 +30,7 @@ namespace Dealer
 
     public class Dealer
     {
-        static public List<Card> cardLIst = new List<Card>();
+        public List<Card> cardList = new List<Card>();
         private int playerNum;
         public int totalCard { get; set; }
         public int dtLantern { get; set; }
@@ -42,6 +42,7 @@ namespace Dealer
         public int mapCardNum { get; set; }
         public int rockfallCardNum { get; set; }
         public int caveCardNum { get; set; }
+
         public Dealer(int playerNum)
         {
             this.playerNum = playerNum;
@@ -59,57 +60,56 @@ namespace Dealer
 
         public void CardInit()
         {
-            cardLIst.Add(new CaveCard(Dir.RIGHTDOWN, false));
-            cardLIst.Add(new CaveCard(Dir.LEFTDOWN, false));
-            cardLIst.Add(new CaveCard(Dir.DOWNUP, false));
-            cardLIst.Add(new CaveCard(Dir.RIGHT, false));
-            cardLIst.Add(new CaveCard(Dir.UP, false));
-            cardLIst.Add(new CaveCard(Dir.NOLEFT, false));
-            cardLIst.Add(new CaveCard(Dir.ALL, false));
-            cardLIst.Add(new CaveCard(Dir.RIGHTLEFT, false));
-            cardLIst.Add(new CaveCard(Dir.NODOWN, false));
+            cardList.Add(new CaveCard(Dir.RIGHTDOWN, false));
+            cardList.Add(new CaveCard(Dir.LEFTDOWN, false));
+            cardList.Add(new CaveCard(Dir.DOWNUP, false));
+            cardList.Add(new CaveCard(Dir.RIGHT, false));
+            cardList.Add(new CaveCard(Dir.UP, false));
+            cardList.Add(new CaveCard(Dir.NOLEFT, false));
+            cardList.Add(new CaveCard(Dir.ALL, false));
+            cardList.Add(new CaveCard(Dir.RIGHTLEFT, false));
+            cardList.Add(new CaveCard(Dir.NODOWN, false));
             for(int i = 0; i<4; i++)
-                cardLIst.Add(new CaveCard(Dir.DOWNUP, true));
+                cardList.Add(new CaveCard(Dir.DOWNUP, true));
             for(int i = 0; i<5; i++)
-                cardLIst.Add(new CaveCard(Dir.NORIGHT, true));
+                cardList.Add(new CaveCard(Dir.NORIGHT, true));
             for(int i = 0; i < 5; i++)
-                cardLIst.Add(new CaveCard(Dir.ALL, true));
+                cardList.Add(new CaveCard(Dir.ALL, true));
             for(int i = 0; i<5; i++)
-                cardLIst.Add(new CaveCard(Dir.NOUP, true));
+                cardList.Add(new CaveCard(Dir.NOUP, true));
             for(int i = 0; i < 4; i++)
-                cardLIst.Add(new CaveCard(Dir.RIGHTDOWN, true));
+                cardList.Add(new CaveCard(Dir.RIGHTDOWN, true));
             for(int i = 0; i<5; i++)
-                cardLIst.Add(new CaveCard(Dir.LEFTDOWN, true));
+                cardList.Add(new CaveCard(Dir.LEFTDOWN, true));
             for(int i = 0; i<3; i++)
-                cardLIst.Add(new CaveCard(Dir.RIGHTLEFT, true));
+                cardList.Add(new CaveCard(Dir.RIGHTLEFT, true));
             //굴카드 채움
 
             for (int i = 0; i < 6; i++)
-                cardLIst.Add(new MapCard()); // 맵카드
+                cardList.Add(new MapCard()); // 맵카드
 
             for (int i = 0; i < 3; i++)
-                cardLIst.Add(new RockDownCard()); //낙석카드
+                cardList.Add(new RockDownCard()); //낙석카드
 
             for(int i = 0; i<3; i++)
-                cardLIst.Add(new EquipmentCard(CType.EQ_DESTRUCTION, Tool.CART));
+                cardList.Add(new EquipmentCard(CType.EQ_DESTRUCTION, Tool.CART));
             for (int i = 0; i < 3; i++)
-                cardLIst.Add(new EquipmentCard(CType.EQ_DESTRUCTION, Tool.LATTERN));
+                cardList.Add(new EquipmentCard(CType.EQ_DESTRUCTION, Tool.LATTERN));
             for (int i = 0; i < 3; i++)
-                cardLIst.Add(new EquipmentCard(CType.EQ_DESTRUCTION, Tool.PICKAXE));
+                cardList.Add(new EquipmentCard(CType.EQ_DESTRUCTION, Tool.PICKAXE));
             for (int i = 0; i < 2; i++) 
-                cardLIst.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.CART));
+                cardList.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.CART));
             for (int i = 0; i < 2; i++)
-                cardLIst.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.LATTERN));
+                cardList.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.LATTERN));
             for (int i = 0; i < 2; i++)
-                cardLIst.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.PICKAXE));
-            cardLIst.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.PICKLATTERN));
-            cardLIst.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.PICKCART));
-            cardLIst.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.LATTERNCART));
+                cardList.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.PICKAXE));
+            cardList.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.PICKLATTERN));
+            cardList.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.PICKCART));
+            cardList.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.LATTERNCART));
             // 도구카드(디버프 & 버프)
-            cardLIst = Suffle(cardLIst);
-
-
+            cardList = Suffle(cardList);
         }
+
         public bool[] defineRole(bool[] players)
         {
             int playerCount = 0;
@@ -145,9 +145,7 @@ namespace Dealer
             jobList = Suffle(jobList);
 
             return jobList.ToArray();
-
         }
-
         
         public Dictionary<int, List<Card>> cardDivide()
         {
@@ -159,11 +157,11 @@ namespace Dealer
                 {
                     case 4:
                     case 5:
-                        cardDict.Add(i, cardLIst.GetRange(6*i, 6*(i+1)-1));
+                        cardDict.Add(i, cardList.GetRange(6*i, 6*(i+1)-1));
                         break;
                     case 6:
                     default:
-                        cardDict.Add(i, cardLIst.GetRange(5 * i, 5 * (i + 1) - 1));
+                        cardDict.Add(i, cardList.GetRange(5 * i, 5 * (i + 1) - 1));
                         break;
                 }
             }

@@ -10,6 +10,7 @@ using System.IO;
 using PacketLibrary;
 using CardLibrary;
 using MapLibrary;
+using DealerLibrary;
 
 namespace Server
 {
@@ -142,11 +143,23 @@ namespace Server
 
         private void ProcessGameInfo(GameInfo receiveInfo)
         {
+            GameInfo sendGameInfo = new GameInfo();
+            Dealer dealer = new Dealer(this.numConnectedClient);
+            dealer.CardInit();
+            
             // 게임 시작 직후 받은 GameInfo 패킷
             if (this.isFirstGameInfo)
             {
                 // 딜러가 각 클라이언트 GameInfo 셋팅
+                for (int i = 0; i < this.numConnectedClient; i++)
+                {
+                    sendGameInfo.clientID = i;
+                    sendGameInfo.holdingCards = dealer.cardLIst;
+                    
 
+
+                    Send(i, sendGameInfo);
+                }
 
                 this.isFirstGameInfo = false;
             }
@@ -155,7 +168,6 @@ namespace Server
             {
                 Console.WriteLine("Client {0}으로부터 GameInfo 패킷 Receive", receiveInfo.clientID);
 
-                GameInfo sendGameInfo = new GameInfo();
                 for (int i = 0; i < this.numConnectedClient; i++)
                 {
                     sendGameInfo.clientID = i;
@@ -163,63 +175,9 @@ namespace Server
                 }
 
 
-                //switch (receiveInfo.curUsedCard.getType())
-                //{
-                //    case CType.CAVE:
-                //        {
-                //            break;
-                //        }
 
-                //    case CType.MAP:
-                //        {
-                //            // (Client에서 알아서 보여줌)
-                //            ProcessMapCard(receiveInfo);
-                //            break;
-                //        }
-
-                //    case CType.ROCK_DOWN:
-                //        {
-                //            ProcessRockDown(receiveInfo);
-                //            break;
-                //        }
-
-                //    case CType.EQ_REPAIR:
-                //        {
-                //            // 도구 분류
-
-                //            break;
-                //        }
-
-                //    case CType.EQ_DESTRUCTION:
-                //        {
-                //            // 도구 분류
-
-                //            break;
-                //        }
-                //}
             }
         }
-
-        //private void ProcessMapCard(GameInfo receiveInfo)
-        //{
-        //    //this.deckCards.Remove((MapCard)receiveInfo.curUsedCard);
-        //    if (receiveInfo.isCardUsed)     // 카드 사용한 경우(front로 버림)
-        //        this.frontUsedCards.Add((MapCard)receiveInfo.curUsedCard);
-        //    else        // 카드 사용하지 않은 경우(back으로 버림)
-        //        this.backUsedCards.Add((MapCard)receiveInfo.curUsedCard);
-        //}
-
-        //private void ProcessRockDown(GameInfo receiveInfo)
-        //{
-        //    // Field에서 해당 길 파괴
-
-        //    //this.deckCards.Remove((RockDownCard)receiveInfo.curUsedCard);
-        //    if (receiveInfo.isCardUsed) {   // 카드 사용한 경우(front로 버림)
-        //        this.frontUsedCards.Add((RockDownCard)receiveInfo.curUsedCard);
-        //    }
-        //    else        // 카드 사용하지 않은 경우(back으로 버림)
-        //        this.backUsedCards.Add((RockDownCard)receiveInfo.curUsedCard);
-        //}
 
 
         // ########## Receive Functions - END #########
