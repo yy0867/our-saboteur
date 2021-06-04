@@ -223,13 +223,17 @@ namespace DealerLibrary
             {
                 switch (playerNum)
                 {
+                    case 3:
                     case 4:
                     case 5:
-                        cardDict.Add(i, cardList.GetRange(6*i, 6*(i+1)-1));
+                        cardDict.Add(i, cardList.GetRange(6 * i, 6));
                         break;
                     case 6:
+                    case 7:
+                        cardDict.Add(i, cardList.GetRange(5 * i, 5));
+                        break;
                     default:
-                        cardDict.Add(i, cardList.GetRange(5 * i, 5 * (i + 1) - 1));
+                        cardDict.Add(i, cardList.GetRange(4 * i, 4));
                         break;
                 }
             }

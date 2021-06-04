@@ -145,6 +145,7 @@ namespace Saboteur.Forms
             DrawCardOnField();
 
             hands = info.holdingCards;
+
             DrawHands(hands);
         }
 
@@ -259,7 +260,7 @@ namespace Saboteur.Forms
                 isConnected = true;
                 if (card is CaveCard)
                     isConnected = ((CaveCard)card).getIsConnected();
-                AddImage(location, GetCardImage(card), isConnected);
+                AddImage(location, GetCardImage(card), true);
                 location.X += (handPadding + cardWidth);
             }
         }
@@ -379,8 +380,18 @@ namespace Saboteur.Forms
                         cardImage = imgCards.Images[24];
                         break;
 
+                    case Dir.RIGHTUP:
+                        cardImage = imgCards.Images[24];
+                        Rotate(cardImage);
+                        break;
+
                     case Dir.RIGHTDOWN:
                         cardImage = imgCards.Images[26];
+                        break;
+
+                    case Dir.LEFTUP:
+                        cardImage = imgCards.Images[26];
+                        Rotate(cardImage);
                         break;
 
                     case Dir.RIGHTLEFT:
@@ -400,6 +411,11 @@ namespace Saboteur.Forms
                         cardImage = imgCards.Images[32];
                         break;
 
+                    case Dir.DOWN:
+                        cardImage = imgCards.Images[32];
+                        Rotate(cardImage);
+                        break;
+
                     case Dir.DOWNUP:
                         cardImage = imgCards.Images[34];
                         break;
@@ -409,10 +425,15 @@ namespace Saboteur.Forms
                         break;
 
                     case Dir.NODOWN:
+                        cardImage = imgCards.Images[37];
+                        Rotate(cardImage);
+                        break;
+
+                    case Dir.ALL:
                         cardImage = imgCards.Images[38];
                         break;
 
-                    case Dir.NONE:
+                    default:
                         cardImage = null;
                         break;
                 }
@@ -487,8 +508,8 @@ namespace Saboteur.Forms
 
             this.Invoke((MethodInvoker)(() => {
                 this.Controls.Add(pic);
+                pic.BringToFront();
             }));
-            pic.BringToFront();
 
             pictureBoxes.Add(pic);
 

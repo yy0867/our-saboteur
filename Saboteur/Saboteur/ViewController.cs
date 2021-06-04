@@ -22,31 +22,25 @@ namespace Saboteur
 
         public static void SwitchScreen(Screen screen)
         {
-            MainForm.mainForm.mainPanel.Controls.Clear();
-            switch (screen)
+            MainForm.mainForm.mainPanel.Invoke((MethodInvoker)(() =>
             {
-                case Screen.MainMenu:
-                    SetViewSize(false);
-                    MainForm.mainForm.mainPanel.Invoke((MethodInvoker)(() =>
-                    {
+                MainForm.mainForm.mainPanel.Controls.Clear();
+                switch (screen)
+                {
+                    case Screen.MainMenu:
+                        SetViewSize(false);
                         MainForm.mainForm.mainPanel.Controls.Add(ViewController.MainMenu);
-                    }));
-                    break;
-                case Screen.Game:
-                    SetViewSize(true);
-                    MainForm.mainForm.mainPanel.Invoke((MethodInvoker)(() =>
-                    {
+                        break;
+                    case Screen.Game:
+                        SetViewSize(true);
                         MainForm.mainForm.mainPanel.Controls.Add(ViewController.Game);
-                    }));
-                    break;
-                case Screen.Room:
-                    SetViewSize(false);
-                    MainForm.mainForm.mainPanel.Invoke((MethodInvoker)(() =>
-                    {
+                        break;
+                    case Screen.Room:
+                        SetViewSize(false);
                         MainForm.mainForm.mainPanel.Controls.Add(ViewController.Room);
-                    }));
-                    break;
-            }
+                        break;
+                }
+            }));
         }
 
         private static void SetViewSize(bool isGameForm)
