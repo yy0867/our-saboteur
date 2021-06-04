@@ -107,7 +107,6 @@ namespace PacketLibrary
         public string message;
         //public Card curUsedCard;            // 현재 사용한 카드
         //public bool isCardUsed;
-        // curUsedCard를 사용 했는지(front) or 버렸는지(back)
 
         public Map fields;                // 현재까지 놓여진 맵(필드), Dest Card 포함
         public List<Card> holdingCards;         // 해당 Player가 소지하고 있는 Card들

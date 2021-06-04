@@ -10,6 +10,7 @@ using System.IO;
 using PacketLibrary;
 using CardLibrary;
 using MapLibrary;
+using DealerLibrary;
 
 namespace Server
 {
@@ -30,16 +31,18 @@ namespace Server
         private int roomCode = 1000;
         private bool isRoomExist = false;
 
-        private object lockObject = new object();
-        private Semaphore sem = new Semaphore(1, 1);
+        private int curTurnPlayer = 0;      // 현재 Turn인 Player
+
+        //private object lockObject = new object();
+        //private Semaphore sem = new Semaphore(1, 1);
 
 
         /* -------------------- Map, Card -------------------- */
         private Map fields;
         private List<Card> deckCards;
-        private List<Card> frontUsedCards;
-        private List<Card> backUsedCards;
-        private List<PlayerState> playersState;
+        private List<Card> frontUsedCards = new List<Card>();
+        private List<Card> backUsedCards = new List<Card>();
+        private List<PlayerState> playersState = new List<PlayerState>();
 
         private bool isFirstGameInfo = true;
 
@@ -95,6 +98,14 @@ namespace Server
             return -1;
         }
 
+        private int GetNextTurnPlayer()
+        {
+            this.curTurnPlayer++;
+            if (this.curTurnPlayer == this.numConnectedClient)
+                this.curTurnPlayer = 0;
+            return this.curTurnPlayer;
+        }
+
         // ########## Receive Functions #########
 
         private void ProcessRoomInfo(RoomInfo receiveInfo)
@@ -142,84 +153,65 @@ namespace Server
 
         private void ProcessGameInfo(GameInfo receiveInfo)
         {
+            GameInfo sendGameInfo = new GameInfo();
+            Map fields = new Map();
+            Dealer dealer = new Dealer(this.numConnectedClient);
+            dealer.CardListInit();
+            dealer.DeckCardsInit();
+            bool[] roleArr = dealer.defineRole(this.connectedClients);
+
             // 게임 시작 직후 받은 GameInfo 패킷
             if (this.isFirstGameInfo)
             {
-                // 딜러가 각 클라이언트 GameInfo 셋팅
+                fields.MapInit();
+                this.fields = fields;
+                
+                Dictionary<int, List<Card>> DicCardsPerPlayer = dealer.cardDivide();
+                for (int i = 0; i < this.numConnectedClient; i++)
+                    dealer.RemoveCardsFromDeck(DicCardsPerPlayer[i]);
 
+                for (int i = 0; i < this.numConnectedClient; i++)
+                {
+                    sendGameInfo.clientID = i;
+                    sendGameInfo.holdingCards = DicCardsPerPlayer[i];
+                    sendGameInfo.fields = fields;
+                    sendGameInfo.deckCards = dealer.deckCards;
+
+                    if (i == 0)     // 0번 플레이어부터 Turn 시작
+                        sendGameInfo.isTurn = true;
+                    else
+                        sendGameInfo.isTurn = false;
+
+                    if (roleArr[i])
+                        sendGameInfo.isSaboteur = true;
+                    else
+                        sendGameInfo.isSaboteur = false;
+
+                    Send(i, sendGameInfo);
+                }
 
                 this.isFirstGameInfo = false;
             }
-            // 게임 진행
+            // 게임 진행: Turn만 정해서 GameInfo 패킷 Send
             else
             {
                 Console.WriteLine("Client {0}으로부터 GameInfo 패킷 Receive", receiveInfo.clientID);
 
-                GameInfo sendGameInfo = new GameInfo();
+                int nextTurnPlayer = GetNextTurnPlayer();
+
                 for (int i = 0; i < this.numConnectedClient; i++)
                 {
                     sendGameInfo.clientID = i;
+
+                    if (i == nextTurnPlayer)
+                        sendGameInfo.isTurn = true;
+                    else
+                        sendGameInfo.isTurn = false;
+
                     Send(i, sendGameInfo);
                 }
-
-
-                //switch (receiveInfo.curUsedCard.getType())
-                //{
-                //    case CType.CAVE:
-                //        {
-                //            break;
-                //        }
-
-                //    case CType.MAP:
-                //        {
-                //            // (Client에서 알아서 보여줌)
-                //            ProcessMapCard(receiveInfo);
-                //            break;
-                //        }
-
-                //    case CType.ROCK_DOWN:
-                //        {
-                //            ProcessRockDown(receiveInfo);
-                //            break;
-                //        }
-
-                //    case CType.EQ_REPAIR:
-                //        {
-                //            // 도구 분류
-
-                //            break;
-                //        }
-
-                //    case CType.EQ_DESTRUCTION:
-                //        {
-                //            // 도구 분류
-
-                //            break;
-                //        }
-                //}
             }
         }
-
-        //private void ProcessMapCard(GameInfo receiveInfo)
-        //{
-        //    //this.deckCards.Remove((MapCard)receiveInfo.curUsedCard);
-        //    if (receiveInfo.isCardUsed)     // 카드 사용한 경우(front로 버림)
-        //        this.frontUsedCards.Add((MapCard)receiveInfo.curUsedCard);
-        //    else        // 카드 사용하지 않은 경우(back으로 버림)
-        //        this.backUsedCards.Add((MapCard)receiveInfo.curUsedCard);
-        //}
-
-        //private void ProcessRockDown(GameInfo receiveInfo)
-        //{
-        //    // Field에서 해당 길 파괴
-
-        //    //this.deckCards.Remove((RockDownCard)receiveInfo.curUsedCard);
-        //    if (receiveInfo.isCardUsed) {   // 카드 사용한 경우(front로 버림)
-        //        this.frontUsedCards.Add((RockDownCard)receiveInfo.curUsedCard);
-        //    }
-        //    else        // 카드 사용하지 않은 경우(back으로 버림)
-        //        this.backUsedCards.Add((RockDownCard)receiveInfo.curUsedCard);
-        //}
 
 
         // ########## Receive Functions - END #########
