@@ -105,29 +105,41 @@ namespace MapLibrary
         public bool CanBeConntectedSurrounding(Point point, CaveCard cave)
         {
             int r = point.R, c = point.C;
-            bool result = false;
+            bool result = true;
+            bool isolated = true;
 
             if (!isValidated(point)) return false;
 
-            if ((r > 0 && !caveCards[r - 1, c].isEmpty()) && 
-                (caveCards[r - 1, c].getDir() & Dir.DOWN) == Dir.DOWN &&
-                (cave.getDir() & Dir.UP) == Dir.UP)
-                result = true;
+            if (r > 0 && !caveCards[r - 1, c].isEmpty()) 
+            {
+                isolated = false;
+                if ((cave.getDir() & Dir.UP) == Dir.UP)
+                    result &= (caveCards[r - 1, c].getDir() & Dir.DOWN) == Dir.DOWN;
+            }
 
-            if ((c > 0 && !caveCards[r, c - 1].isEmpty()) && 
-                (caveCards[r, c - 1].getDir() & Dir.RIGHT) == Dir.RIGHT &&
-                (cave.getDir() & Dir.LEFT) == Dir.LEFT)
-                result = true;
+            if (c > 0 && !caveCards[r, c - 1].isEmpty())
+            {
+                isolated = false;
+                if ((cave.getDir() & Dir.LEFT) == Dir.LEFT)
+                    result &= (caveCards[r, c - 1].getDir() & Dir.RIGHT) == Dir.RIGHT;
+            }
 
-            if (r < CONST.MAP_ROW - 1 && (!caveCards[r + 1, c].isEmpty()) && 
-                (caveCards[r + 1, c].getDir() & Dir.UP) == Dir.UP &&
-                (cave.getDir() & Dir.DOWN) == Dir.DOWN)
-                result = true;
+            if (r < CONST.MAP_ROW - 1 && !caveCards[r + 1, c].isEmpty())
+            {
+                isolated = false;
+                if ((cave.getDir() & Dir.DOWN) == Dir.DOWN)
+                    result &= (caveCards[r + 1, c].getDir() & Dir.UP) == Dir.UP;
+            }
 
-            if (c < CONST.MAP_COL - 1 && (!caveCards[r, c + 1].isEmpty()) &&
-                (caveCards[r, c + 1].getDir() & Dir.LEFT) == Dir.LEFT &&
-                (cave.getDir() & Dir.RIGHT) == Dir.RIGHT)
-                result = true;
+            if (c < CONST.MAP_COL - 1 && !caveCards[r, c + 1].isEmpty())
+            {
+                isolated = false;
+                if ((cave.getDir() & Dir.RIGHT) == Dir.RIGHT)
+                    result &= (caveCards[r, c + 1].getDir() & Dir.LEFT) == Dir.LEFT;
+            }
+
+            if (isolated)
+                return false;
 
             return result;
         }      
