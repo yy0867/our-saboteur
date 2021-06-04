@@ -8,6 +8,7 @@ using System.Collections;
 
 namespace MapLibrary
 {
+    [Serializable]
     public static class CONST
     {
         public const int MAP_COL = 17; // 행
@@ -18,6 +19,7 @@ namespace MapLibrary
         public const int DESTINATION_C = 10;
     }
 
+    [Serializable]
     public class Point
     {
         public int R { get; set; }
@@ -29,6 +31,8 @@ namespace MapLibrary
             this.C = C;
         }
     }
+
+    [Serializable]
     public class Map
     {
         private CaveCard[,] caveCards;

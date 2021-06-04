@@ -103,6 +103,7 @@ namespace Saboteur
                         ViewController.Room.updateInfo(packet);
                         break;
                     case (int)PacketType.GameInfo:  // GameInfo 패킷 받으면
+                        ViewController.SwitchScreen(Screen.Game);
                         ViewController.Game.updateInfo(packet);
                         break;
                         // 나중에 패킷 타입 추가되면 작성하기 ##########################

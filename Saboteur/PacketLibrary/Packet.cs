@@ -92,6 +92,7 @@ namespace PacketLibrary
         }
     }
 
+    [Serializable]
     public class PlayerState
     {
         public bool isDestroyedPickaxe;

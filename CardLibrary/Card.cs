@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CardLibrary
 {
+    [Serializable]
     static class NumInfo
     {
         public const int TOTAL_CARD = 67;
@@ -61,6 +62,7 @@ namespace CardLibrary
         LATTERNCART
     }
 
+    [Serializable]
     public class Card
     {
         protected CType cType = CType.NONE;
@@ -76,6 +78,7 @@ namespace CardLibrary
         }
     }
 
+    [Serializable]
     public class CaveCard : Card
     {
         protected bool isConnected;
@@ -176,6 +179,7 @@ namespace CardLibrary
         }
     }
 
+    [Serializable]
     public class StartCard : CaveCard
     {
         public StartCard()
@@ -185,6 +189,7 @@ namespace CardLibrary
         }
     }
 
+    [Serializable]
     public class DestCard : CaveCard
     {
         public bool isOpen { get; set; }
@@ -205,10 +210,13 @@ namespace CardLibrary
             return isGoldCave;
         }
     }
+
+    [Serializable]
     public class ActionCard : Card
     {
     }
 
+    [Serializable]
     public class EquipmentCard : ActionCard
     {
         protected Tool tool;
@@ -219,6 +227,7 @@ namespace CardLibrary
         }
     }
 
+    [Serializable]
     public class RockDownCard : ActionCard {
         public RockDownCard()
         {
@@ -240,6 +249,7 @@ namespace CardLibrary
 
     }
     */
+    [Serializable]
     public class MapCard : ActionCard
     {
         public MapCard()
