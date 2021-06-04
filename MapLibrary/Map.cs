@@ -29,6 +29,8 @@ namespace MapLibrary
             this.C = C;
         }
     }
+
+    [Serializable]
     public class Map
     {
         private CaveCard[,] caveCards;

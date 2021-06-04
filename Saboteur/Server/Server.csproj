@@ -59,6 +59,10 @@
       <Project>{87018293-ac98-4906-bb03-b193897d612f}</Project>
       <Name>MapLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dealer\Dealer.csproj">
+      <Project>{cdd1de71-db0d-47dd-a082-047c6401519c}</Project>
+      <Name>Dealer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PacketLibrary\PacketLibrary.csproj">
       <Project>{80ebbea2-b16a-4882-96d3-b651cdaf130a}</Project>
       <Name>PacketLibrary</Name>
