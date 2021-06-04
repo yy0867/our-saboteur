@@ -102,29 +102,31 @@ namespace MapLibrary
                 caveCards[point.R, point.C] = cave;
             }
         }
-        private bool CanBeConntectedSurrounding(Point point, CaveCard cave)
+        public bool CanBeConntectedSurrounding(Point point, CaveCard cave)
         {
             int r = point.R, c = point.C;
             bool result = false;
 
-            if (!(r > 0 && !caveCards[r - 1, c].isEmpty() && 
-                (caveCards[r - 1, c].getDir() & Dir.RIGHT) == Dir.NONE &&
-                (cave.getDir() & Dir.LEFT) == Dir.NONE))
+            if (!isValidated(point)) return false;
+
+            if ((r > 0 && !caveCards[r - 1, c].isEmpty()) && 
+                (caveCards[r - 1, c].getDir() & Dir.DOWN) == Dir.DOWN &&
+                (cave.getDir() & Dir.UP) == Dir.UP)
                 result = true;
 
-            if (!(c > 0 && !caveCards[r, c - 1].isEmpty() && 
-                (caveCards[r, c - 1].getDir() & Dir.DOWN) == Dir.NONE &&
-                (cave.getDir() & Dir.UP) == Dir.NONE))
+            if ((c > 0 && !caveCards[r, c - 1].isEmpty()) && 
+                (caveCards[r, c - 1].getDir() & Dir.RIGHT) == Dir.RIGHT &&
+                (cave.getDir() & Dir.LEFT) == Dir.LEFT)
                 result = true;
 
-            if (!(r < CONST.MAP_ROW - 1 && !caveCards[r + 1, c].isEmpty() && 
-                (caveCards[r + 1, c].getDir() & Dir.LEFT) == Dir.NONE &&
-                (cave.getDir() & Dir.RIGHT) == Dir.NONE))
+            if (r < CONST.MAP_ROW - 1 && (!caveCards[r + 1, c].isEmpty()) && 
+                (caveCards[r + 1, c].getDir() & Dir.UP) == Dir.UP &&
+                (cave.getDir() & Dir.DOWN) == Dir.DOWN)
                 result = true;
 
-            if (!(c < CONST.MAP_COL - 1 && !caveCards[r, c + 1].isEmpty() &&
-                (caveCards[r, c + 1].getDir() & Dir.UP) == Dir.NONE &&
-                (cave.getDir() & Dir.DOWN) == Dir.NONE))
+            if (c < CONST.MAP_COL - 1 && (!caveCards[r, c + 1].isEmpty()) &&
+                (caveCards[r, c + 1].getDir() & Dir.LEFT) == Dir.LEFT &&
+                (cave.getDir() & Dir.RIGHT) == Dir.RIGHT)
                 result = true;
 
             return result;
@@ -171,7 +173,7 @@ namespace MapLibrary
         private bool isValidated(Point point) // 현재 좌표 유효성 검사
         {
             int r = point.R, c = point.C;
-            return (r >= 0 && r < CONST.MAP_ROW && c >= 0 && c < CONST.MAP_COL &&!isBlooked(point));
+            return (r >= 0 && r < CONST.MAP_ROW && c >= 0 && c < CONST.MAP_COL/* &&!isBlooked(point)*/);
         }
 
         private bool isBlooked(Point point)
