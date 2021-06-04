@@ -220,7 +220,7 @@ namespace CardLibrary
     [Serializable]
     public class EquipmentCard : ActionCard
     {
-        protected Tool tool;
+        public Tool tool;
         public EquipmentCard(CType cType, Tool tool)
         {
             this.cType = cType;
@@ -236,20 +236,6 @@ namespace CardLibrary
         }
     }
 
-    /*
-    public class EqDestructionCard : EquipmentCard
-    {
-        public EqDestructionCard(CType type)
-        {
-            this.type = type;
-        }
-    }
-
-    public class EqRepairCard : EquipmentCard
-    {
-
-    }
-    */
     [Serializable]
     public class MapCard : ActionCard
     {

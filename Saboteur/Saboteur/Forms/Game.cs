@@ -63,6 +63,7 @@ namespace Saboteur.Forms
         List<Card> hands = new List<Card>();
 
         // Graphics Instances
+        private bool IsStart = false;
         Graphics g = null;
         List<PictureBox> pictureBoxes = new List<PictureBox>();
 
@@ -107,8 +108,8 @@ namespace Saboteur.Forms
             mock.holdingCards.Add(new CaveCard(Dir.ALL, true));
             mock.holdingCards.Add(new CaveCard(Dir.LEFTDOWN, true));
             mock.holdingCards.Add(new CaveCard(Dir.UP, false));
-            mock.holdingCards.Add(new CaveCard(Dir.LEFT, true));
-            mock.holdingCards.Add(new CaveCard(Dir.NOLEFT, true));
+            mock.holdingCards.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.PICKLATTERN));
+            mock.holdingCards.Add(new EquipmentCard(CType.EQ_DESTRUCTION, Tool.CART));
             #endregion
 
             updateInfo(mock);
@@ -132,7 +133,7 @@ namespace Saboteur.Forms
             DrawCardOnField();
 
             #region Test
-            MockSendPacket();
+            //MockSendPacket();
             #endregion
         }
 
@@ -252,9 +253,13 @@ namespace Saboteur.Forms
         private void DrawHands(List<Card> holdingCards)
         {
             Point location = new Point(handPadding, 897);
+            bool isConnected;
 
             foreach (Card card in holdingCards) {
-                AddImage(location, GetCardImage(card), true);
+                isConnected = true;
+                if (card is CaveCard)
+                    isConnected = ((CaveCard)card).getIsConnected();
+                AddImage(location, GetCardImage(card), isConnected);
                 location.X += (handPadding + cardWidth);
             }
         }
@@ -426,7 +431,43 @@ namespace Saboteur.Forms
             }
             else if (card is ActionCard)
             {
+                if (card.getType() == CType.MAP)
+                    return imgCards.Images[15];
+                
+                else if (card.getType() == CType.ROCK_DOWN)
+                    return imgCards.Images[14];
+                
+                else if (card.getType() == CType.EQ_DESTRUCTION)
+                {
+                    switch (((EquipmentCard)card).tool)
+                    {
+                        case Tool.CART:
+                            return imgCards.Images[11];
+                        case Tool.LATTERN:
+                            return imgCards.Images[12];
+                        case Tool.PICKAXE:
+                            return imgCards.Images[13];
+                    }
+                }
 
+                else if (card.getType() == CType.EQ_REPAIR)
+                {
+                    switch (((EquipmentCard)card).tool)
+                    {
+                        case Tool.CART:
+                            return imgCards.Images[16];
+                        case Tool.LATTERN:
+                            return imgCards.Images[17];
+                        case Tool.LATTERNCART:
+                            return imgCards.Images[18];
+                        case Tool.PICKAXE:
+                            return imgCards.Images[19];
+                        case Tool.PICKCART:
+                            return imgCards.Images[20];
+                        case Tool.PICKLATTERN:
+                            return imgCards.Images[21];
+                    }
+                }
             }
             return null;
         }
@@ -441,10 +482,12 @@ namespace Saboteur.Forms
             pic.Size = new Size(cardWidth, cardHeight);
             pic.Image = cardImage;
             pic.BackColor = Color.Black;
-            pic.Parent = picFieldBackground;
+            //pic.Parent = picFieldBackground;
             pic.Tag = "Card";
 
-            this.Controls.Add(pic);
+            this.Invoke((MethodInvoker)(() => {
+                this.Controls.Add(pic);
+            }));
             pic.BringToFront();
 
             pictureBoxes.Add(pic);
@@ -455,6 +498,7 @@ namespace Saboteur.Forms
                 pic.MouseMove += new MouseEventHandler(this.picCard_MouseMove);
                 pic.MouseUp += new MouseEventHandler(this.picCard_MouseUp);
             }
+
         }
 
         private PictureBox FindPictureboxByLocation(Point location)

@@ -27,15 +27,24 @@ namespace Saboteur
             {
                 case Screen.MainMenu:
                     SetViewSize(false);
-                    MainForm.mainForm.mainPanel.Controls.Add(ViewController.MainMenu);
+                    MainForm.mainForm.mainPanel.Invoke((MethodInvoker)(() =>
+                    {
+                        MainForm.mainForm.mainPanel.Controls.Add(ViewController.MainMenu);
+                    }));
                     break;
                 case Screen.Game:
                     SetViewSize(true);
-                    MainForm.mainForm.mainPanel.Controls.Add(ViewController.Game);
+                    MainForm.mainForm.mainPanel.Invoke((MethodInvoker)(() =>
+                    {
+                        MainForm.mainForm.mainPanel.Controls.Add(ViewController.Game);
+                    }));
                     break;
                 case Screen.Room:
                     SetViewSize(false);
-                    MainForm.mainForm.mainPanel.Controls.Add(ViewController.Room);
+                    MainForm.mainForm.mainPanel.Invoke((MethodInvoker)(() =>
+                    {
+                        MainForm.mainForm.mainPanel.Controls.Add(ViewController.Room);
+                    }));
                     break;
             }
         }
