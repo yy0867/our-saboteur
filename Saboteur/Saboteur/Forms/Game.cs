@@ -149,27 +149,30 @@ namespace Saboteur.Forms
 
         private void picCard_MouseDown(object sender, MouseEventArgs e)
         {
-            selectedPic = (PictureBox)sender;
-            
-            int selectedIndex = GetHandIndexByLocation(selectedPic.Left + cardWidth / 2, selectedPic.Top / 2);
+            this.selectedPic = null;
+            this.selectedCard = null;
+
+            this.selectedPic = (PictureBox)sender;
+
+            int selectedIndex = GetHandIndexByLocation(this.selectedPic.Left + cardWidth / 2, this.selectedPic.Top / 2);
             if (selectedIndex != -1)
-                selectedCard = hands[selectedIndex];
+                this.selectedCard = hands[selectedIndex];
 
             isMouseDown = true;
             mouseDragPrev.SetPosition(e.X, e.Y);
-            mouseDragStart.SetPosition(selectedPic.Left, selectedPic.Top);
+            mouseDragStart.SetPosition(this.selectedPic.Left, this.selectedPic.Top);
 
             ShowGrid();
         }
 
         private void picCard_MouseMove(object sender, MouseEventArgs e)
         {
-            if (isMouseDown && selectedPic != null)
+            if (isMouseDown && this.selectedPic != null)
             {
-                selectedPic.Left += (e.X - mouseDragPrev.X);
-                selectedPic.Top += (e.Y - mouseDragPrev.Y);
+                this.selectedPic.Left += (e.X - mouseDragPrev.X);
+                this.selectedPic.Top += (e.Y - mouseDragPrev.Y);
 
-                SetPredictionRect(selectedPic.Left + e.X, selectedPic.Top + e.Y);
+                SetPredictionRect(this.selectedPic.Left + e.X, this.selectedPic.Top + e.Y);
             }
         }
 
@@ -177,19 +180,19 @@ namespace Saboteur.Forms
         private void ProcessGrid(Point gridPoint)
         {
             // is CaveCard
-            if (selectedCard is CaveCard)
+            if (this.selectedCard is CaveCard)
             {
-                Attach(gridPoint, (CaveCard)selectedCard);
+                Attach(gridPoint, (CaveCard)this.selectedCard);
             }
 
             // is RockDownCard
-            else if (selectedCard is ActionCard)
+            else if (this.selectedCard is ActionCard)
             {
 
             }
 
             // is MapCard
-            else if (selectedCard is MapCard)
+            else if (this.selectedCard is MapCard)
             {
 
             }
@@ -199,7 +202,6 @@ namespace Saboteur.Forms
         {
             if (this.isMouseDown && this.selectedPic != null)
             {
-                //MoveToStartPosition(card);
                 this.isMouseDown = false;
                 EraseGraphics();
 
@@ -209,7 +211,15 @@ namespace Saboteur.Forms
 
                 if (gridPoint.HasValue) // is in grid
                 {
-                    ProcessGrid((Point)gridPoint);
+                    if (!field.CanBeConntectedSurrounding(ConvertLocationToCoords(selectedPic.Left + e.X, selectedPic.Top + e.Y), (CaveCard)selectedCard))
+                    {
+                        MoveToStartPosition(selectedPic);
+                        return;
+                    }
+                    else
+                    {
+                        ProcessGrid((Point)gridPoint);
+                    }
                 }
 
                 //// Release on Player
@@ -229,11 +239,12 @@ namespace Saboteur.Forms
                 // ##################### ADD UP ########################
                 else
                 {
-                    MoveToStartPosition(this.selectedPic);
+                    MoveToStartPosition(selectedPic);
                 }
 
-                this.selectedPic = null;
-                this.selectedCard = null;
+                selectedPic.MouseUp -= picCard_MouseUp;
+                selectedPic.MouseDown -= picCard_MouseDown;
+                selectedPic.MouseMove -= picCard_MouseMove;
             }
         }
 
@@ -242,7 +253,7 @@ namespace Saboteur.Forms
         {
             Point location = new Point(handPadding, 897);
 
-            foreach (Card card in holdingCards) { 
+            foreach (Card card in holdingCards) {
                 AddImage(location, GetCardImage(card), true);
                 location.X += (handPadding + cardWidth);
             }
@@ -499,13 +510,13 @@ namespace Saboteur.Forms
                     if (curCard is StartCard)
                     {
                         AddImage(location, imgCards.Images[START_CARD_INDEX]);
-                    } 
+                    }
 
                     // Draw Dest Card
                     else if (curCard is DestCard)
                     {
                         AddImage(location, imgCards.Images["goal_back.png"]);
-                    } 
+                    }
 
                     // Draw Cave Card
                     else
@@ -529,6 +540,15 @@ namespace Saboteur.Forms
         }
 
         // ###### Grid Methods - Start ######
+        private MapLibrary.Point ConvertLocationToCoords(Point location)
+        {
+            return new MapLibrary.Point((location.Y - fieldTopPadding) / cardHeight, (location.X - fieldLeftPadding) / cardWidth);
+        }
+        private MapLibrary.Point ConvertLocationToCoords(int X, int Y)
+        {
+            return ConvertLocationToCoords(new Point(X, Y));
+        }
+
         private Point ConvertCoordsToLocation(int row, int col)
         {
             Point point = new Point();
@@ -559,7 +579,7 @@ namespace Saboteur.Forms
 
         private void SetPredictionRect(int X, int Y)
         {
-            if (selectedCard == null) return;
+            if (this.selectedCard == null) return;
 
             Point? gridPoint = GetGridPoint(X, Y);
 
@@ -571,14 +591,14 @@ namespace Saboteur.Forms
                     EraseGraphics();
                     ShowGrid();
 
-                    MapLibrary.Point coords = new MapLibrary.Point((Y - fieldTopPadding) / cardHeight, (X - fieldLeftPadding) / cardWidth);
+                    MapLibrary.Point coords = ConvertLocationToCoords(point);
 
                     rectPrev.X = point.X; rectPrev.Y = point.Y;
                     Rectangle rect = new Rectangle(point.X, point.Y, cardWidth, cardHeight);
 
                     Brush brush = new SolidBrush(Grid_Impossible);
 
-                    if (field.CanBeConntectedSurrounding(coords, (CaveCard)selectedCard))
+                    if (field.CanBeConntectedSurrounding(coords, (CaveCard)this.selectedCard))
                     {
                         brush = new SolidBrush(Grid_Possible);
                     }
@@ -595,8 +615,8 @@ namespace Saboteur.Forms
 
             field.MapAdd(new MapLibrary.Point(row, col), cave);
 
-            selectedPic.Left = X;
-            selectedPic.Top = Y;
+            this.selectedPic.Left = X;
+            this.selectedPic.Top = Y;
         }
 
         // override Attach()
