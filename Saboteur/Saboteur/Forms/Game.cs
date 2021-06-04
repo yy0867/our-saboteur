@@ -67,6 +67,9 @@ namespace Saboteur.Forms
         Graphics g = null;
         List<PictureBox> pictureBoxes = new List<PictureBox>();
 
+        // Network Variables
+        int clientID = 0;
+
         #region Test
         private void MockSendPacket()
         {
@@ -141,10 +144,16 @@ namespace Saboteur.Forms
         {
             GameInfo info = (GameInfo)packet;
 
-            field = info.fields;
+            this.clientID = info.clientID;
+
+            this.field = info.fields;
             DrawCardOnField();
 
-            hands = info.holdingCards;
+            this.hands = info.holdingCards;
+
+            int usedCardCount = info.backUsedCards.Count + info.frontUsedCards.Count;
+            this.lblUsedCardNum.Text = usedCardCount.ToString();
+            this.lblDeckNum.Text = info.deckCards.Count.ToString();
 
             DrawHands(hands);
         }
@@ -174,8 +183,18 @@ namespace Saboteur.Forms
                 this.selectedPic.Left += (e.X - mouseDragPrev.X);
                 this.selectedPic.Top += (e.Y - mouseDragPrev.Y);
 
-                SetPredictionRect(this.selectedPic.Left + e.X, this.selectedPic.Top + e.Y);
+                if (this.selectedCard is CaveCard)
+                    SetPredictionRect(this.selectedPic.Left + e.X, this.selectedPic.Top + e.Y);
+
+                //else if (this.selectedCard is ActionCard) 
+
             }
+        }
+
+        // Send Packet
+        private void Send(GameInfo packet)
+        {
+            packet.clientID = this.clientID;
         }
 
         // Release on Grid
@@ -213,7 +232,7 @@ namespace Saboteur.Forms
 
                 if (gridPoint.HasValue) // is in grid
                 {
-                    if (!field.CanBeConntectedSurrounding(ConvertLocationToCoords(selectedPic.Left + e.X, selectedPic.Top + e.Y), (CaveCard)selectedCard))
+                    if (!(this.selectedCard is CaveCard) || !field.CanBeConntectedSurrounding(ConvertLocationToCoords(selectedPic.Left + e.X, selectedPic.Top + e.Y), (CaveCard)selectedCard))
                     {
                         MoveToStartPosition(selectedPic);
                         return;
@@ -365,10 +384,6 @@ namespace Saboteur.Forms
 
                     case Dir.NOUP:
                         cardImage = imgCards.Images[29];
-                        break;
-
-                    case Dir.NONE:
-                        cardImage = null;
                         break;
                 }
             }

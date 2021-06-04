@@ -31,9 +31,9 @@ namespace Saboteur.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Game));
-            this.label1 = new System.Windows.Forms.Label();
-            this.lblDeck = new System.Windows.Forms.Label();
+            this.lblUsedCardNum = new System.Windows.Forms.Label();
             this.lblDeckNum = new System.Windows.Forms.Label();
+            this.lblDeck = new System.Windows.Forms.Label();
             this.lblUsedCard = new System.Windows.Forms.Label();
             this.player_0_pickaxe = new System.Windows.Forms.PictureBox();
             this.player_0_lantern = new System.Windows.Forms.PictureBox();
@@ -107,29 +107,17 @@ namespace Saboteur.Forms
             ((System.ComponentModel.ISupportInitialize)(this.player_6_pickaxe)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // lblUsedCardNum
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(1397, 967);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(24, 25);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "7";
-            // 
-            // lblDeck
-            // 
-            this.lblDeck.AutoSize = true;
-            this.lblDeck.BackColor = System.Drawing.Color.Transparent;
-            this.lblDeck.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblDeck.ForeColor = System.Drawing.Color.White;
-            this.lblDeck.Location = new System.Drawing.Point(1182, 967);
-            this.lblDeck.Name = "lblDeck";
-            this.lblDeck.Size = new System.Drawing.Size(36, 25);
-            this.lblDeck.TabIndex = 11;
-            this.lblDeck.Text = "40";
+            this.lblUsedCardNum.AutoSize = true;
+            this.lblUsedCardNum.BackColor = System.Drawing.Color.Transparent;
+            this.lblUsedCardNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblUsedCardNum.ForeColor = System.Drawing.Color.White;
+            this.lblUsedCardNum.Location = new System.Drawing.Point(1397, 967);
+            this.lblUsedCardNum.Name = "lblUsedCardNum";
+            this.lblUsedCardNum.Size = new System.Drawing.Size(24, 25);
+            this.lblUsedCardNum.TabIndex = 12;
+            this.lblUsedCardNum.Text = "7";
             // 
             // lblDeckNum
             // 
@@ -137,11 +125,23 @@ namespace Saboteur.Forms
             this.lblDeckNum.BackColor = System.Drawing.Color.Transparent;
             this.lblDeckNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblDeckNum.ForeColor = System.Drawing.Color.White;
-            this.lblDeckNum.Location = new System.Drawing.Point(1153, 921);
+            this.lblDeckNum.Location = new System.Drawing.Point(1182, 967);
             this.lblDeckNum.Name = "lblDeckNum";
-            this.lblDeckNum.Size = new System.Drawing.Size(104, 25);
-            this.lblDeckNum.TabIndex = 12;
-            this.lblDeckNum.Text = "남은 카드 수";
+            this.lblDeckNum.Size = new System.Drawing.Size(36, 25);
+            this.lblDeckNum.TabIndex = 11;
+            this.lblDeckNum.Text = "40";
+            // 
+            // lblDeck
+            // 
+            this.lblDeck.AutoSize = true;
+            this.lblDeck.BackColor = System.Drawing.Color.Transparent;
+            this.lblDeck.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblDeck.ForeColor = System.Drawing.Color.White;
+            this.lblDeck.Location = new System.Drawing.Point(1153, 921);
+            this.lblDeck.Name = "lblDeck";
+            this.lblDeck.Size = new System.Drawing.Size(104, 25);
+            this.lblDeck.TabIndex = 12;
+            this.lblDeck.Text = "남은 카드 수";
             // 
             // lblUsedCard
             // 
@@ -666,10 +666,10 @@ namespace Saboteur.Forms
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.lblDeckNum);
-            this.Controls.Add(this.pictureBox10);
+            this.Controls.Add(this.lblUsedCardNum);
             this.Controls.Add(this.lblDeck);
+            this.Controls.Add(this.pictureBox10);
+            this.Controls.Add(this.lblDeckNum);
             this.Controls.Add(this.pictureBox9);
             this.Controls.Add(this.picFieldBackground);
             this.DoubleBuffered = true;
@@ -716,9 +716,9 @@ namespace Saboteur.Forms
         private System.Windows.Forms.PictureBox picFieldBackground;
         private System.Windows.Forms.PictureBox pictureBox10;
         private System.Windows.Forms.PictureBox pictureBox9;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblDeck;
+        private System.Windows.Forms.Label lblUsedCardNum;
         private System.Windows.Forms.Label lblDeckNum;
+        private System.Windows.Forms.Label lblDeck;
         private System.Windows.Forms.Label lblUsedCard;
         private System.Windows.Forms.PictureBox player0_icon;
         private System.Windows.Forms.PictureBox player_0_cart;
