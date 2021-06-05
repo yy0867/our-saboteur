@@ -81,7 +81,6 @@ namespace Saboteur.Forms
         List<PictureBox> pictureBoxes = new List<PictureBox>();
         List<PictureBox> playerIcons = new List<PictureBox>();
         Dictionary<Tool, List<PictureBox>> toolIcons = new Dictionary<Tool, List<PictureBox>>();
-        //List<List<PictureBox>> toolIcons = new List<List<PictureBox>>();
 
 
 
@@ -744,6 +743,16 @@ namespace Saboteur.Forms
                 {
                     this.toolIcons[equipment.tool][index].Visible = true;
                 }
+            }));
+        }
+
+        private void setEquipmentIcon(int index, PlayerState state)
+        {
+            this.Invoke((MethodInvoker)(() =>
+            {
+                this.toolIcons[Tool.PICKAXE][index].Visible = state.isDestroyedPickaxe;
+                this.toolIcons[Tool.LATTERN][index].Visible = state.isDestroyedLantern;
+                this.toolIcons[Tool.CART][index].Visible = state.isDestroyedCart;
             }));
         }
 
