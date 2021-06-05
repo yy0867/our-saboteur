@@ -38,31 +38,31 @@ namespace Saboteur.Forms
             this.player_0_pickaxe = new System.Windows.Forms.PictureBox();
             this.player_0_lantern = new System.Windows.Forms.PictureBox();
             this.player_0_cart = new System.Windows.Forms.PictureBox();
-            this.player0_icon = new System.Windows.Forms.PictureBox();
+            this.player_0_icon = new System.Windows.Forms.PictureBox();
             this.picUsedCard = new System.Windows.Forms.PictureBox();
             this.picDeck = new System.Windows.Forms.PictureBox();
             this.picFieldBackground = new System.Windows.Forms.PictureBox();
-            this.player1_icon = new System.Windows.Forms.PictureBox();
+            this.player_1_icon = new System.Windows.Forms.PictureBox();
             this.player_1_cart = new System.Windows.Forms.PictureBox();
             this.player_1_lantern = new System.Windows.Forms.PictureBox();
             this.player_1_pickaxe = new System.Windows.Forms.PictureBox();
-            this.player2_icon = new System.Windows.Forms.PictureBox();
+            this.player_2_icon = new System.Windows.Forms.PictureBox();
             this.player_2_cart = new System.Windows.Forms.PictureBox();
             this.player_2_lantern = new System.Windows.Forms.PictureBox();
             this.player_2_pickaxe = new System.Windows.Forms.PictureBox();
-            this.player3_icon = new System.Windows.Forms.PictureBox();
+            this.player_3_icon = new System.Windows.Forms.PictureBox();
             this.player_3_cart = new System.Windows.Forms.PictureBox();
             this.player_3_lantern = new System.Windows.Forms.PictureBox();
             this.player_3_pickaxe = new System.Windows.Forms.PictureBox();
-            this.player4_icon = new System.Windows.Forms.PictureBox();
+            this.player_4_icon = new System.Windows.Forms.PictureBox();
             this.player_4_cart = new System.Windows.Forms.PictureBox();
             this.player_4_lantern = new System.Windows.Forms.PictureBox();
             this.player_4_pickaxe = new System.Windows.Forms.PictureBox();
-            this.player5_icon = new System.Windows.Forms.PictureBox();
+            this.player_5_icon = new System.Windows.Forms.PictureBox();
             this.player_5_cart = new System.Windows.Forms.PictureBox();
             this.player_5_lantern = new System.Windows.Forms.PictureBox();
             this.player_5_pickaxe = new System.Windows.Forms.PictureBox();
-            this.player6_icon = new System.Windows.Forms.PictureBox();
+            this.player_6_icon = new System.Windows.Forms.PictureBox();
             this.player_6_cart = new System.Windows.Forms.PictureBox();
             this.player_6_lantern = new System.Windows.Forms.PictureBox();
             this.player_6_pickaxe = new System.Windows.Forms.PictureBox();
@@ -77,31 +77,31 @@ namespace Saboteur.Forms
             ((System.ComponentModel.ISupportInitialize)(this.player_0_pickaxe)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_0_lantern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_0_cart)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.player0_icon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player_0_icon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picUsedCard)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picDeck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picFieldBackground)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.player1_icon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player_1_icon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_1_cart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_1_lantern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_1_pickaxe)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.player2_icon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player_2_icon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_2_cart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_2_lantern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_2_pickaxe)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.player3_icon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player_3_icon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_3_cart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_3_lantern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_3_pickaxe)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.player4_icon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player_4_icon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_4_cart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_4_lantern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_4_pickaxe)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.player5_icon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player_5_icon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_5_cart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_5_lantern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_5_pickaxe)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.player6_icon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player_6_icon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_6_cart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_6_lantern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_6_pickaxe)).BeginInit();
@@ -188,16 +188,16 @@ namespace Saboteur.Forms
             this.player_0_cart.TabIndex = 14;
             this.player_0_cart.TabStop = false;
             // 
-            // player0_icon
+            // player_0_icon
             // 
-            this.player0_icon.BackColor = System.Drawing.Color.Transparent;
-            this.player0_icon.BackgroundImage = global::Saboteur.Properties.Resources.player_on;
-            this.player0_icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.player0_icon.Location = new System.Drawing.Point(1439, 10);
-            this.player0_icon.Name = "player0_icon";
-            this.player0_icon.Size = new System.Drawing.Size(85, 120);
-            this.player0_icon.TabIndex = 14;
-            this.player0_icon.TabStop = false;
+            this.player_0_icon.BackColor = System.Drawing.Color.Transparent;
+            this.player_0_icon.BackgroundImage = global::Saboteur.Properties.Resources.player_on;
+            this.player_0_icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.player_0_icon.Location = new System.Drawing.Point(1439, 10);
+            this.player_0_icon.Name = "player_0_icon";
+            this.player_0_icon.Size = new System.Drawing.Size(85, 120);
+            this.player_0_icon.TabIndex = 14;
+            this.player_0_icon.TabStop = false;
             // 
             // picUsedCard
             // 
@@ -231,16 +231,16 @@ namespace Saboteur.Forms
             this.picFieldBackground.TabIndex = 0;
             this.picFieldBackground.TabStop = false;
             // 
-            // player1_icon
+            // player_1_icon
             // 
-            this.player1_icon.BackColor = System.Drawing.Color.Transparent;
-            this.player1_icon.BackgroundImage = global::Saboteur.Properties.Resources.player_off;
-            this.player1_icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.player1_icon.Location = new System.Drawing.Point(1439, 136);
-            this.player1_icon.Name = "player1_icon";
-            this.player1_icon.Size = new System.Drawing.Size(85, 120);
-            this.player1_icon.TabIndex = 14;
-            this.player1_icon.TabStop = false;
+            this.player_1_icon.BackColor = System.Drawing.Color.Transparent;
+            this.player_1_icon.BackgroundImage = global::Saboteur.Properties.Resources.player_off;
+            this.player_1_icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.player_1_icon.Location = new System.Drawing.Point(1439, 136);
+            this.player_1_icon.Name = "player_1_icon";
+            this.player_1_icon.Size = new System.Drawing.Size(85, 120);
+            this.player_1_icon.TabIndex = 14;
+            this.player_1_icon.TabStop = false;
             // 
             // player_1_cart
             // 
@@ -275,16 +275,16 @@ namespace Saboteur.Forms
             this.player_1_pickaxe.TabIndex = 14;
             this.player_1_pickaxe.TabStop = false;
             // 
-            // player2_icon
+            // player_2_icon
             // 
-            this.player2_icon.BackColor = System.Drawing.Color.Transparent;
-            this.player2_icon.BackgroundImage = global::Saboteur.Properties.Resources.player_off;
-            this.player2_icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.player2_icon.Location = new System.Drawing.Point(1439, 262);
-            this.player2_icon.Name = "player2_icon";
-            this.player2_icon.Size = new System.Drawing.Size(85, 120);
-            this.player2_icon.TabIndex = 14;
-            this.player2_icon.TabStop = false;
+            this.player_2_icon.BackColor = System.Drawing.Color.Transparent;
+            this.player_2_icon.BackgroundImage = global::Saboteur.Properties.Resources.player_off;
+            this.player_2_icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.player_2_icon.Location = new System.Drawing.Point(1439, 262);
+            this.player_2_icon.Name = "player_2_icon";
+            this.player_2_icon.Size = new System.Drawing.Size(85, 120);
+            this.player_2_icon.TabIndex = 14;
+            this.player_2_icon.TabStop = false;
             // 
             // player_2_cart
             // 
@@ -319,16 +319,16 @@ namespace Saboteur.Forms
             this.player_2_pickaxe.TabIndex = 14;
             this.player_2_pickaxe.TabStop = false;
             // 
-            // player3_icon
+            // player_3_icon
             // 
-            this.player3_icon.BackColor = System.Drawing.Color.Transparent;
-            this.player3_icon.BackgroundImage = global::Saboteur.Properties.Resources.player_off;
-            this.player3_icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.player3_icon.Location = new System.Drawing.Point(1439, 388);
-            this.player3_icon.Name = "player3_icon";
-            this.player3_icon.Size = new System.Drawing.Size(85, 120);
-            this.player3_icon.TabIndex = 14;
-            this.player3_icon.TabStop = false;
+            this.player_3_icon.BackColor = System.Drawing.Color.Transparent;
+            this.player_3_icon.BackgroundImage = global::Saboteur.Properties.Resources.player_off;
+            this.player_3_icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.player_3_icon.Location = new System.Drawing.Point(1439, 388);
+            this.player_3_icon.Name = "player_3_icon";
+            this.player_3_icon.Size = new System.Drawing.Size(85, 120);
+            this.player_3_icon.TabIndex = 14;
+            this.player_3_icon.TabStop = false;
             // 
             // player_3_cart
             // 
@@ -363,16 +363,16 @@ namespace Saboteur.Forms
             this.player_3_pickaxe.TabIndex = 14;
             this.player_3_pickaxe.TabStop = false;
             // 
-            // player4_icon
+            // player_4_icon
             // 
-            this.player4_icon.BackColor = System.Drawing.Color.Transparent;
-            this.player4_icon.BackgroundImage = global::Saboteur.Properties.Resources.player_off;
-            this.player4_icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.player4_icon.Location = new System.Drawing.Point(1439, 514);
-            this.player4_icon.Name = "player4_icon";
-            this.player4_icon.Size = new System.Drawing.Size(85, 120);
-            this.player4_icon.TabIndex = 14;
-            this.player4_icon.TabStop = false;
+            this.player_4_icon.BackColor = System.Drawing.Color.Transparent;
+            this.player_4_icon.BackgroundImage = global::Saboteur.Properties.Resources.player_off;
+            this.player_4_icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.player_4_icon.Location = new System.Drawing.Point(1439, 514);
+            this.player_4_icon.Name = "player_4_icon";
+            this.player_4_icon.Size = new System.Drawing.Size(85, 120);
+            this.player_4_icon.TabIndex = 14;
+            this.player_4_icon.TabStop = false;
             // 
             // player_4_cart
             // 
@@ -407,16 +407,16 @@ namespace Saboteur.Forms
             this.player_4_pickaxe.TabIndex = 14;
             this.player_4_pickaxe.TabStop = false;
             // 
-            // player5_icon
+            // player_5_icon
             // 
-            this.player5_icon.BackColor = System.Drawing.Color.Transparent;
-            this.player5_icon.BackgroundImage = global::Saboteur.Properties.Resources.player_off;
-            this.player5_icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.player5_icon.Location = new System.Drawing.Point(1439, 640);
-            this.player5_icon.Name = "player5_icon";
-            this.player5_icon.Size = new System.Drawing.Size(85, 120);
-            this.player5_icon.TabIndex = 14;
-            this.player5_icon.TabStop = false;
+            this.player_5_icon.BackColor = System.Drawing.Color.Transparent;
+            this.player_5_icon.BackgroundImage = global::Saboteur.Properties.Resources.player_off;
+            this.player_5_icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.player_5_icon.Location = new System.Drawing.Point(1439, 640);
+            this.player_5_icon.Name = "player_5_icon";
+            this.player_5_icon.Size = new System.Drawing.Size(85, 120);
+            this.player_5_icon.TabIndex = 14;
+            this.player_5_icon.TabStop = false;
             // 
             // player_5_cart
             // 
@@ -451,16 +451,16 @@ namespace Saboteur.Forms
             this.player_5_pickaxe.TabIndex = 14;
             this.player_5_pickaxe.TabStop = false;
             // 
-            // player6_icon
+            // player_6_icon
             // 
-            this.player6_icon.BackColor = System.Drawing.Color.Transparent;
-            this.player6_icon.BackgroundImage = global::Saboteur.Properties.Resources.player_off;
-            this.player6_icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.player6_icon.Location = new System.Drawing.Point(1439, 766);
-            this.player6_icon.Name = "player6_icon";
-            this.player6_icon.Size = new System.Drawing.Size(85, 120);
-            this.player6_icon.TabIndex = 14;
-            this.player6_icon.TabStop = false;
+            this.player_6_icon.BackColor = System.Drawing.Color.Transparent;
+            this.player_6_icon.BackgroundImage = global::Saboteur.Properties.Resources.player_off;
+            this.player_6_icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.player_6_icon.Location = new System.Drawing.Point(1439, 766);
+            this.player_6_icon.Name = "player_6_icon";
+            this.player_6_icon.Size = new System.Drawing.Size(85, 120);
+            this.player_6_icon.TabIndex = 14;
+            this.player_6_icon.TabStop = false;
             // 
             // player_6_cart
             // 
@@ -651,13 +651,13 @@ namespace Saboteur.Forms
             this.Controls.Add(this.player_2_cart);
             this.Controls.Add(this.player_1_cart);
             this.Controls.Add(this.player_0_cart);
-            this.Controls.Add(this.player6_icon);
-            this.Controls.Add(this.player5_icon);
-            this.Controls.Add(this.player4_icon);
-            this.Controls.Add(this.player3_icon);
-            this.Controls.Add(this.player2_icon);
-            this.Controls.Add(this.player1_icon);
-            this.Controls.Add(this.player0_icon);
+            this.Controls.Add(this.player_6_icon);
+            this.Controls.Add(this.player_5_icon);
+            this.Controls.Add(this.player_4_icon);
+            this.Controls.Add(this.player_3_icon);
+            this.Controls.Add(this.player_2_icon);
+            this.Controls.Add(this.player_1_icon);
+            this.Controls.Add(this.player_0_icon);
             this.Controls.Add(this.lblUsedCard);
             this.Controls.Add(this.lbl_player_6);
             this.Controls.Add(this.lbl_player_5);
@@ -679,31 +679,31 @@ namespace Saboteur.Forms
             ((System.ComponentModel.ISupportInitialize)(this.player_0_pickaxe)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_0_lantern)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_0_cart)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.player0_icon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player_0_icon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picUsedCard)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picDeck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picFieldBackground)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.player1_icon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player_1_icon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_1_cart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_1_lantern)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_1_pickaxe)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.player2_icon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player_2_icon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_2_cart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_2_lantern)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_2_pickaxe)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.player3_icon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player_3_icon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_3_cart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_3_lantern)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_3_pickaxe)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.player4_icon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player_4_icon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_4_cart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_4_lantern)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_4_pickaxe)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.player5_icon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player_5_icon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_5_cart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_5_lantern)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_5_pickaxe)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.player6_icon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player_6_icon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_6_cart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_6_lantern)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_6_pickaxe)).EndInit();
@@ -720,31 +720,31 @@ namespace Saboteur.Forms
         private System.Windows.Forms.Label lblDeckNum;
         private System.Windows.Forms.Label lblDeck;
         private System.Windows.Forms.Label lblUsedCard;
-        private System.Windows.Forms.PictureBox player0_icon;
+        private System.Windows.Forms.PictureBox player_0_icon;
         private System.Windows.Forms.PictureBox player_0_cart;
         private System.Windows.Forms.PictureBox player_0_lantern;
         private System.Windows.Forms.PictureBox player_0_pickaxe;
-        private System.Windows.Forms.PictureBox player1_icon;
+        private System.Windows.Forms.PictureBox player_1_icon;
         private System.Windows.Forms.PictureBox player_1_cart;
         private System.Windows.Forms.PictureBox player_1_lantern;
         private System.Windows.Forms.PictureBox player_1_pickaxe;
-        private System.Windows.Forms.PictureBox player2_icon;
+        private System.Windows.Forms.PictureBox player_2_icon;
         private System.Windows.Forms.PictureBox player_2_cart;
         private System.Windows.Forms.PictureBox player_2_lantern;
         private System.Windows.Forms.PictureBox player_2_pickaxe;
-        private System.Windows.Forms.PictureBox player3_icon;
+        private System.Windows.Forms.PictureBox player_3_icon;
         private System.Windows.Forms.PictureBox player_3_cart;
         private System.Windows.Forms.PictureBox player_3_lantern;
         private System.Windows.Forms.PictureBox player_3_pickaxe;
-        private System.Windows.Forms.PictureBox player4_icon;
+        private System.Windows.Forms.PictureBox player_4_icon;
         private System.Windows.Forms.PictureBox player_4_cart;
         private System.Windows.Forms.PictureBox player_4_lantern;
         private System.Windows.Forms.PictureBox player_4_pickaxe;
-        private System.Windows.Forms.PictureBox player5_icon;
+        private System.Windows.Forms.PictureBox player_5_icon;
         private System.Windows.Forms.PictureBox player_5_cart;
         private System.Windows.Forms.PictureBox player_5_lantern;
         private System.Windows.Forms.PictureBox player_5_pickaxe;
-        private System.Windows.Forms.PictureBox player6_icon;
+        private System.Windows.Forms.PictureBox player_6_icon;
         private System.Windows.Forms.PictureBox player_6_cart;
         private System.Windows.Forms.PictureBox player_6_lantern;
         private System.Windows.Forms.PictureBox player_6_pickaxe;
