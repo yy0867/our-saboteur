@@ -75,12 +75,13 @@ namespace Saboteur.Forms
         List<Card> hands = new List<Card>();
         Dictionary<int, List<PictureBox>> playersInfo = new Dictionary<int, List<PictureBox>>(); 
 
+
         // Graphics Instances
         Graphics g = null;
         List<PictureBox> pictureBoxes = new List<PictureBox>();
         List<PictureBox> playerIcons = new List<PictureBox>();
-
-        List<List<PictureBox>> toolIcons = new List<List<PictureBox>>();
+        Dictionary<Tool, List<PictureBox>> toolIcons = new Dictionary<Tool, List<PictureBox>>();
+        //List<List<PictureBox>> toolIcons = new List<List<PictureBox>>();
 
 
 
@@ -699,19 +700,19 @@ namespace Saboteur.Forms
         private void InitializeIcons()
         {
             for(var i = Tool.PICKAXE; i <= Tool.CART; i++)
-                this.toolIcons.Add(new List<PictureBox>());
+                this.toolIcons.Add(i, new List<PictureBox>());
 
             for (int i = 0; i < MAX_PLAYER; i++)
             {
                 string player = "player_" + i;
                 this.playerIcons.Add((PictureBox)Controls.Find(player + "_icon", true)[0]);
-                this.toolIcons[(int)Tool.CART].Add((PictureBox)Controls.Find(player + "_cart", true)[0]);
-                this.toolIcons[(int)Tool.PICKAXE].Add((PictureBox)Controls.Find(player + "_pickaxe", true)[0]);
-                this.toolIcons[(int)Tool.LATTERN].Add((PictureBox)Controls.Find(player + "_lantern", true)[0]);
+                this.toolIcons[Tool.CART].Add((PictureBox)Controls.Find(player + "_cart", true)[0]);
+                this.toolIcons[Tool.PICKAXE].Add((PictureBox)Controls.Find(player + "_pickaxe", true)[0]);
+                this.toolIcons[Tool.LATTERN].Add((PictureBox)Controls.Find(player + "_lantern", true)[0]);
 
-                this.toolIcons[(int)Tool.CART][i].Visible = false;
-                this.toolIcons[(int)Tool.PICKAXE][i].Visible = false;
-                this.toolIcons[(int)Tool.LATTERN][i].Visible = false;
+                this.toolIcons[Tool.CART][i].Visible = false;
+                this.toolIcons[Tool.PICKAXE][i].Visible = false;
+                this.toolIcons[Tool.LATTERN][i].Visible = false;
             }
         }
 
@@ -738,10 +739,10 @@ namespace Saboteur.Forms
             {
                 if (equipment.getType() == CType.EQ_REPAIR)
                 {
-                    this.toolIcons[(int)equipment.tool][index].Visible = false;
+                    this.toolIcons[equipment.tool][index].Visible = false;
                 } else
                 {
-                    this.toolIcons[(int)equipment.tool][index].Visible = true;
+                    this.toolIcons[equipment.tool][index].Visible = true;
                 }
             }));
         }
