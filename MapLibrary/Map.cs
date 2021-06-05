@@ -76,7 +76,7 @@ namespace MapLibrary
 
         public CaveCard GetCard(int R, int C)
         {
-            if (R < 0 || R > CONST.MAP_ROW || C < 0 || C > CONST.MAP_COL)
+            if (R < 0 || R >= CONST.MAP_ROW || C < 0 || C >= CONST.MAP_COL)
                 return null;
             return caveCards[R, C];
         }
