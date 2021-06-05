@@ -243,7 +243,6 @@ namespace Saboteur.Forms
                         {
                             MoveToStartPosition(selectedPic);
                         }
-                        else if (true) { }
                         else
                         {
                             ProcessGrid((Point)gridPoint);
