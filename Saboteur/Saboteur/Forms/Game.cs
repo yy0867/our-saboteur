@@ -88,6 +88,25 @@ namespace Saboteur.Forms
         int clientID = 0;
 
         #region Test
+        private PlayerState mockedPlayerStates(bool canUsePicaxe, bool canUseLantern, bool canUseCart)
+        {
+            var state = new PlayerState();
+            state.isDestroyedPickaxe = canUsePicaxe;
+            state.isDestroyedLantern = canUseLantern;
+            state.isDestroyedCart = canUseCart;
+            return state;
+        }
+        private List<PlayerState> mockedPlayerStates()
+        {
+            var states = new List<PlayerState>();
+            states.Add(mockedPlayerStates(true, true, true));
+            states.Add(mockedPlayerStates(true, true, false));
+            states.Add(mockedPlayerStates(true, false, false));
+            states.Add(mockedPlayerStates(false, false, false));
+            states.Add(mockedPlayerStates(false, true, true));
+            states.Add(mockedPlayerStates(false, false, true));
+            return states;
+        }
         private void MockSendPacket()
         {
             GameInfo mock = new GameInfo();
@@ -96,7 +115,7 @@ namespace Saboteur.Forms
             CaveCard card;
 
             mock.fields.MapInit();
-
+            mock.playersState = mockedPlayerStates();
             #region(MockingTest_Hand)
             mock.holdingCards.Add(new CaveCard(Dir.ALL, true));
             mock.holdingCards.Add(new CaveCard(Dir.LEFTDOWN, true));
@@ -105,6 +124,7 @@ namespace Saboteur.Forms
             mock.holdingCards.Add(new EquipmentCard(CType.EQ_DESTRUCTION, Tool.CART));
             #endregion
 
+            
             updateInfo(mock);
         }
         #endregion
@@ -218,7 +238,8 @@ namespace Saboteur.Forms
         private void ProcessEquipment(int playerID, EquipmentCard equipment)
         {
             //Grapical
-            applyEquipment(playerID, equipment);
+            setEquipmentIcon(playerID, equipment);
+
             //Logical
         }
 
@@ -699,33 +720,32 @@ namespace Saboteur.Forms
             Image on = Properties.Resources.player_on;
             Image off = Properties.Resources.player_off;
 
-            if (isTurnOn)
+            this.Invoke((MethodInvoker)(() =>
             {
-                this.playerIcons[index].BackgroundImage = on;
-            } else
-            {
-                this.playerIcons[index].BackgroundImage = off;
-            }
+                if (isTurnOn)
+                {
+                    this.playerIcons[index].BackgroundImage = on;
+                } else
+                {
+                    this.playerIcons[index].BackgroundImage = off;
+                }
+            }));
         }
 
         private void setEquipmentIcon(int index, EquipmentCard equipment)
         {
-            Image on = Properties.Resources.player_on;
-            Image off = Properties.Resources.player_off;
-
-            //if (isTurnOn)
-            //{
-            //    this.playerIcons[index].BackgroundImage = on;
-            //} else
-            //{
-            //    this.playerIcons[index].BackgroundImage = off;
-            //}
+            this.Invoke((MethodInvoker)(() =>
+            {
+                if (equipment.getType() == CType.EQ_REPAIR)
+                {
+                    this.toolIcons[(int)equipment.tool][index].Visible = false;
+                } else
+                {
+                    this.toolIcons[(int)equipment.tool][index].Visible = true;
+                }
+            }));
         }
 
-        private void applyEquipment(int playerID, EquipmentCard equipment)
-        {
-
-        }
 
         #endregion
 
