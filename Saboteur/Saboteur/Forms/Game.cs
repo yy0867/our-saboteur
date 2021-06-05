@@ -124,11 +124,14 @@ namespace Saboteur.Forms
             mock.clientID = 1;
             
             #region(MockingTest_Hand)
-            mock.holdingCards.Add(new CaveCard(Dir.ALL, true));
+            mock.holdingCards.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            mock.holdingCards.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            mock.holdingCards.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            mock.holdingCards.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            mock.holdingCards.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            mock.holdingCards.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            mock.holdingCards.Add(new CaveCard(Dir.RIGHTLEFT, true));
             mock.holdingCards.Add(new CaveCard(Dir.LEFTDOWN, true));
-            mock.holdingCards.Add(new CaveCard(Dir.UP, false));
-            mock.holdingCards.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.PICKLATTERN));
-            mock.holdingCards.Add(new EquipmentCard(CType.EQ_DESTRUCTION, Tool.CART));
             mock.holdingCards.Add(new RockDownCard());
             #endregion
 
@@ -254,6 +257,30 @@ namespace Saboteur.Forms
             Network.Send(packet);
         }
 
+        private bool IsArrived(Point gridPoint)
+        {
+            MapLibrary.Point coords = ConvertLocationToCoords(gridPoint);
+            int[] dir = { 0, -1, 0, 1, 0 };
+
+            for (int i = 0; i < dir.Length - 1; i++)
+            {
+                int r = coords.R + dir[i], c = coords.C + dir[i + 1];
+
+                if (field.GetCard(r, c) is DestCard)
+                {
+                    DestCard dest = (DestCard)field.GetCard(r, c);
+
+                    // 여기부터 체크 ######################################################
+                    Dir query = dest.getDir() | ((CaveCard)this.selectedCard).getDir();
+                    if ((query & Dir.DOWNUP) == Dir.DOWNUP ||
+                        (query & Dir.RIGHTLEFT) == Dir.RIGHTLEFT)
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
         // Release on Grid
         private void ProcessGrid(Point gridPoint)
         {
@@ -262,6 +289,13 @@ namespace Saboteur.Forms
             {
                 Attach(gridPoint, (CaveCard)this.selectedCard);
                 RemoveFromHands();
+
+                // if arrived at destcard
+                if (IsArrived(gridPoint))
+                {
+                    // 논리적으로 이어졋는지 체크
+                    MessageBox.Show("Arrive!");
+                }
             }
 
             // is RockDownCard
@@ -274,6 +308,7 @@ namespace Saboteur.Forms
                 }
                 else
                 {
+                    field.RockDown(coords);
                     DeleteImage(coords.R, coords.C);
                     DeleteImage(this.selectedPic);
                     RemoveFromHands();
@@ -283,7 +318,20 @@ namespace Saboteur.Forms
             // is MapCard
             else if (this.selectedCard is MapCard)
             {
+                MapLibrary.Point coords = ConvertLocationToCoords(gridPoint);
+                CaveCard card = field.GetCard(coords);
+                if (card is DestCard)
+                {
+                    string message = ((DestCard)card).getIsGoldCave() ? "금 카드입니다!" : "금 카드가 아닙니다!";
 
+                    MessageBox.Show(message);
+                    DeleteImage(this.selectedPic);
+                    RemoveFromHands();
+                }
+                else
+                {
+                    MoveToStartPosition(this.selectedPic);
+                }
             }
         }
 
@@ -589,16 +637,25 @@ namespace Saboteur.Forms
                         break;
 
                     case Dir.NOUP:
-                        cardImage = imgCards.Images[37];
+                        cardImage = imgCards.Images[39];
+                        Rotate(cardImage);
                         break;
 
                     case Dir.NODOWN:
-                        cardImage = imgCards.Images[37];
+                        cardImage = imgCards.Images[39];
+                        break;
+
+                    case Dir.NOLEFT:
+                        cardImage = imgCards.Images[38];
+                        break;
+
+                    case Dir.NORIGHT:
+                        cardImage = imgCards.Images[38];
                         Rotate(cardImage);
                         break;
 
                     case Dir.ALL:
-                        cardImage = imgCards.Images[38];
+                        cardImage = imgCards.Images[37];
                         break;
 
                     default:
@@ -753,7 +810,22 @@ namespace Saboteur.Forms
                     // Draw Dest Card
                     else if (curCard is DestCard)
                     {
-                        AddImage(location, imgCards.Images["goal_back.png"]);
+                        DestCard dest = (DestCard)curCard;
+                        Image image;
+                        if (dest.face == CardFace.FRONT)
+                        {
+                            if (dest.getIsGoldCave())
+                                image = imgCards.Images["goal_gold.png"];
+
+                            else
+                            {
+                                image = imgCards.Images["goal_stone_down_left.png"];
+                            }
+                        }
+                        else
+                            image = imgCards.Images["goal_back.png"];
+
+                        AddImage(location, image);
                     }
 
                     // Draw Cave Card
