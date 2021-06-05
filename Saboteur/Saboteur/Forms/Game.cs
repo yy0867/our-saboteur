@@ -54,6 +54,7 @@ namespace Saboteur.Forms
         private const int DEST_GOLD = 4;
         private const int DEST_DOWN_LEFT_INDEX = 5;
         private const int DEST_DOWN_RIGHT_INDEX = 6;
+        private const int MAX_PLAYER = 7;
 
         private Color Grid_Possible = Color.FromArgb(70, 65, 195, 0);
         private Color Grid_Impossible = Color.FromArgb(70, 225, 57, 53);
@@ -77,6 +78,12 @@ namespace Saboteur.Forms
         // Graphics Instances
         Graphics g = null;
         List<PictureBox> pictureBoxes = new List<PictureBox>();
+        List<PictureBox> playerIcons = new List<PictureBox>();
+        List<PictureBox> cartIcons = new List<PictureBox>();
+        List<PictureBox> pickaxeIcons = new List<PictureBox>();
+        List<PictureBox> lanternIcons = new List<PictureBox>();
+
+
 
         // Network Variables
         int clientID = 0;
@@ -106,6 +113,7 @@ namespace Saboteur.Forms
         public Game()
         {
             InitializeComponent();
+            InitializeIcons();
 
             for (int i = 0; i < CONST.MAP_ROW; i++)
                 for (int j = 0; j < CONST.MAP_COL; j++)
@@ -664,16 +672,38 @@ namespace Saboteur.Forms
         // ###### Draw Card Methods - End ######
         #endregion
 
-        #region Draw Player Methods
-        // ###### Draw Player Methods - Start ######
-        private void DrawPlayers()
+        #region Icon Methods
+        private void InitializeIcons()
         {
-            if (playersInfo.Count == 0 || playersInfo == null)
-                return;
+            for (int i = 0; i < MAX_PLAYER; i++)
+            {
+                string player = "player_" + i;
+                this.playerIcons.Add((PictureBox)Controls.Find(player + "_icon", true)[0]);
+                this.cartIcons.Add((PictureBox)Controls.Find(player + "_cart", true)[0]);
+                this.pickaxeIcons.Add((PictureBox)Controls.Find(player + "_pickaxe", true)[0]);
+                this.lanternIcons.Add((PictureBox)Controls.Find(player + "_lantern", true)[0]);
 
-
+                //playerIcons[0].
+                this.cartIcons[i].Visible = false;
+                this.pickaxeIcons[i].Visible = false;
+                this.lanternIcons[i].Visible = false;
+            }
         }
-        // ###### Draw Player Methods - End ######
+
+        private void setPlayerIcon(int index, bool isTurnOn)
+        {
+            Image on = Properties.Resources.player_on;
+            Image off = Properties.Resources.player_off;
+
+            if (isTurnOn)
+            {
+                this.playerIcons[index].BackgroundImage = on;
+            } else
+            {
+                this.playerIcons[index].BackgroundImage = off;
+            }
+        }
+
         #endregion
 
         private void MoveToStartPosition(PictureBox card)

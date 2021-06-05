@@ -191,7 +191,7 @@ namespace Saboteur.Forms
             // player_0_icon
             // 
             this.player_0_icon.BackColor = System.Drawing.Color.Transparent;
-            this.player_0_icon.BackgroundImage = global::Saboteur.Properties.Resources.player_on;
+            this.player_0_icon.BackgroundImage = global::Saboteur.Properties.Resources.player_off;
             this.player_0_icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.player_0_icon.Location = new System.Drawing.Point(1439, 10);
             this.player_0_icon.Name = "player_0_icon";
