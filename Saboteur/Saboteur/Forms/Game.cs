@@ -262,7 +262,7 @@ namespace Saboteur.Forms
 
                     if (gridPoint.HasValue) // grid point is valid
                     {
-                        if (!(this.selectedCard is CaveCard) || !field.CanBeConntectedSurrounding(ConvertLocationToCoords(mouseLocation), (CaveCard)selectedCard))
+                        if (!(this.selectedCard is CaveCard) || !field.IsValidPosition(ConvertLocationToCoords(mouseLocation), (CaveCard)selectedCard))
                         {
                             MoveToStartPosition(selectedPic);
                         }

@@ -24,11 +24,11 @@ namespace CardLibrary
     [Flags]
     public enum Dir
     {
-        NONE = 0,
-        RIGHT = 1,
-        LEFT = 2,
-        DOWN = 4,
-        UP = 8,
+        NONE = 0,   // 0000
+        RIGHT = 1,  // 0001
+        LEFT = 2,   // 0010
+        DOWN = 4,   // 0100
+        UP = 8,     // 1000
         RIGHTLEFT = RIGHT | LEFT,
         RIGHTDOWN = RIGHT | DOWN,
         RIGHTUP = RIGHT | UP,
