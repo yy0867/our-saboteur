@@ -79,9 +79,8 @@ namespace Saboteur.Forms
         Graphics g = null;
         List<PictureBox> pictureBoxes = new List<PictureBox>();
         List<PictureBox> playerIcons = new List<PictureBox>();
-        List<PictureBox> cartIcons = new List<PictureBox>();
-        List<PictureBox> pickaxeIcons = new List<PictureBox>();
-        List<PictureBox> lanternIcons = new List<PictureBox>();
+
+        List<List<PictureBox>> toolIcons = new List<List<PictureBox>>();
 
 
 
@@ -216,9 +215,11 @@ namespace Saboteur.Forms
         }
 
         // Release on Player
-        private void ProcessEquipment(int playerID)
+        private void ProcessEquipment(int playerID, EquipmentCard equipment)
         {
-
+            //Grapical
+            applyEquipment(playerID, equipment);
+            //Logical
         }
 
         private Field GetReleaseField(int X, int Y)
@@ -293,7 +294,8 @@ namespace Saboteur.Forms
                 // Release on Player
                 else if (releasePoint == Field.PLAYER)
                 {
-                    if (!(selectedCard is EquipmentCard))
+                    EquipmentCard selectedEquipment = selectedCard as EquipmentCard;
+                    if (selectedEquipment == null)
                         return;
 
                     int index = GetPlayerIndex(mouseLocation);
@@ -304,7 +306,7 @@ namespace Saboteur.Forms
                     }
                     else
                     {
-                        ProcessEquipment(index);
+                        ProcessEquipment(index, selectedEquipment);
 
                         selectedPic.MouseUp -= picCard_MouseUp;
                         selectedPic.MouseDown -= picCard_MouseDown;
@@ -675,18 +677,20 @@ namespace Saboteur.Forms
         #region Icon Methods
         private void InitializeIcons()
         {
+            for(var i = Tool.PICKAXE; i <= Tool.CART; i++)
+                this.toolIcons.Add(new List<PictureBox>());
+
             for (int i = 0; i < MAX_PLAYER; i++)
             {
                 string player = "player_" + i;
                 this.playerIcons.Add((PictureBox)Controls.Find(player + "_icon", true)[0]);
-                this.cartIcons.Add((PictureBox)Controls.Find(player + "_cart", true)[0]);
-                this.pickaxeIcons.Add((PictureBox)Controls.Find(player + "_pickaxe", true)[0]);
-                this.lanternIcons.Add((PictureBox)Controls.Find(player + "_lantern", true)[0]);
+                this.toolIcons[(int)Tool.CART].Add((PictureBox)Controls.Find(player + "_cart", true)[0]);
+                this.toolIcons[(int)Tool.PICKAXE].Add((PictureBox)Controls.Find(player + "_pickaxe", true)[0]);
+                this.toolIcons[(int)Tool.LATTERN].Add((PictureBox)Controls.Find(player + "_lantern", true)[0]);
 
-                //playerIcons[0].
-                this.cartIcons[i].Visible = false;
-                this.pickaxeIcons[i].Visible = false;
-                this.lanternIcons[i].Visible = false;
+                this.toolIcons[(int)Tool.CART][i].Visible = false;
+                this.toolIcons[(int)Tool.PICKAXE][i].Visible = false;
+                this.toolIcons[(int)Tool.LATTERN][i].Visible = false;
             }
         }
 
@@ -702,6 +706,25 @@ namespace Saboteur.Forms
             {
                 this.playerIcons[index].BackgroundImage = off;
             }
+        }
+
+        private void setEquipmentIcon(int index, EquipmentCard equipment)
+        {
+            Image on = Properties.Resources.player_on;
+            Image off = Properties.Resources.player_off;
+
+            //if (isTurnOn)
+            //{
+            //    this.playerIcons[index].BackgroundImage = on;
+            //} else
+            //{
+            //    this.playerIcons[index].BackgroundImage = off;
+            //}
+        }
+
+        private void applyEquipment(int playerID, EquipmentCard equipment)
+        {
+
         }
 
         #endregion
