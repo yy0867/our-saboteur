@@ -379,11 +379,9 @@ namespace Saboteur.Forms
                     {
                         ProcessEquipment(index, selectedEquipment);
 
-                        selectedPic.MouseUp -= picCard_MouseUp;
-                        selectedPic.MouseDown -= picCard_MouseDown;
-                        selectedPic.MouseMove -= picCard_MouseMove;
-
                         DeleteImage(selectedPic);
+                        RemoveFromHands();
+                        Send();
                     }
                 }
 
