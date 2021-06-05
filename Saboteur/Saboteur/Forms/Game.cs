@@ -47,6 +47,7 @@ namespace Saboteur.Forms
         private const int fieldLeftPadding = 28;
         private const int fieldTopPadding = 3;
         private const int handPadding = 30;
+        private const int playerCardHeight = 126;
         private Size fieldSize = new Size(CONST.MAP_COL * cardWidth, CONST.MAP_ROW * cardHeight);
 
         private const int START_CARD_INDEX = 31;
@@ -64,14 +65,16 @@ namespace Saboteur.Forms
         Point rectPrev = new Point();           // for grid rect
 
         // Game Instances
+        int playerNum = 0;
+        int turn = 0;
         CaveCard[,] prevMap = new CaveCard[CONST.MAP_ROW, CONST.MAP_COL];
         Map field = new Map();
         Card selectedCard = null;               // which card is selected
         PictureBox selectedPic = null;          // selectedCard's Image
         List<Card> hands = new List<Card>();
+        Dictionary<int, List<PictureBox>> playersInfo = new Dictionary<int, List<PictureBox>>(); 
 
         // Graphics Instances
-        private bool IsStart = false;
         Graphics g = null;
         List<PictureBox> pictureBoxes = new List<PictureBox>();
 
@@ -117,7 +120,7 @@ namespace Saboteur.Forms
             DrawCardOnField();
 
             #region Test
-            //MockSendPacket();
+            MockSendPacket();
             #endregion
         }
 
@@ -126,6 +129,7 @@ namespace Saboteur.Forms
             GameInfo info = (GameInfo)packet;
 
             this.clientID = info.clientID;
+            this.playerNum = info.playersState.Count;
 
             this.field = info.fields;
             DrawCardOnField();
@@ -133,8 +137,11 @@ namespace Saboteur.Forms
             this.hands = info.holdingCards;
 
             int usedCardCount = info.backUsedCards.Count + info.frontUsedCards.Count;
-            this.lblUsedCardNum.Text = usedCardCount.ToString();
-            this.lblDeckNum.Text = info.deckCards.Count.ToString();
+            this.Invoke((MethodInvoker)(() =>
+            {
+                this.lblUsedCardNum.Text = usedCardCount.ToString();
+                this.lblDeckNum.Text = info.deckCards.Count.ToString();
+            }));
 
             DrawHands(hands);
         }
@@ -200,6 +207,12 @@ namespace Saboteur.Forms
             }
         }
 
+        // Release on Player
+        private void ProcessEquipment(int playerID)
+        {
+
+        }
+
         private Field GetReleaseField(int X, int Y)
         {
             if (picFieldBackground.Left <= X && X <= fieldSize.Width &&
@@ -207,7 +220,7 @@ namespace Saboteur.Forms
                 return Field.MAP;
 
             else if (fieldSize.Width < X && X <= this.Width &&
-                this.Height <= Y && Y <= fieldSize.Height)
+                this.Top <= Y && Y <= fieldSize.Height)
                 return Field.PLAYER;
 
             else if (this.Left <= X && X <= picDeck.Left - handPadding &&
@@ -221,6 +234,15 @@ namespace Saboteur.Forms
             return Field.HAND;
         }
 
+        private int GetPlayerIndex(Point point)
+        {
+            int Y = point.Y;
+            
+            if (Y < 10) return 0;
+
+            return (Y - 10) / playerCardHeight;
+        }
+
         private void picCard_MouseUp(object sender, MouseEventArgs e)
         {
             if (this.isMouseDown && this.selectedPic != null)
@@ -228,18 +250,20 @@ namespace Saboteur.Forms
                 this.isMouseDown = false;
                 EraseGraphics();
 
-                Field releasePoint = GetReleaseField(e.X + selectedPic.Left, e.Y + selectedPic.Top);
+                Point mouseLocation = new Point(e.X + selectedPic.Left, e.Y + selectedPic.Top);
+
+                Field releasePoint = GetReleaseField(mouseLocation.X, mouseLocation.Y);
                 // ##################### ADD DOWN BY USING METHOD ########################
                 // Release on Grid
 
                 // Release on Map: Use CaveCard, MapCard, RockDownCard
                 if (releasePoint == Field.MAP) // is in map
                 {
-                    Point? gridPoint = GetGridPoint(selectedPic.Left + e.X, selectedPic.Top + e.Y); // Mouse Pointer Position
+                    Point? gridPoint = GetGridPoint(mouseLocation.X, mouseLocation.Y); // Mouse Pointer Position
 
                     if (gridPoint.HasValue) // grid point is valid
                     {
-                        if (!(this.selectedCard is CaveCard) || !field.CanBeConntectedSurrounding(ConvertLocationToCoords(selectedPic.Left + e.X, selectedPic.Top + e.Y), (CaveCard)selectedCard))
+                        if (!(this.selectedCard is CaveCard) || !field.IsValidPosition(ConvertLocationToCoords(mouseLocation), (CaveCard)selectedCard))
                         {
                             MoveToStartPosition(selectedPic);
                         }
@@ -262,7 +286,23 @@ namespace Saboteur.Forms
                 // Release on Player: Use Equipment(Repair, Destruction) Card
                 else if (releasePoint == Field.PLAYER)
                 {
+                    if (!(selectedCard is EquipmentCard))
+                        return;
 
+                    int index = GetPlayerIndex(mouseLocation);
+
+                    if (index >= playerNum)
+                    {
+                        MoveToStartPosition(selectedPic);
+                    }
+                    else
+                    {
+                        ProcessEquipment(index);
+
+                        selectedPic.MouseUp -= picCard_MouseUp;
+                        selectedPic.MouseDown -= picCard_MouseDown;
+                        selectedPic.MouseMove -= picCard_MouseMove;
+                    }
                 }
 
                 // Release on Deck: Discard the Card
@@ -317,6 +357,7 @@ namespace Saboteur.Forms
         }
         #endregion
 
+        #region Draw Card Methods
         // ###### Draw Card Methods - Start ######
         private void Rotate(Image image)
         {
@@ -622,6 +663,19 @@ namespace Saboteur.Forms
             }
         }
         // ###### Draw Card Methods - End ######
+        #endregion
+
+        #region Draw Player Methods
+        // ###### Draw Player Methods - Start ######
+        private void DrawPlayers()
+        {
+            if (playersInfo.Count == 0 || playersInfo == null)
+                return;
+
+
+        }
+        // ###### Draw Player Methods - End ######
+        #endregion
 
         private void MoveToStartPosition(PictureBox card)
         {
@@ -688,7 +742,7 @@ namespace Saboteur.Forms
 
                     Brush brush = new SolidBrush(Grid_Impossible);
 
-                    if (field.CanBeConntectedSurrounding(coords, (CaveCard)this.selectedCard))
+                    if (field.IsValidPosition(coords, (CaveCard)this.selectedCard))
                     {
                         brush = new SolidBrush(Grid_Possible);
                     }

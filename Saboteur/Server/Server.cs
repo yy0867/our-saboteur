@@ -172,8 +172,11 @@ namespace Server
                 for (int i = 0; i < this.numConnectedClient; i++)
                     dealer.RemoveCardsFromDeck(DicCardsPerPlayer[i]);
 
+                PlayerState state = new PlayerState();
                 for (int i = 0; i < this.numConnectedClient; i++)
                 {
+                    sendGameInfo.playersState.Add(state);
+
                     sendGameInfo.clientID = i;
                     sendGameInfo.holdingCards = DicCardsPerPlayer[i];
                     sendGameInfo.fields = fields;

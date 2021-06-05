@@ -66,13 +66,13 @@ namespace Saboteur.Forms
             this.player_6_cart = new System.Windows.Forms.PictureBox();
             this.player_6_lantern = new System.Windows.Forms.PictureBox();
             this.player_6_pickaxe = new System.Windows.Forms.PictureBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.lbl_player_0 = new System.Windows.Forms.Label();
+            this.lbl_player_1 = new System.Windows.Forms.Label();
+            this.lbl_player_2 = new System.Windows.Forms.Label();
+            this.lbl_player_3 = new System.Windows.Forms.Label();
+            this.lbl_player_4 = new System.Windows.Forms.Label();
+            this.lbl_player_5 = new System.Windows.Forms.Label();
+            this.lbl_player_6 = new System.Windows.Forms.Label();
             this.imgCards = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.player_0_pickaxe)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player_0_lantern)).BeginInit();
@@ -495,89 +495,89 @@ namespace Saboteur.Forms
             this.player_6_pickaxe.TabIndex = 14;
             this.player_6_pickaxe.TabStop = false;
             // 
-            // label2
+            // lbl_player_0
             // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(1397, 51);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(24, 25);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "1";
+            this.lbl_player_0.AutoSize = true;
+            this.lbl_player_0.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_player_0.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lbl_player_0.ForeColor = System.Drawing.Color.White;
+            this.lbl_player_0.Location = new System.Drawing.Point(1397, 51);
+            this.lbl_player_0.Name = "lbl_player_0";
+            this.lbl_player_0.Size = new System.Drawing.Size(24, 25);
+            this.lbl_player_0.TabIndex = 12;
+            this.lbl_player_0.Text = "1";
             // 
-            // label3
+            // lbl_player_1
             // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(1397, 177);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(24, 25);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "2";
+            this.lbl_player_1.AutoSize = true;
+            this.lbl_player_1.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_player_1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lbl_player_1.ForeColor = System.Drawing.Color.White;
+            this.lbl_player_1.Location = new System.Drawing.Point(1397, 177);
+            this.lbl_player_1.Name = "lbl_player_1";
+            this.lbl_player_1.Size = new System.Drawing.Size(24, 25);
+            this.lbl_player_1.TabIndex = 12;
+            this.lbl_player_1.Text = "2";
             // 
-            // label4
+            // lbl_player_2
             // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(1397, 303);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(24, 25);
-            this.label4.TabIndex = 12;
-            this.label4.Text = "3";
+            this.lbl_player_2.AutoSize = true;
+            this.lbl_player_2.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_player_2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lbl_player_2.ForeColor = System.Drawing.Color.White;
+            this.lbl_player_2.Location = new System.Drawing.Point(1397, 303);
+            this.lbl_player_2.Name = "lbl_player_2";
+            this.lbl_player_2.Size = new System.Drawing.Size(24, 25);
+            this.lbl_player_2.TabIndex = 12;
+            this.lbl_player_2.Text = "3";
             // 
-            // label5
+            // lbl_player_3
             // 
-            this.label5.AutoSize = true;
-            this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(1397, 429);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(24, 25);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "4";
+            this.lbl_player_3.AutoSize = true;
+            this.lbl_player_3.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_player_3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lbl_player_3.ForeColor = System.Drawing.Color.White;
+            this.lbl_player_3.Location = new System.Drawing.Point(1397, 429);
+            this.lbl_player_3.Name = "lbl_player_3";
+            this.lbl_player_3.Size = new System.Drawing.Size(24, 25);
+            this.lbl_player_3.TabIndex = 12;
+            this.lbl_player_3.Text = "4";
             // 
-            // label6
+            // lbl_player_4
             // 
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(1397, 555);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(24, 25);
-            this.label6.TabIndex = 12;
-            this.label6.Text = "5";
+            this.lbl_player_4.AutoSize = true;
+            this.lbl_player_4.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_player_4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lbl_player_4.ForeColor = System.Drawing.Color.White;
+            this.lbl_player_4.Location = new System.Drawing.Point(1397, 555);
+            this.lbl_player_4.Name = "lbl_player_4";
+            this.lbl_player_4.Size = new System.Drawing.Size(24, 25);
+            this.lbl_player_4.TabIndex = 12;
+            this.lbl_player_4.Text = "5";
             // 
-            // label7
+            // lbl_player_5
             // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(1397, 681);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(24, 25);
-            this.label7.TabIndex = 12;
-            this.label7.Text = "6";
+            this.lbl_player_5.AutoSize = true;
+            this.lbl_player_5.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_player_5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lbl_player_5.ForeColor = System.Drawing.Color.White;
+            this.lbl_player_5.Location = new System.Drawing.Point(1397, 681);
+            this.lbl_player_5.Name = "lbl_player_5";
+            this.lbl_player_5.Size = new System.Drawing.Size(24, 25);
+            this.lbl_player_5.TabIndex = 12;
+            this.lbl_player_5.Text = "6";
             // 
-            // label8
+            // lbl_player_6
             // 
-            this.label8.AutoSize = true;
-            this.label8.BackColor = System.Drawing.Color.Transparent;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(1397, 807);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(24, 25);
-            this.label8.TabIndex = 12;
-            this.label8.Text = "7";
+            this.lbl_player_6.AutoSize = true;
+            this.lbl_player_6.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_player_6.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lbl_player_6.ForeColor = System.Drawing.Color.White;
+            this.lbl_player_6.Location = new System.Drawing.Point(1397, 807);
+            this.lbl_player_6.Name = "lbl_player_6";
+            this.lbl_player_6.Size = new System.Drawing.Size(24, 25);
+            this.lbl_player_6.TabIndex = 12;
+            this.lbl_player_6.Text = "7";
             // 
             // imgCards
             // 
@@ -659,13 +659,13 @@ namespace Saboteur.Forms
             this.Controls.Add(this.player1_icon);
             this.Controls.Add(this.player0_icon);
             this.Controls.Add(this.lblUsedCard);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lbl_player_6);
+            this.Controls.Add(this.lbl_player_5);
+            this.Controls.Add(this.lbl_player_4);
+            this.Controls.Add(this.lbl_player_3);
+            this.Controls.Add(this.lbl_player_2);
+            this.Controls.Add(this.lbl_player_1);
+            this.Controls.Add(this.lbl_player_0);
             this.Controls.Add(this.lblUsedCardNum);
             this.Controls.Add(this.lblDeck);
             this.Controls.Add(this.picUsedCard);
@@ -748,13 +748,13 @@ namespace Saboteur.Forms
         private System.Windows.Forms.PictureBox player_6_cart;
         private System.Windows.Forms.PictureBox player_6_lantern;
         private System.Windows.Forms.PictureBox player_6_pickaxe;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lbl_player_0;
+        private System.Windows.Forms.Label lbl_player_1;
+        private System.Windows.Forms.Label lbl_player_2;
+        private System.Windows.Forms.Label lbl_player_3;
+        private System.Windows.Forms.Label lbl_player_4;
+        private System.Windows.Forms.Label lbl_player_5;
+        private System.Windows.Forms.Label lbl_player_6;
         private System.Windows.Forms.ImageList imgCards;
     }
 }

@@ -100,46 +100,82 @@ namespace MapLibrary
         public void MapAdd(Point point, CaveCard cave)
         {
             if (caveCards[point.R, point.C].isEmpty() && 
-                CanBeConntectedSurrounding(point, cave) &&
-                isConntectedStart(point))
+                IsValidPosition(point, cave))
             {
                 caveCards[point.R, point.C] = cave;
             }
         }
+
+        public bool IsValidPosition(Point point, CaveCard cave)
+        {
+            if (isValidated(point))
+                return CanBeConntectedSurrounding(point, cave) && isConntectedStart(point);
+            else
+                return false;
+        }
+
         public bool CanBeConntectedSurrounding(Point point, CaveCard cave)
         {
             int r = point.R, c = point.C;
+            CaveCard watch;
+
             bool result = true;
             bool isolated = true;
 
-            if (!isValidated(point)) return false;
-
             if (r > 0 && !caveCards[r - 1, c].isEmpty()) 
             {
+                watch = caveCards[r - 1, c];
                 isolated = false;
-                if ((cave.getDir() & Dir.UP) == Dir.UP)
-                    result &= (caveCards[r - 1, c].getDir() & Dir.DOWN) == Dir.DOWN;
+                if ((watch.getDir() & Dir.DOWN) == Dir.NONE) // [r - 1, c] no DOWN
+                {
+                    result &= (cave.getDir() & Dir.UP) == Dir.NONE; // [r, c] no UP
+                } 
+                else // [r - 1, c] DOWN
+                {
+                    result &= (cave.getDir() & Dir.UP) == Dir.UP; // [r, c] UP
+                }
             }
 
             if (c > 0 && !caveCards[r, c - 1].isEmpty())
             {
+                watch = caveCards[r, c - 1];
                 isolated = false;
-                if ((cave.getDir() & Dir.LEFT) == Dir.LEFT)
-                    result &= (caveCards[r, c - 1].getDir() & Dir.RIGHT) == Dir.RIGHT;
+                if ((watch.getDir() & Dir.RIGHT) == Dir.NONE) // [r, c - 1] no RIGHT
+                {
+                    result &= (cave.getDir() & Dir.LEFT) == Dir.NONE; // [r, c] no LEFT
+                }
+                else // [r, c - 1] RIGHT
+                {
+                    result &= (cave.getDir() & Dir.LEFT) == Dir.LEFT; // [r, c] LEFT
+                }
             }
 
             if (r < CONST.MAP_ROW - 1 && !caveCards[r + 1, c].isEmpty())
             {
+                watch = caveCards[r + 1, c];
                 isolated = false;
-                if ((cave.getDir() & Dir.DOWN) == Dir.DOWN)
-                    result &= (caveCards[r + 1, c].getDir() & Dir.UP) == Dir.UP;
+                if ((watch.getDir() & Dir.UP) == Dir.NONE) // [r + 1, c] no UP
+                {
+                    result &= (cave.getDir() & Dir.DOWN) == Dir.NONE; // [r, c] no DOWN
+                }
+                else // [r + 1, c] UP
+                {
+                    result &= (cave.getDir() & Dir.DOWN) == Dir.DOWN; // [r, c] DOWN
+                }
             }
 
             if (c < CONST.MAP_COL - 1 && !caveCards[r, c + 1].isEmpty())
             {
+                watch = caveCards[r, c + 1];
                 isolated = false;
-                if ((cave.getDir() & Dir.RIGHT) == Dir.RIGHT)
-                    result &= (caveCards[r, c + 1].getDir() & Dir.LEFT) == Dir.LEFT;
+                if ((watch.getDir() & Dir.LEFT) == Dir.NONE) // [r, c + 1] no LEFT
+                {
+                    result &= (cave.getDir() & Dir.RIGHT) == Dir.NONE; // [r, c] no RIGHT
+                }
+                else // [r, c + 1] LEFT
+                {
+                    result &= (cave.getDir() & Dir.RIGHT) == Dir.RIGHT; // [r, c] RIGHT
+                }
             }
 
             if (isolated)
@@ -154,25 +190,28 @@ namespace MapLibrary
             Queue queue = new Queue();
             visited = new bool[CONST.MAP_ROW, CONST.MAP_COL];
             visited[currentPoint.R, currentPoint.C] = true;
-            queue.Enqueue(new Point(currentPoint.R, currentPoint.C));
+            queue.Enqueue(currentPoint);
 
             while (queue.Count != 0)
             {
-                Point visitedPoint =  (Point)queue.Dequeue();
+                Point visitedPoint = (Point)queue.Dequeue();
                 if (isStart(visitedPoint)) return true;
-                
-                for(int i = 0; i < ctr.Length-1; i++)
+
+                for (int i = 0; i < ctr.Length - 1; i++)
                 {
                     int r = visitedPoint.R + ctr[i], c = visitedPoint.C + ctr[i + 1];  // 주변 좌표       
-                    Point point = new Point(r, c);
+                    Point watch = new Point(r, c);
 
-                    if (isValidated(point) && visited[r, c] == false)
+                    if (isStart(watch))
+                        return true;
+
+                    if (checkBoundary(watch))
                     {
-                        if (isStart(point)) 
-                            return true;
-
-                        visited[r, c] = true;
-                        queue.Enqueue(new Point(r, c));
+                        if (!isValidated(watch) && visited[r, c] == false)
+                        {
+                            visited[r, c] = true;
+                            queue.Enqueue(watch);
+                        }
                     }
                 }
             }
@@ -185,16 +224,21 @@ namespace MapLibrary
                 return true;
             return false;
         }
+
+        private bool checkBoundary(Point point)
+        {
+            int r = point.R, c = point.C;
+            return r >= 0 && r < CONST.MAP_ROW && c >= 0 && c < CONST.MAP_COL;
+        }
         
         private bool isValidated(Point point) // 현재 좌표 유효성 검사
         {
-            int r = point.R, c = point.C;
-            return (r >= 0 && r < CONST.MAP_ROW && c >= 0 && c < CONST.MAP_COL/* &&!isBlooked(point)*/);
+            return (checkBoundary(point) && !isExist(point));
         }
 
-        private bool isBlooked(Point point)
+        private bool isExist(Point point)
         {
-            return caveCards[point.R, point.C].isEmpty();
+            return !caveCards[point.R, point.C].isEmpty();
         }
     }
 }
