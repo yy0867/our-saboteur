@@ -279,9 +279,10 @@ namespace Saboteur.Forms
         private void ProcessEquipment(int playerID, EquipmentCard equipment)
         {
             //Grapical
-            applayEquipmentIcon(playerID, equipment);
+            equipment = applayEquipmentIcon(playerID, equipment);
 
             //Logical
+            setPlayerState(playerID, equipment);
         }
 
         private Field GetReleaseField(int X, int Y)
@@ -814,11 +815,12 @@ namespace Saboteur.Forms
             query.Focus();
             return equipment;
         }
-        private void applayEquipmentIcon(int playerID, EquipmentCard equipment)
+        private EquipmentCard applayEquipmentIcon(int playerID, EquipmentCard equipment)
         {
             if (hasMultiEffects(equipment))
                 equipment = selectEffect(equipment);
             setEquipmentIcon(playerID, equipment);
+            return equipment;
         }
 
         private void setEquipmentIcon(int index, EquipmentCard equipment)
@@ -850,6 +852,32 @@ namespace Saboteur.Forms
             int i = 0;
             foreach (var state in states)
                 setEquipmentIcon(i++, state);
+        }
+
+        private void setPlayerState(int index, EquipmentCard equipment)
+        {
+            switch (equipment.tool)
+            {
+                case Tool.CART:
+                    if (equipment.getType() == CType.EQ_REPAIR)
+                        this.playerStates[index].isDestroyedCart = false;
+                    else
+                        this.playerStates[index].isDestroyedCart = true;
+                    break;
+                case Tool.LATTERN:
+                    if (equipment.getType() == CType.EQ_REPAIR)
+                        this.playerStates[index].isDestroyedLantern = false;
+                    else
+                        this.playerStates[index].isDestroyedLantern = true;
+                    break;
+                case Tool.PICKAXE:
+                    if (equipment.getType() == CType.EQ_REPAIR)
+                        this.playerStates[index].isDestroyedPickaxe = false;
+                    else
+                        this.playerStates[index].isDestroyedPickaxe = true;
+                    break;
+            }
+            
         }
 
         #endregion
