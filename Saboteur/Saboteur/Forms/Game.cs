@@ -125,7 +125,7 @@ namespace Saboteur.Forms
             DrawCardOnField();
 
             #region Test
-            MockSendPacket();
+            //MockSendPacket();
             #endregion
         }
 

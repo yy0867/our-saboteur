@@ -227,16 +227,18 @@ namespace Server
                     else
                         sendGameInfo.isTurn = false;
 
+                    sendGameInfo.holdingCards = receiveInfo.holdingCards;
+
                     // holdingCards 한장 추가
                     for (int j = 0; j < this.cardNumPerPlayer; j++)
                     {
-                        if (receiveInfo.holdingCards[j] == null)
-                        {
-                            sendGameInfo.holdingCards = receiveInfo.holdingCards;
-                            sendGameInfo.holdingCards[j] = dealer.deckCards[0];
-                            //sendGameInfo.holdingCards.Add(dealer.deckCards[0]);
-                            this.dealer.deckCards.RemoveAt(0);
-                        }
+                        if (i == receiveInfo.clientID)
+                            if (receiveInfo.holdingCards[j] == null)
+                            {
+                                sendGameInfo.holdingCards[j] = dealer.deckCards[0];
+                                //sendGameInfo.holdingCards.Add(dealer.deckCards[0]);
+                                this.dealer.deckCards.RemoveAt(0);
+                            }
                     }
 
                     Send(i, sendGameInfo);
