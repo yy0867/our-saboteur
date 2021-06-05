@@ -100,52 +100,37 @@ namespace MapLibrary
         public void MapAdd(Point point, CaveCard cave)
         {
             if (caveCards[point.R, point.C].isEmpty() && 
-                CanBeConntectedSurrounding(point, cave) &&
-                isConntectedStart(point))
+                IsValidPosition(point, cave))
             {
                 caveCards[point.R, point.C] = cave;
             }
         }
+
+        public bool IsValidPosition(Point point, CaveCard cave)
+        {
+            return CanBeConntectedSurrounding(point, cave) && isConntectedStart(point);
+        }
+
         public bool CanBeConntectedSurrounding(Point point, CaveCard cave)
         {
             int r = point.R, c = point.C;
-            bool result = true;
-            bool isolated = true;
-
-            if (!isValidated(point)) return false;
-
-            if (r > 0 && !caveCards[r - 1, c].isEmpty()) 
-            {
-                isolated = false;
-                if ((cave.getDir() & Dir.UP) == Dir.UP)
-                    result &= (caveCards[r - 1, c].getDir() & Dir.DOWN) == Dir.DOWN;
-            }
-
-            if (c > 0 && !caveCards[r, c - 1].isEmpty())
-            {
-                isolated = false;
-                if ((cave.getDir() & Dir.LEFT) == Dir.LEFT)
-                    result &= (caveCards[r, c - 1].getDir() & Dir.RIGHT) == Dir.RIGHT;
-            }
-
-            if (r < CONST.MAP_ROW - 1 && !caveCards[r + 1, c].isEmpty())
-            {
-                isolated = false;
-                if ((cave.getDir() & Dir.DOWN) == Dir.DOWN)
-                    result &= (caveCards[r + 1, c].getDir() & Dir.UP) == Dir.UP;
-            }
-
-            if (c < CONST.MAP_COL - 1 && !caveCards[r, c + 1].isEmpty())
-            {
-                isolated = false;
-                if ((cave.getDir() & Dir.RIGHT) == Dir.RIGHT)
-                    result &= (caveCards[r, c + 1].getDir() & Dir.LEFT) == Dir.LEFT;
-            }
-
-            if (isolated)
+            if (r > 0 && !caveCards[r - 1, c].isEmpty() &&
+                (caveCards[r - 1, c].getDir() & Dir.RIGHT) == Dir.NONE &&
+                (cave.getDir() & Dir.LEFT) == Dir.NONE)
                 return false;
-
-            return result;
+            if (c > 0 && !caveCards[r, c - 1].isEmpty() &&
+                (caveCards[r, c - 1].getDir() & Dir.DOWN) == Dir.NONE &&
+                (cave.getDir() & Dir.UP) == Dir.NONE)
+                return false;
+            if (r < CONST.MAP_ROW - 1 && !caveCards[r + 1, c].isEmpty() &&
+                (caveCards[r + 1, c].getDir() & Dir.LEFT) == Dir.NONE &&
+                (cave.getDir() & Dir.RIGHT) == Dir.NONE)
+                return false;
+            if (c < CONST.MAP_COL - 1 && !caveCards[r, c + 1].isEmpty() &&
+                (caveCards[r, c + 1].getDir() & Dir.UP) == Dir.NONE &&
+                (cave.getDir() & Dir.DOWN) == Dir.NONE)
+                return false;
+            return true;
         }      
         
         private bool isConntectedStart(Point currentPoint)
@@ -158,19 +143,14 @@ namespace MapLibrary
 
             while (queue.Count != 0)
             {
-                Point visitedPoint =  (Point)queue.Dequeue();
+                Point visitedPoint = (Point)queue.Dequeue();
                 if (isStart(visitedPoint)) return true;
-                
-                for(int i = 0; i < ctr.Length-1; i++)
+
+                for (int i = 0; i < ctr.Length - 1; i++)
                 {
                     int r = visitedPoint.R + ctr[i], c = visitedPoint.C + ctr[i + 1];  // 주변 좌표       
-                    Point point = new Point(r, c);
-
-                    if (isValidated(point) && visited[r, c] == false)
+                    if (isValidated(new Point(r, c)) && visited[r, c] == false)
                     {
-                        if (isStart(point)) 
-                            return true;
-
                         visited[r, c] = true;
                         queue.Enqueue(new Point(r, c));
                     }
@@ -189,7 +169,7 @@ namespace MapLibrary
         private bool isValidated(Point point) // 현재 좌표 유효성 검사
         {
             int r = point.R, c = point.C;
-            return (r >= 0 && r < CONST.MAP_ROW && c >= 0 && c < CONST.MAP_COL/* &&!isBlooked(point)*/);
+            return (r >= 0 && r < CONST.MAP_ROW && c >= 0 && c < CONST.MAP_COL &&!isBlooked(point));
         }
 
         private bool isBlooked(Point point)

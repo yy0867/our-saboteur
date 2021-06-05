@@ -258,7 +258,6 @@ namespace Saboteur.Forms
 
                 if (releasePoint == Field.MAP) // is in map
                 {
-                    MessageBox.Show("Map");
                     Point? gridPoint = GetGridPoint(mouseLocation.X, mouseLocation.Y); // Mouse Pointer Position
 
                     if (gridPoint.HasValue) // grid point is valid
@@ -289,7 +288,6 @@ namespace Saboteur.Forms
                     if (!(selectedCard is EquipmentCard))
                         return;
 
-                    MessageBox.Show("Player");
                     int index = GetPlayerIndex(mouseLocation);
 
                     if (index >= playerNum)
@@ -309,13 +307,12 @@ namespace Saboteur.Forms
                 // Release on Deck
                 else if (releasePoint == Field.DECK)
                 {
-                    MessageBox.Show("Deck");
+
                 }
 
                 // ##################### ADD UP ########################
                 else
                 {
-                    MessageBox.Show("Hands");
                     MoveToStartPosition(selectedPic);
                 }
             }
@@ -744,7 +741,7 @@ namespace Saboteur.Forms
 
                     Brush brush = new SolidBrush(Grid_Impossible);
 
-                    if (field.CanBeConntectedSurrounding(coords, (CaveCard)this.selectedCard))
+                    if (field.IsValidPosition(coords, (CaveCard)this.selectedCard))
                     {
                         brush = new SolidBrush(Grid_Possible);
                     }
