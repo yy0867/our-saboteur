@@ -98,6 +98,13 @@ namespace PacketLibrary
         public bool isDestroyedPickaxe;
         public bool isDestroyedLantern;
         public bool isDestroyedCart;
+
+        public PlayerState()
+        {
+            isDestroyedPickaxe = false;
+            isDestroyedLantern = false;
+            isDestroyedCart = false;
+        }
     }
 
     [Serializable]

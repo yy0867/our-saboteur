@@ -47,6 +47,7 @@ namespace Saboteur.Forms
         private const int fieldLeftPadding = 28;
         private const int fieldTopPadding = 3;
         private const int handPadding = 30;
+        private const int playerCardHeight = 126;
         private Size fieldSize = new Size(CONST.MAP_COL * cardWidth, CONST.MAP_ROW * cardHeight);
 
         private const int START_CARD_INDEX = 31;
@@ -64,14 +65,16 @@ namespace Saboteur.Forms
         Point rectPrev = new Point();           // for grid rect
 
         // Game Instances
+        int playerNum = 0;
+        int turn = 0;
         CaveCard[,] prevMap = new CaveCard[CONST.MAP_ROW, CONST.MAP_COL];
         Map field = new Map();
         Card selectedCard = null;               // which card is selected
         PictureBox selectedPic = null;          // selectedCard's Image
         List<Card> hands = new List<Card>();
+        Dictionary<int, List<PictureBox>> playersInfo = new Dictionary<int, List<PictureBox>>(); 
 
         // Graphics Instances
-        private bool IsStart = false;
         Graphics g = null;
         List<PictureBox> pictureBoxes = new List<PictureBox>();
 
@@ -121,11 +124,39 @@ namespace Saboteur.Forms
             #endregion
         }
 
+        private void updatePlayerState(List<PlayerState> playerState)
+        {
+            for (int i = 0; i < this.playerNum; i++)
+            {
+                PlayerState state = playerState[i];
+                PictureBox playerIcon, pickaxe, lantern, cart;
+
+                try
+                {
+                    playerIcon = (PictureBox)this.GetType().GetField("player" + i + "_icon").GetValue(this);
+                    pickaxe = (PictureBox)this.GetType().GetField("player_" + i + "_pickaxe").GetValue(this);
+                    lantern = (PictureBox)this.GetType().GetField("player_" + i + "_lantern").GetValue(this);
+                    cart = (PictureBox)this.GetType().GetField("player_" + i + "_cart").GetValue(this);
+
+                    playerIcon.BackgroundImage = Properties.Resources.player_on;
+                    pickaxe.BackgroundImage = state.isDestroyedPickaxe ? Properties.Resources.blocked_pickaxe : null;
+                    cart.BackgroundImage = state.isDestroyedCart ? Properties.Resources.blocked_cart : null;
+                    lantern.BackgroundImage = state.isDestroyedLantern ? Properties.Resources.blocked_lantern : null;
+                }
+                catch
+                {
+                    MessageBox.Show("Casting Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+        }
+
         public void updateInfo(Packet packet)
         {
             GameInfo info = (GameInfo)packet;
 
             this.clientID = info.clientID;
+            this.playerNum = info.playersState.Count;
 
             this.field = info.fields;
             DrawCardOnField();
@@ -133,8 +164,13 @@ namespace Saboteur.Forms
             this.hands = info.holdingCards;
 
             int usedCardCount = info.backUsedCards.Count + info.frontUsedCards.Count;
-            this.lblUsedCardNum.Text = usedCardCount.ToString();
-            this.lblDeckNum.Text = info.deckCards.Count.ToString();
+            this.Invoke((MethodInvoker)(() =>
+            {
+                this.lblUsedCardNum.Text = usedCardCount.ToString();
+                this.lblDeckNum.Text = info.deckCards.Count.ToString();
+            }));
+
+            updatePlayerState(info.playersState);
 
             DrawHands(hands);
         }
@@ -200,6 +236,12 @@ namespace Saboteur.Forms
             }
         }
 
+        // Release on Player
+        private void ProcessEquipment(int playerID)
+        {
+
+        }
+
         private Field GetReleaseField(int X, int Y)
         {
             if (picFieldBackground.Left <= X && X <= fieldSize.Width &&
@@ -221,6 +263,15 @@ namespace Saboteur.Forms
             return Field.HAND;
         }
 
+        private int GetPlayerIndex(Point point)
+        {
+            int Y = point.Y;
+            
+            if (Y < 10) return 0;
+
+            return (Y - 10) / playerCardHeight;
+        }
+
         private void picCard_MouseUp(object sender, MouseEventArgs e)
         {
             if (this.isMouseDown && this.selectedPic != null)
@@ -228,17 +279,19 @@ namespace Saboteur.Forms
                 this.isMouseDown = false;
                 EraseGraphics();
 
-                Field releasePoint = GetReleaseField(e.X + selectedPic.Left, e.Y + selectedPic.Top);
+                Point mouseLocation = new Point(e.X + selectedPic.Left, e.Y + selectedPic.Top);
+
+                Field releasePoint = GetReleaseField(mouseLocation.X, mouseLocation.Y);
                 // ##################### ADD DOWN BY USING METHOD ########################
                 // Release on Grid
 
                 if (releasePoint == Field.MAP) // is in map
                 {
-                    Point? gridPoint = GetGridPoint(selectedPic.Left + e.X, selectedPic.Top + e.Y); // Mouse Pointer Position
+                    Point? gridPoint = GetGridPoint(mouseLocation.X, mouseLocation.Y); // Mouse Pointer Position
 
                     if (gridPoint.HasValue) // grid point is valid
                     {
-                        if (!(this.selectedCard is CaveCard) || !field.CanBeConntectedSurrounding(ConvertLocationToCoords(selectedPic.Left + e.X, selectedPic.Top + e.Y), (CaveCard)selectedCard))
+                        if (!(this.selectedCard is CaveCard) || !field.CanBeConntectedSurrounding(ConvertLocationToCoords(mouseLocation), (CaveCard)selectedCard))
                         {
                             MoveToStartPosition(selectedPic);
                         }
@@ -259,9 +312,22 @@ namespace Saboteur.Forms
                 }
 
                 // Release on Player
-                else if (releasePoint == Field.PLAYER)
+                else if (releasePoint == Field.PLAYER && selectedCard is EquipmentCard)
                 {
+                    int index = GetPlayerIndex(mouseLocation);
 
+                    if (index >= playerNum)
+                    {
+                        MoveToStartPosition(selectedPic);
+                    }
+                    else
+                    {
+                        ProcessEquipment(index);
+
+                        selectedPic.MouseUp -= picCard_MouseUp;
+                        selectedPic.MouseDown -= picCard_MouseDown;
+                        selectedPic.MouseMove -= picCard_MouseMove;
+                    }
                 }
 
                 // Release on Deck
@@ -316,6 +382,7 @@ namespace Saboteur.Forms
         }
         #endregion
 
+        #region Draw Card Methods
         // ###### Draw Card Methods - Start ######
         private void Rotate(Image image)
         {
@@ -621,6 +688,19 @@ namespace Saboteur.Forms
             }
         }
         // ###### Draw Card Methods - End ######
+        #endregion
+
+        #region Draw Player Methods
+        // ###### Draw Player Methods - Start ######
+        private void DrawPlayers()
+        {
+            if (playersInfo.Count == 0 || playersInfo == null)
+                return;
+
+
+        }
+        // ###### Draw Player Methods - End ######
+        #endregion
 
         private void MoveToStartPosition(PictureBox card)
         {
