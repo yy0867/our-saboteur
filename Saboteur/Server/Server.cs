@@ -39,7 +39,8 @@ namespace Server
 
         /* -------------------- Map, Card -------------------- */
         private Map fields;
-        private List<Card> deckCards;
+        private Dealer dealer;
+        //private List<Card> deckCards;
         private List<Card> frontUsedCards = new List<Card>();
         private List<Card> backUsedCards = new List<Card>();
         private List<PlayerState> playersState = new List<PlayerState>();
@@ -52,6 +53,12 @@ namespace Server
             // networkStream 배열 초기화
             for (int i = 0; i < MAX_CLIENT_NUM; i++)
                 networkStream[i] = null;
+
+            //this.fields = new Map();
+            //this.dealer = new Dealer(this.numConnectedClient);
+            //this.dealer.CardListInit();
+            //this.dealer.DeckCardsInit();
+            //bool[] roleArr = dealer.defineRole(this.connectedClients);
         }
 
         public void Run()
@@ -153,22 +160,28 @@ namespace Server
 
         private void ProcessGameInfo(GameInfo receiveInfo)
         {
+            Console.WriteLine("Client {0}으로부터 GameInfo 패킷 Receive", receiveInfo.clientID);
+
             GameInfo sendGameInfo = new GameInfo();
-            Map fields = new Map();
-            Dealer dealer = new Dealer(this.numConnectedClient);
-            dealer.CardListInit();
-            dealer.DeckCardsInit();
-            bool[] roleArr = dealer.defineRole(this.connectedClients);
+            //Map fields = new Map();
+            //Dealer dealer = new Dealer(this.numConnectedClient);
+            //dealer.CardListInit();
+            //dealer.DeckCardsInit();
+            //bool[] roleArr = dealer.defineRole(this.connectedClients);
 
             // 게임 시작 직후 받은 GameInfo 패킷
             if (this.isFirstGameInfo)
             {
-                fields.MapInit();
-                this.fields = fields;
+                this.fields = new Map();
+                this.fields.MapInit();
+                this.dealer = new Dealer(this.numConnectedClient);
+                this.dealer.CardListInit();
+                this.dealer.DeckCardsInit();
+                bool[] roleArr = this.dealer.defineRole(this.connectedClients);
                 
-                Dictionary<int, List<Card>> DicCardsPerPlayer = dealer.cardDivide();
+                Dictionary<int, List<Card>> DicCardsPerPlayer = this.dealer.cardDivide();
                 for (int i = 0; i < this.numConnectedClient; i++)
-                    dealer.RemoveCardsFromDeck(DicCardsPerPlayer[i]);
+                    this.dealer.RemoveCardsFromDeck(DicCardsPerPlayer[i]);
 
                 PlayerState state = new PlayerState();
                 for (int i = 0; i < this.numConnectedClient; i++)
@@ -177,8 +190,8 @@ namespace Server
 
                     sendGameInfo.clientID = i;
                     sendGameInfo.holdingCards = DicCardsPerPlayer[i];
-                    sendGameInfo.fields = fields;
-                    sendGameInfo.deckCards = dealer.deckCards;
+                    sendGameInfo.fields = this.fields;
+                    sendGameInfo.deckCards = this.dealer.deckCards;
 
                     if (i == 0)     // 0번 플레이어부터 Turn 시작
                         sendGameInfo.isTurn = true;
@@ -195,21 +208,24 @@ namespace Server
 
                 this.isFirstGameInfo = false;
             }
-            // 게임 진행: Turn만 정해서 GameInfo 패킷 Send
+            // 게임 진행: Turn 정하고, holdingCards 1장 추가해서 GameInfo 패킷 Send
             else
             {
-                Console.WriteLine("Client {0}으로부터 GameInfo 패킷 Receive", receiveInfo.clientID);
-
                 int nextTurnPlayer = GetNextTurnPlayer();
 
                 for (int i = 0; i < this.numConnectedClient; i++)
                 {
                     sendGameInfo.clientID = i;
+                    sendGameInfo.fields = this.fields;
 
                     if (i == nextTurnPlayer)
                         sendGameInfo.isTurn = true;
                     else
                         sendGameInfo.isTurn = false;
+
+                    // holdingCards 한장 추가
+                    sendGameInfo.holdingCards.Add(dealer.deckCards[0]);
+                    this.dealer.deckCards.RemoveAt(0);
 
                     Send(i, sendGameInfo);
                 }

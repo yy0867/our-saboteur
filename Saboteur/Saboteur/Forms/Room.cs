@@ -94,8 +94,7 @@ namespace Saboteur.Forms
             {
                 this.Invoke((MethodInvoker)(()=>{ this.btn_start.Visible = true; }));
                 
-            }
-                
+            }   
 
             updateChattingLog(this.receivedRoomInfo.message, this.receivedRoomInfo.clientID);
         }
