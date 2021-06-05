@@ -124,33 +124,6 @@ namespace Saboteur.Forms
             #endregion
         }
 
-        private void updatePlayerState(List<PlayerState> playerState)
-        {
-            for (int i = 0; i < this.playerNum; i++)
-            {
-                PlayerState state = playerState[i];
-                PictureBox playerIcon, pickaxe, lantern, cart;
-
-                try
-                {
-                    playerIcon = (PictureBox)this.GetType().GetField("player" + i + "_icon").GetValue(this);
-                    pickaxe = (PictureBox)this.GetType().GetField("player_" + i + "_pickaxe").GetValue(this);
-                    lantern = (PictureBox)this.GetType().GetField("player_" + i + "_lantern").GetValue(this);
-                    cart = (PictureBox)this.GetType().GetField("player_" + i + "_cart").GetValue(this);
-
-                    playerIcon.BackgroundImage = Properties.Resources.player_on;
-                    pickaxe.BackgroundImage = state.isDestroyedPickaxe ? Properties.Resources.blocked_pickaxe : null;
-                    cart.BackgroundImage = state.isDestroyedCart ? Properties.Resources.blocked_cart : null;
-                    lantern.BackgroundImage = state.isDestroyedLantern ? Properties.Resources.blocked_lantern : null;
-                }
-                catch
-                {
-                    MessageBox.Show("Casting Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            }
-        }
-
         public void updateInfo(Packet packet)
         {
             GameInfo info = (GameInfo)packet;
@@ -169,8 +142,6 @@ namespace Saboteur.Forms
                 this.lblUsedCardNum.Text = usedCardCount.ToString();
                 this.lblDeckNum.Text = info.deckCards.Count.ToString();
             }));
-
-            updatePlayerState(info.playersState);
 
             DrawHands(hands);
         }
