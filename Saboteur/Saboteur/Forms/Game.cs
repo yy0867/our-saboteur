@@ -31,6 +31,14 @@ namespace Saboteur.Forms
         }
     }
 
+    enum Field
+    {
+        MAP = 0,
+        PLAYER,
+        DECK,
+        HAND
+    }
+
     public partial class Game : UserControl
     {
         // Constants
@@ -67,6 +75,9 @@ namespace Saboteur.Forms
         Graphics g = null;
         List<PictureBox> pictureBoxes = new List<PictureBox>();
 
+        // Network Variables
+        int clientID = 0;
+
         #region Test
         private void MockSendPacket()
         {
@@ -76,33 +87,6 @@ namespace Saboteur.Forms
             CaveCard card;
 
             mock.fields.MapInit();
-
-            //#region(MockingTest_Field)
-            //for (int i = 0; i < 4; i++)
-            //{
-            //    point = new MapLibrary.Point(3, 5 + i);
-            //    card = new CaveCard(Dir.RIGHTLEFT, true);
-
-            //    mock.fields.MapAdd(point, card);
-            //}
-
-            //point = new MapLibrary.Point(3, 9);
-            //card = new CaveCard(Dir.LEFTUP, true);
-            //mock.fields.MapAdd(point, card);
-
-            //for (int i = 0; i < 2; i++)
-            //{
-            //    point = new MapLibrary.Point(2 - i, 9);
-            //    card = new CaveCard(Dir.DOWNUP, true);
-
-            //    mock.fields.MapAdd(point, card);
-            //}
-
-            //point = new MapLibrary.Point(0, 9);
-            //card = new CaveCard(Dir.DOWNUP, false);
-
-            //mock.fields.MapAdd(point, card);
-            //#endregion
 
             #region(MockingTest_Hand)
             mock.holdingCards.Add(new CaveCard(Dir.ALL, true));
@@ -141,10 +125,16 @@ namespace Saboteur.Forms
         {
             GameInfo info = (GameInfo)packet;
 
-            field = info.fields;
+            this.clientID = info.clientID;
+
+            this.field = info.fields;
             DrawCardOnField();
 
-            hands = info.holdingCards;
+            this.hands = info.holdingCards;
+
+            int usedCardCount = info.backUsedCards.Count + info.frontUsedCards.Count;
+            this.lblUsedCardNum.Text = usedCardCount.ToString();
+            this.lblDeckNum.Text = info.deckCards.Count.ToString();
 
             DrawHands(hands);
         }
@@ -174,8 +164,18 @@ namespace Saboteur.Forms
                 this.selectedPic.Left += (e.X - mouseDragPrev.X);
                 this.selectedPic.Top += (e.Y - mouseDragPrev.Y);
 
-                SetPredictionRect(this.selectedPic.Left + e.X, this.selectedPic.Top + e.Y);
+                if (this.selectedCard is CaveCard)
+                    SetPredictionRect(this.selectedPic.Left + e.X, this.selectedPic.Top + e.Y);
+
+                //else if (this.selectedCard is ActionCard) 
+
             }
+        }
+
+        // Send Packet
+        private void Send(GameInfo packet)
+        {
+            packet.clientID = this.clientID;
         }
 
         // Release on Grid
@@ -200,6 +200,27 @@ namespace Saboteur.Forms
             }
         }
 
+        private Field GetReleaseField(int X, int Y)
+        {
+            if (picFieldBackground.Left <= X && X <= fieldSize.Width &&
+                picFieldBackground.Top <= Y && Y <= fieldSize.Height)
+                return Field.MAP;
+
+            else if (fieldSize.Width < X && X <= this.Width &&
+                this.Height <= Y && Y <= fieldSize.Height)
+                return Field.PLAYER;
+
+            else if (this.Left <= X && X <= picDeck.Left - handPadding &&
+                fieldSize.Height < Y && Y <= this.Height)
+                return Field.HAND;
+
+            else if (picDeck.Left - handPadding < X && X <= this.Width &&
+                fieldSize.Height < Y && Y <= this.Height)
+                return Field.DECK;
+
+            return Field.HAND;
+        }
+
         private void picCard_MouseUp(object sender, MouseEventArgs e)
         {
             if (this.isMouseDown && this.selectedPic != null)
@@ -207,40 +228,47 @@ namespace Saboteur.Forms
                 this.isMouseDown = false;
                 EraseGraphics();
 
+                Field releasePoint = GetReleaseField(e.X + selectedPic.Left, e.Y + selectedPic.Top);
                 // ##################### ADD DOWN BY USING METHOD ########################
                 // Release on Grid
-                Point? gridPoint = GetGridPoint(selectedPic.Left + e.X, selectedPic.Top + e.Y); // Mouse Pointer Position
 
-                if (gridPoint.HasValue) // is in grid
+                if (releasePoint == Field.MAP) // is in map
                 {
-                    if (!field.CanBeConntectedSurrounding(ConvertLocationToCoords(selectedPic.Left + e.X, selectedPic.Top + e.Y), (CaveCard)selectedCard))
+                    Point? gridPoint = GetGridPoint(selectedPic.Left + e.X, selectedPic.Top + e.Y); // Mouse Pointer Position
+
+                    if (gridPoint.HasValue) // grid point is valid
                     {
-                        MoveToStartPosition(selectedPic);
-                        return;
+                        if (!(this.selectedCard is CaveCard) || !field.CanBeConntectedSurrounding(ConvertLocationToCoords(selectedPic.Left + e.X, selectedPic.Top + e.Y), (CaveCard)selectedCard))
+                        {
+                            MoveToStartPosition(selectedPic);
+                        }
+                        else
+                        {
+                            ProcessGrid((Point)gridPoint);
+
+                            selectedPic.MouseUp -= picCard_MouseUp;
+                            selectedPic.MouseDown -= picCard_MouseDown;
+                            selectedPic.MouseMove -= picCard_MouseMove;
+                        }
                     }
                     else
                     {
-                        ProcessGrid((Point)gridPoint);
-
-                        selectedPic.MouseUp -= picCard_MouseUp;
-                        selectedPic.MouseDown -= picCard_MouseDown;
-                        selectedPic.MouseMove -= picCard_MouseMove;
+                        MoveToStartPosition(selectedPic);
                     }
+                    return;
                 }
 
-                //// Release on Player
-                // else if ()
-                // {
+                // Release on Player
+                else if (releasePoint == Field.PLAYER)
+                {
 
-                // }
+                }
 
-                //// Release on Deck
-                // else if ()
-                // {
+                // Release on Deck
+                else if (releasePoint == Field.DECK)
+                {
 
-                // }
-
-                // ..?
+                }
 
                 // ##################### ADD UP ########################
                 else
@@ -365,10 +393,6 @@ namespace Saboteur.Forms
 
                     case Dir.NOUP:
                         cardImage = imgCards.Images[29];
-                        break;
-
-                    case Dir.NONE:
-                        cardImage = null;
                         break;
                 }
             }
