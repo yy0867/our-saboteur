@@ -125,7 +125,7 @@ namespace Saboteur.Forms
             DrawCardOnField();
 
             #region Test
-            //MockSendPacket();
+            MockSendPacket();
             #endregion
         }
 
@@ -281,7 +281,7 @@ namespace Saboteur.Forms
 
         private void RemoveFromHands()
         {
-            this.hands.RemoveAt(this.selectedIndex);
+            this.hands[this.selectedIndex] = null;
 
             selectedPic.MouseUp -= picCard_MouseUp;
             selectedPic.MouseDown -= picCard_MouseDown;
@@ -699,10 +699,17 @@ namespace Saboteur.Forms
                     // Draw Cave Card
                     else
                     {
-                        Image curImage = GetCardImage(curCard);
+                        if (!curCard.isEmpty() && prevMap[i, j].isEmpty())
+                        {
+                            Image curImage = GetCardImage(curCard);
 
-                        if (curImage != null)
-                            AddImage(location, curImage);
+                            if (curImage != null)
+                                AddImage(location, curImage);
+                        }
+                        else if (curCard.isEmpty() && !prevMap[i, j].isEmpty())
+                        {
+                            DeleteImage(i, j);
+                        }
                     }
 
                     prevMap[i, j] = curCard;
