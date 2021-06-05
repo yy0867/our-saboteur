@@ -171,6 +171,12 @@ namespace DealerLibrary
             deckCards = Suffle(deckCards);
         }
 
+        // 
+        public void AddPlayerHoldingCard()
+        {
+
+        }
+
         public void RemoveCardsFromDeck(List<Card> usedCards)
         {
             foreach (var card in usedCards)

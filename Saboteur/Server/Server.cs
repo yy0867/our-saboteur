@@ -46,6 +46,8 @@ namespace Server
         private List<PlayerState> playersState = new List<PlayerState>();
 
         private bool isFirstGameInfo = true;
+        private int cardNumPerPlayer = 0;
+        // Player 별로 손에 쥐고있는 카드 개수
 
 
         public Server()
@@ -180,6 +182,8 @@ namespace Server
                 bool[] roleArr = this.dealer.defineRole(this.connectedClients);
                 
                 Dictionary<int, List<Card>> DicCardsPerPlayer = this.dealer.cardDivide();
+                this.cardNumPerPlayer = DicCardsPerPlayer[0].Count;
+
                 for (int i = 0; i < this.numConnectedClient; i++)
                     this.dealer.RemoveCardsFromDeck(DicCardsPerPlayer[i]);
 
@@ -224,8 +228,16 @@ namespace Server
                         sendGameInfo.isTurn = false;
 
                     // holdingCards 한장 추가
-                    sendGameInfo.holdingCards.Add(dealer.deckCards[0]);
-                    this.dealer.deckCards.RemoveAt(0);
+                    for (int j = 0; j < this.cardNumPerPlayer; j++)
+                    {
+                        if (receiveInfo.holdingCards[j] == null)
+                        {
+                            sendGameInfo.holdingCards = receiveInfo.holdingCards;
+                            sendGameInfo.holdingCards[j] = dealer.deckCards[0];
+                            //sendGameInfo.holdingCards.Add(dealer.deckCards[0]);
+                            this.dealer.deckCards.RemoveAt(0);
+                        }
+                    }
 
                     Send(i, sendGameInfo);
                 }
