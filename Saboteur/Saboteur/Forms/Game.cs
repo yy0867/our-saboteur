@@ -73,12 +73,12 @@ namespace Saboteur.Forms
         Card selectedCard = null;               // which card is selected
         PictureBox selectedPic = null;          // selectedCard's Image
         List<Card> hands = new List<Card>();
-        Dictionary<int, List<PictureBox>> playersInfo = new Dictionary<int, List<PictureBox>>(); 
-
+        List<PlayerState> playerStates;
+        Stack<Card> frontUesdCards;
 
         // Graphics Instances
         Graphics g = null;
-        List<PictureBox> handsCardImages = new List<PictureBox>();
+        List<PictureBox> allocatedImages = new List<PictureBox>();
         List<PictureBox> playerIcons = new List<PictureBox>();
         Dictionary<Tool, List<PictureBox>> toolIcons = new Dictionary<Tool, List<PictureBox>>();
 
@@ -169,6 +169,10 @@ namespace Saboteur.Forms
                 this.lblUsedCardNum.Text = usedCardCount.ToString();
                 this.lblDeckNum.Text = info.deckCards.Count.ToString();
             }));
+            
+            
+
+            this.playerStates = info.playersState;
             setEquipmentIcon(info.playersState);
             DrawHands(hands);
         }
@@ -332,6 +336,8 @@ namespace Saboteur.Forms
                         selectedPic.MouseUp -= picCard_MouseUp;
                         selectedPic.MouseDown -= picCard_MouseDown;
                         selectedPic.MouseMove -= picCard_MouseMove;
+
+                        DeleteImage(selectedPic);
                     }
                 }
 
@@ -367,13 +373,13 @@ namespace Saboteur.Forms
         // return index when mouse down event on Hand
         private int GetHandIndexByLocation(Point location)
         {
-            for (int i = 0; i < this.handsCardImages.Count; i++)
+            for (int i = 0; i < this.allocatedImages.Count; i++)
             {
-                if (this.handsCardImages[i].Top < fieldSize.Height + fieldTopPadding * 2) continue;
-                else if (this.handsCardImages[i].Tag.ToString() != "Card") continue;
+                if (this.allocatedImages[i].Top < fieldSize.Height + fieldTopPadding * 2) continue;
+                else if (this.allocatedImages[i].Tag.ToString() != "Card") continue;
 
-                if (this.handsCardImages[i].Left < location.X &&
-                    location.X < this.handsCardImages[i].Left + cardWidth)
+                if (this.allocatedImages[i].Left < location.X &&
+                    location.X < this.allocatedImages[i].Left + cardWidth)
                 {
                     return (location.X - handPadding) / (handPadding + cardWidth);
                 }
@@ -607,7 +613,7 @@ namespace Saboteur.Forms
                 pic.BringToFront();
             }));
 
-            handsCardImages.Add(pic);
+            allocatedImages.Add(pic);
 
             if (isMoveable)
             {
@@ -620,12 +626,12 @@ namespace Saboteur.Forms
 
         private PictureBox FindPictureboxByLocation(Point location)
         {
-            for (int i = 0; i < this.handsCardImages.Count; i++)
+            for (int i = 0; i < this.allocatedImages.Count; i++)
             {
-                if (this.handsCardImages[i].Left < location.X && location.X < this.handsCardImages[i].Left + this.handsCardImages[i].Width &&
-                    this.handsCardImages[i].Top < location.Y && location.Y < this.handsCardImages[i].Top + this.handsCardImages[i].Height)
+                if (this.allocatedImages[i].Left < location.X && location.X < this.allocatedImages[i].Left + this.allocatedImages[i].Width &&
+                    this.allocatedImages[i].Top < location.Y && location.Y < this.allocatedImages[i].Top + this.allocatedImages[i].Height)
                 {
-                    return this.handsCardImages[i];
+                    return this.allocatedImages[i];
                 }
             }
             return null;
@@ -636,6 +642,15 @@ namespace Saboteur.Forms
             return FindPictureboxByLocation(new Point(x, y));
         }
 
+        private void DeleteImage(PictureBox victim)
+        {
+            if (victim != null)
+            {
+                this.Controls.Remove(victim);
+                this.allocatedImages.Remove(victim);
+            }
+        }
+
         private void DeleteImage(int row, int col)
         {
             Point point = ConvertCoordsToLocation(row, col);
@@ -644,11 +659,7 @@ namespace Saboteur.Forms
 
             PictureBox victim = FindPictureboxByLocation(point);
 
-            if (victim != null)
-            {
-                this.Controls.Remove(victim);
-                this.handsCardImages.Remove(victim);
-            }
+            DeleteImage(victim);
         }
 
         private void DrawCardOnField()
