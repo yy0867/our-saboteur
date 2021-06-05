@@ -318,6 +318,7 @@ namespace Saboteur.Forms
                         {
                             ProcessGrid((Point)gridPoint);
                             RemoveFromHands();
+                            this.selectedCard.face = CardFace.FRONT;
                             Send();
                         }
                     }
@@ -343,6 +344,7 @@ namespace Saboteur.Forms
                     else
                     {
                         ProcessEquipment(index);
+                        this.selectedCard.face = CardFace.FRONT;
 
                         selectedPic.MouseUp -= picCard_MouseUp;
                         selectedPic.MouseDown -= picCard_MouseDown;
@@ -353,7 +355,7 @@ namespace Saboteur.Forms
                 // Release on Deck: Discard the Card    => Show Card Back
                 else if (releasePoint == Field.DECK)
                 {
-                    this.selectedCard.face = CardFace.BACK;     // 뒷면
+                    this.selectedCard.face = CardFace.BACK;
                     this.usedCard.Push(this.selectedCard);
                     this.picUsedCard.Image = GetCardImage(this.usedCard.Peek());
                     RemoveFromHands();
