@@ -193,6 +193,36 @@ namespace Saboteur.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+        internal static System.Drawing.Bitmap item_unblock_cart {
+            get {
+                object obj = ResourceManager.GetObject("item_unblock_cart", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_unblock_lantern {
+            get {
+                object obj = ResourceManager.GetObject("item_unblock_lantern", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_unblock_pickax {
+            get {
+                object obj = ResourceManager.GetObject("item_unblock_pickax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
         internal static System.Drawing.Bitmap light_off {
             get {
                 object obj = ResourceManager.GetObject("light_off", resourceCulture);

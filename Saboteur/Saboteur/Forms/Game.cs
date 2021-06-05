@@ -54,6 +54,7 @@ namespace Saboteur.Forms
         private const int DEST_GOLD = 4;
         private const int DEST_DOWN_LEFT_INDEX = 5;
         private const int DEST_DOWN_RIGHT_INDEX = 6;
+        private const int MAX_PLAYER = 7;
 
         private Color Grid_Possible = Color.FromArgb(70, 65, 195, 0);
         private Color Grid_Impossible = Color.FromArgb(70, 225, 57, 53);
@@ -73,19 +74,43 @@ namespace Saboteur.Forms
         PictureBox selectedPic = null;          // selectedCard's Image
         int selectedIndex = 0;                  // hand index
         List<Card> hands = new List<Card>();
+        List<PlayerState> playerStates;
         Stack<Card> frontUsedCard = new Stack<Card>();
         Stack<Card> backUsedCard = new Stack<Card>();
         Dictionary<int, List<PictureBox>> playersInfo = new Dictionary<int, List<PictureBox>>(); 
 
         // Graphics Instances
         Graphics g = null;
-        List<PictureBox> pictureBoxes = new List<PictureBox>();
+        List<PictureBox> allocatedImages = new List<PictureBox>();
+        List<PictureBox> playerIcons = new List<PictureBox>();
+        Dictionary<Tool, List<PictureBox>> toolIcons = new Dictionary<Tool, List<PictureBox>>();
+
+
 
         // Network Variables
         bool isFirstPacket = true;
         int clientID = 0;
 
         #region Test
+        private PlayerState mockedPlayerStates(bool canUsePicaxe, bool canUseLantern, bool canUseCart)
+        {
+            var state = new PlayerState();
+            state.isDestroyedPickaxe = canUsePicaxe;
+            state.isDestroyedLantern = canUseLantern;
+            state.isDestroyedCart = canUseCart;
+            return state;
+        }
+        private List<PlayerState> mockedPlayerStates()
+        {
+            var states = new List<PlayerState>();
+            states.Add(mockedPlayerStates(true, true, true));
+            states.Add(mockedPlayerStates(true, true, false));
+            states.Add(mockedPlayerStates(true, false, false));
+            states.Add(mockedPlayerStates(false, false, false));
+            states.Add(mockedPlayerStates(false, true, true));
+            states.Add(mockedPlayerStates(false, false, true));
+            return states;
+        }
         private void MockSendPacket()
         {
             GameInfo mock = new GameInfo();
@@ -94,8 +119,9 @@ namespace Saboteur.Forms
             CaveCard card;
 
             mock.fields.MapInit();
+            mock.playersState = mockedPlayerStates();
             mock.isSaboteur = false;
-
+            
             #region(MockingTest_Hand)
             mock.holdingCards.Add(new CaveCard(Dir.ALL, true));
             mock.holdingCards.Add(new CaveCard(Dir.LEFTDOWN, true));
@@ -104,6 +130,7 @@ namespace Saboteur.Forms
             mock.holdingCards.Add(new EquipmentCard(CType.EQ_DESTRUCTION, Tool.CART));
             #endregion
 
+            
             updateInfo(mock);
         }
         #endregion
@@ -111,6 +138,7 @@ namespace Saboteur.Forms
         public Game()
         {
             InitializeComponent();
+            InitializeIcons();
 
             for (int i = 0; i < CONST.MAP_ROW; i++)
                 for (int j = 0; j < CONST.MAP_COL; j++)
@@ -157,6 +185,10 @@ namespace Saboteur.Forms
                 this.lblUsedCardNum.Text = usedCardCount.ToString();
                 this.lblDeckNum.Text = info.deckCards.Count.ToString();
             }));
+            
+            this.playerStates = info.playersState;
+            setEquipmentIcon(info.playersState);
+            DrawHands(hands);
         }
 
         private void picCard_MouseDown(object sender, MouseEventArgs e)
@@ -244,9 +276,12 @@ namespace Saboteur.Forms
         }
 
         // Release on Player
-        private void ProcessEquipment(int playerID)
+        private void ProcessEquipment(int playerID, EquipmentCard equipment)
         {
+            //Grapical
+            applayEquipmentIcon(playerID, equipment);
 
+            //Logical
         }
 
         private Field GetReleaseField(int X, int Y)
@@ -330,22 +365,25 @@ namespace Saboteur.Forms
                 // Release on Player: Use Equipment(Repair, Destruction) Card
                 else if (releasePoint == Field.PLAYER)
                 {
-                    if (!(selectedCard is EquipmentCard))
+                    EquipmentCard selectedEquipment = selectedCard as EquipmentCard;
+                    if (selectedEquipment == null)
                         return;
 
                     int index = GetPlayerIndex(mouseLocation);
 
-                    if (index >= playerNum)
+                    if (index > playerNum)
                     {
                         MoveToStartPosition(selectedPic);
                     }
                     else
                     {
-                        ProcessEquipment(index);
+                        ProcessEquipment(index, selectedEquipment);
 
                         selectedPic.MouseUp -= picCard_MouseUp;
                         selectedPic.MouseDown -= picCard_MouseDown;
                         selectedPic.MouseMove -= picCard_MouseMove;
+
+                        DeleteImage(selectedPic);
                     }
                 }
 
@@ -384,13 +422,13 @@ namespace Saboteur.Forms
         // return index when mouse down event on Hand
         private int GetHandIndexByLocation(Point location)
         {
-            for (int i = 0; i < this.pictureBoxes.Count; i++)
+            for (int i = 0; i < this.allocatedImages.Count; i++)
             {
-                if (this.pictureBoxes[i].Top < fieldSize.Height + fieldTopPadding * 2) continue;
-                else if (this.pictureBoxes[i].Tag.ToString() != "Card") continue;
+                if (this.allocatedImages[i].Top < fieldSize.Height + fieldTopPadding * 2) continue;
+                else if (this.allocatedImages[i].Tag.ToString() != "Card") continue;
 
-                if (this.pictureBoxes[i].Left < location.X &&
-                    location.X < this.pictureBoxes[i].Left + cardWidth)
+                if (this.allocatedImages[i].Left < location.X &&
+                    location.X < this.allocatedImages[i].Left + cardWidth)
                 {
                     return (location.X - handPadding) / (handPadding + cardWidth);
                 }
@@ -624,7 +662,7 @@ namespace Saboteur.Forms
                 pic.BringToFront();
             }));
 
-            pictureBoxes.Add(pic);
+            allocatedImages.Add(pic);
 
             if (isMoveable)
             {
@@ -637,12 +675,12 @@ namespace Saboteur.Forms
 
         private PictureBox FindPictureboxByLocation(Point location)
         {
-            for (int i = 0; i < this.pictureBoxes.Count; i++)
+            for (int i = 0; i < this.allocatedImages.Count; i++)
             {
-                if (this.pictureBoxes[i].Left < location.X && location.X < this.pictureBoxes[i].Left + this.pictureBoxes[i].Width &&
-                    this.pictureBoxes[i].Top < location.Y && location.Y < this.pictureBoxes[i].Top + this.pictureBoxes[i].Height)
+                if (this.allocatedImages[i].Left < location.X && location.X < this.allocatedImages[i].Left + this.allocatedImages[i].Width &&
+                    this.allocatedImages[i].Top < location.Y && location.Y < this.allocatedImages[i].Top + this.allocatedImages[i].Height)
                 {
-                    return this.pictureBoxes[i];
+                    return this.allocatedImages[i];
                 }
             }
             return null;
@@ -653,6 +691,15 @@ namespace Saboteur.Forms
             return FindPictureboxByLocation(new Point(x, y));
         }
 
+        private void DeleteImage(PictureBox victim)
+        {
+            if (victim != null)
+            {
+                this.Controls.Remove(victim);
+                this.allocatedImages.Remove(victim);
+            }
+        }
+
         private void DeleteImage(int row, int col)
         {
             Point point = ConvertCoordsToLocation(row, col);
@@ -661,11 +708,7 @@ namespace Saboteur.Forms
 
             PictureBox victim = FindPictureboxByLocation(point);
 
-            if (victim != null)
-            {
-                this.Controls.Remove(victim);
-                this.pictureBoxes.Remove(victim);
-            }
+            DeleteImage(victim);
         }
 
         private void DrawCardOnField()
@@ -719,16 +762,98 @@ namespace Saboteur.Forms
         // ###### Draw Card Methods - End ######
         #endregion
 
-        #region Draw Player Methods
-        // ###### Draw Player Methods - Start ######
-        private void DrawPlayers()
+        #region Icon Methods
+        private void InitializeIcons()
         {
-            if (playersInfo.Count == 0 || playersInfo == null)
-                return;
+            for(var i = Tool.PICKAXE; i <= Tool.CART; i++)
+                this.toolIcons.Add(i, new List<PictureBox>());
 
+            for (int i = 0; i < MAX_PLAYER; i++)
+            {
+                string player = "player_" + i;
+                this.playerIcons.Add((PictureBox)Controls.Find(player + "_icon", true)[0]);
+                this.toolIcons[Tool.CART].Add((PictureBox)Controls.Find(player + "_cart", true)[0]);
+                this.toolIcons[Tool.PICKAXE].Add((PictureBox)Controls.Find(player + "_pickaxe", true)[0]);
+                this.toolIcons[Tool.LATTERN].Add((PictureBox)Controls.Find(player + "_lantern", true)[0]);
 
+                this.toolIcons[Tool.CART][i].Visible = false;
+                this.toolIcons[Tool.PICKAXE][i].Visible = false;
+                this.toolIcons[Tool.LATTERN][i].Visible = false;
+            }
         }
-        // ###### Draw Player Methods - End ######
+
+        private void setPlayerIcon(int index, bool isTurnOn)
+        {
+            Image on = Properties.Resources.player_on;
+            Image off = Properties.Resources.player_off;
+
+            this.Invoke((MethodInvoker)(() =>
+            {
+                if (isTurnOn)
+                {
+                    this.playerIcons[index].BackgroundImage = on;
+                } else
+                {
+                    this.playerIcons[index].BackgroundImage = off;
+                }
+            }));
+        }
+        private bool hasMultiEffects(Tool tool)
+        {
+            return tool >= Tool.PICKLATTERN;
+        }
+        private bool hasMultiEffects(EquipmentCard equipment)
+        {
+            return hasMultiEffects(equipment.tool);
+        }
+        private EquipmentCard selectEffect(EquipmentCard equipment)
+        {
+            QueryForm query = new QueryForm(equipment.tool, (selectedTool) => {
+                equipment.tool = selectedTool;
+            });
+            query.ShowDialog();
+            query.BringToFront();
+            query.Focus();
+            return equipment;
+        }
+        private void applayEquipmentIcon(int playerID, EquipmentCard equipment)
+        {
+            if (hasMultiEffects(equipment))
+                equipment = selectEffect(equipment);
+            setEquipmentIcon(playerID, equipment);
+        }
+
+        private void setEquipmentIcon(int index, EquipmentCard equipment)
+        {
+            this.Invoke((MethodInvoker)(() =>
+            {
+                if (equipment.getType() == CType.EQ_REPAIR)
+                {
+                    this.toolIcons[equipment.tool][index].Visible = false;
+                } else
+                {
+                    this.toolIcons[equipment.tool][index].Visible = true;
+                }
+            }));
+        }
+
+        private void setEquipmentIcon(int index, PlayerState state)
+        {
+            this.Invoke((MethodInvoker)(() =>
+            {
+                this.toolIcons[Tool.PICKAXE][index].Visible = state.isDestroyedPickaxe;
+                this.toolIcons[Tool.LATTERN][index].Visible = state.isDestroyedLantern;
+                this.toolIcons[Tool.CART][index].Visible = state.isDestroyedCart;
+            }));
+        }
+
+        private void setEquipmentIcon(List<PlayerState> states)
+        {
+            int i = 0;
+            foreach (var state in states)
+                setEquipmentIcon(i++, state);
+        }
+
         #endregion
 
         private void MoveToStartPosition(PictureBox card)
