@@ -49,7 +49,6 @@ namespace ClientTest
                     roomPacket.Type = (int)PacketType.RoomInfo;
 
                     Packet.Serialize(roomPacket).CopyTo(sendBuffer, 0);
-                    
                 }
             }
             catch (SocketException e)
