@@ -188,7 +188,6 @@ namespace Saboteur.Forms
             
             this.playerStates = info.playersState;
             setEquipmentIcon(info.playersState);
-            DrawHands(hands);
         }
 
         private void picCard_MouseDown(object sender, MouseEventArgs e)
