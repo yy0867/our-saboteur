@@ -239,7 +239,6 @@ namespace Saboteur.Forms
         {
             //Grapical
             applayEquipmentIcon(playerID, equipment);
-            //setEquipmentIcon(playerID, equipment);
 
             //Logical
         }
@@ -742,15 +741,13 @@ namespace Saboteur.Forms
         }
         private EquipmentCard selectEffect(EquipmentCard equipment)
         {
-            switch (equipment.tool)
-            {
-                case Tool.PICKLATTERN:
-                    break;
-                case Tool.PICKCART:
-                    break;
-                case Tool.LATTERNCART:
-                    break;
-            }
+            QueryForm query = new QueryForm(equipment.tool, (selectedTool) => {
+                equipment.tool = selectedTool;
+            });
+            query.ShowDialog();
+            query.BringToFront();
+            query.Focus();
+            return equipment;
         }
         private void applayEquipmentIcon(int playerID, EquipmentCard equipment)
         {
