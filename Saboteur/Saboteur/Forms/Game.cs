@@ -120,7 +120,7 @@ namespace Saboteur.Forms
             DrawCardOnField();
 
             #region Test
-            //MockSendPacket();
+            MockSendPacket();
             #endregion
         }
 
@@ -220,7 +220,7 @@ namespace Saboteur.Forms
                 return Field.MAP;
 
             else if (fieldSize.Width < X && X <= this.Width &&
-                this.Height <= Y && Y <= fieldSize.Height)
+                this.Top <= Y && Y <= fieldSize.Height)
                 return Field.PLAYER;
 
             else if (this.Left <= X && X <= picDeck.Left - handPadding &&
@@ -258,6 +258,7 @@ namespace Saboteur.Forms
 
                 if (releasePoint == Field.MAP) // is in map
                 {
+                    MessageBox.Show("Map");
                     Point? gridPoint = GetGridPoint(mouseLocation.X, mouseLocation.Y); // Mouse Pointer Position
 
                     if (gridPoint.HasValue) // grid point is valid
@@ -283,8 +284,12 @@ namespace Saboteur.Forms
                 }
 
                 // Release on Player
-                else if (releasePoint == Field.PLAYER && selectedCard is EquipmentCard)
+                else if (releasePoint == Field.PLAYER)
                 {
+                    if (!(selectedCard is EquipmentCard))
+                        return;
+
+                    MessageBox.Show("Player");
                     int index = GetPlayerIndex(mouseLocation);
 
                     if (index >= playerNum)
@@ -304,12 +309,13 @@ namespace Saboteur.Forms
                 // Release on Deck
                 else if (releasePoint == Field.DECK)
                 {
-
+                    MessageBox.Show("Deck");
                 }
 
                 // ##################### ADD UP ########################
                 else
                 {
+                    MessageBox.Show("Hands");
                     MoveToStartPosition(selectedPic);
                 }
             }
