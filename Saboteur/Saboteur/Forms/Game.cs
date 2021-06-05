@@ -121,6 +121,7 @@ namespace Saboteur.Forms
             mock.fields.MapInit();
             mock.playersState = mockedPlayerStates();
             mock.isSaboteur = false;
+            mock.clientID = 1;
             
             #region(MockingTest_Hand)
             mock.holdingCards.Add(new CaveCard(Dir.ALL, true));
@@ -153,7 +154,7 @@ namespace Saboteur.Forms
             DrawCardOnField();
 
             #region Test
-            //MockSendPacket();
+            MockSendPacket();
             #endregion
         }
 
@@ -188,7 +189,6 @@ namespace Saboteur.Forms
             
             this.playerStates = info.playersState;
             setEquipmentIcon(info.playersState);
-            DrawHands(hands);
         }
 
         private void picCard_MouseDown(object sender, MouseEventArgs e)
@@ -350,6 +350,12 @@ namespace Saboteur.Forms
                         }
                         else
                         {
+                            if (this.playerStates[this.clientID].hasDestroyed() && this.selectedCard is CaveCard)
+                            {
+                                MessageBox.Show("장비가 파괴되어 길을 놓을 수 없습니다.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                MoveToStartPosition(this.selectedPic);
+                                return;
+                            }
                             ProcessGrid((Point)gridPoint);
                             RemoveFromHands();
                             Send();

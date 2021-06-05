@@ -105,6 +105,11 @@ namespace PacketLibrary
             isDestroyedLantern = false;
             isDestroyedCart = false;
         }
+
+        public bool hasDestroyed()
+        {
+            return this.isDestroyedPickaxe || this.isDestroyedLantern || this.isDestroyedCart;
+        }
     }
 
     [Serializable]
