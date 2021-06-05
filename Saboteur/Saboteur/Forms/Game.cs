@@ -78,7 +78,7 @@ namespace Saboteur.Forms
 
         // Graphics Instances
         Graphics g = null;
-        List<PictureBox> pictureBoxes = new List<PictureBox>();
+        List<PictureBox> handsCardImages = new List<PictureBox>();
         List<PictureBox> playerIcons = new List<PictureBox>();
         Dictionary<Tool, List<PictureBox>> toolIcons = new Dictionary<Tool, List<PictureBox>>();
 
@@ -367,13 +367,13 @@ namespace Saboteur.Forms
         // return index when mouse down event on Hand
         private int GetHandIndexByLocation(Point location)
         {
-            for (int i = 0; i < this.pictureBoxes.Count; i++)
+            for (int i = 0; i < this.handsCardImages.Count; i++)
             {
-                if (this.pictureBoxes[i].Top < fieldSize.Height + fieldTopPadding * 2) continue;
-                else if (this.pictureBoxes[i].Tag.ToString() != "Card") continue;
+                if (this.handsCardImages[i].Top < fieldSize.Height + fieldTopPadding * 2) continue;
+                else if (this.handsCardImages[i].Tag.ToString() != "Card") continue;
 
-                if (this.pictureBoxes[i].Left < location.X &&
-                    location.X < this.pictureBoxes[i].Left + cardWidth)
+                if (this.handsCardImages[i].Left < location.X &&
+                    location.X < this.handsCardImages[i].Left + cardWidth)
                 {
                     return (location.X - handPadding) / (handPadding + cardWidth);
                 }
@@ -607,7 +607,7 @@ namespace Saboteur.Forms
                 pic.BringToFront();
             }));
 
-            pictureBoxes.Add(pic);
+            handsCardImages.Add(pic);
 
             if (isMoveable)
             {
@@ -620,12 +620,12 @@ namespace Saboteur.Forms
 
         private PictureBox FindPictureboxByLocation(Point location)
         {
-            for (int i = 0; i < this.pictureBoxes.Count; i++)
+            for (int i = 0; i < this.handsCardImages.Count; i++)
             {
-                if (this.pictureBoxes[i].Left < location.X && location.X < this.pictureBoxes[i].Left + this.pictureBoxes[i].Width &&
-                    this.pictureBoxes[i].Top < location.Y && location.Y < this.pictureBoxes[i].Top + this.pictureBoxes[i].Height)
+                if (this.handsCardImages[i].Left < location.X && location.X < this.handsCardImages[i].Left + this.handsCardImages[i].Width &&
+                    this.handsCardImages[i].Top < location.Y && location.Y < this.handsCardImages[i].Top + this.handsCardImages[i].Height)
                 {
-                    return this.pictureBoxes[i];
+                    return this.handsCardImages[i];
                 }
             }
             return null;
@@ -647,7 +647,7 @@ namespace Saboteur.Forms
             if (victim != null)
             {
                 this.Controls.Remove(victim);
-                this.pictureBoxes.Remove(victim);
+                this.handsCardImages.Remove(victim);
             }
         }
 
