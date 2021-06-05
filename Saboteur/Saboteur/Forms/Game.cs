@@ -232,6 +232,7 @@ namespace Saboteur.Forms
                 // ##################### ADD DOWN BY USING METHOD ########################
                 // Release on Grid
 
+                // Release on Map: Use CaveCard, MapCard, RockDownCard
                 if (releasePoint == Field.MAP) // is in map
                 {
                     Point? gridPoint = GetGridPoint(selectedPic.Left + e.X, selectedPic.Top + e.Y); // Mouse Pointer Position
@@ -242,6 +243,7 @@ namespace Saboteur.Forms
                         {
                             MoveToStartPosition(selectedPic);
                         }
+                        else if (true) { }
                         else
                         {
                             ProcessGrid((Point)gridPoint);
@@ -258,13 +260,13 @@ namespace Saboteur.Forms
                     return;
                 }
 
-                // Release on Player
+                // Release on Player: Use Equipment(Repair, Destruction) Card
                 else if (releasePoint == Field.PLAYER)
                 {
 
                 }
 
-                // Release on Deck
+                // Release on Deck: Discard the Card
                 else if (releasePoint == Field.DECK)
                 {
 

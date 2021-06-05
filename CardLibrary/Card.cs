@@ -62,10 +62,19 @@ namespace CardLibrary
         LATTERNCART
     }
 
+    public enum CardFace
+    {
+        FRONT = 0,
+        BACK
+    }
+
+
     [Serializable]
     public class Card
     {
         protected CType cType = CType.NONE;
+        public CardFace face = CardFace.FRONT;
+
 
         public void setType(CType cType)
         {
