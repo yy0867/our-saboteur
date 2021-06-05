@@ -441,7 +441,7 @@ namespace Saboteur.Forms
 
                     int index = GetPlayerIndex(mouseLocation);
 
-                    if (index > playerNum)
+                    if (index >= playerNum)
                     {
                         MoveToStartPosition(selectedPic);
                     }
