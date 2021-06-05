@@ -221,6 +221,7 @@ namespace Server
                 {
                     sendGameInfo.clientID = i;
                     sendGameInfo.fields = this.fields;
+                    sendGameInfo.playersState = receiveInfo.playersState;
 
                     if (i == nextTurnPlayer)
                         sendGameInfo.isTurn = true;

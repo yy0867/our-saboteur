@@ -231,7 +231,7 @@ namespace MapLibrary
             return r >= 0 && r < CONST.MAP_ROW && c >= 0 && c < CONST.MAP_COL;
         }
         
-        private bool isValidated(Point point) // 현재 좌표 유효성 검사
+        public bool isValidated(Point point) // 현재 좌표 유효성 검사
         {
             return (checkBoundary(point) && !isExist(point));
         }

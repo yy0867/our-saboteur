@@ -103,12 +103,12 @@ namespace Saboteur.Forms
         private List<PlayerState> mockedPlayerStates()
         {
             var states = new List<PlayerState>();
-            states.Add(mockedPlayerStates(true, true, true));
-            states.Add(mockedPlayerStates(true, true, false));
-            states.Add(mockedPlayerStates(true, false, false));
-            states.Add(mockedPlayerStates(false, false, false));
-            states.Add(mockedPlayerStates(false, true, true));
-            states.Add(mockedPlayerStates(false, false, true));
+            //states.Add(mockedPlayerStates(true, true, true));
+            //states.Add(mockedPlayerStates(true, true, false));
+            //states.Add(mockedPlayerStates(true, false, false));
+            //states.Add(mockedPlayerStates(false, false, false));
+            //states.Add(mockedPlayerStates(false, true, true));
+            //states.Add(mockedPlayerStates(false, false, true));
             return states;
         }
         private void MockSendPacket()
@@ -129,9 +129,10 @@ namespace Saboteur.Forms
             mock.holdingCards.Add(new CaveCard(Dir.UP, false));
             mock.holdingCards.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.PICKLATTERN));
             mock.holdingCards.Add(new EquipmentCard(CType.EQ_DESTRUCTION, Tool.CART));
+            mock.holdingCards.Add(new RockDownCard());
             #endregion
 
-            
+
             updateInfo(mock);
         }
         #endregion
@@ -260,12 +261,23 @@ namespace Saboteur.Forms
             if (this.selectedCard is CaveCard)
             {
                 Attach(gridPoint, (CaveCard)this.selectedCard);
+                RemoveFromHands();
             }
 
             // is RockDownCard
-            else if (this.selectedCard is ActionCard)
+            else if (this.selectedCard is RockDownCard)
             {
-
+                MapLibrary.Point coords = ConvertLocationToCoords(gridPoint);
+                if (field.isValidated(coords) || field.GetCard(coords) is StartCard || field.GetCard(coords) is DestCard)
+                {
+                    MoveToStartPosition(this.selectedPic);
+                }
+                else
+                {
+                    DeleteImage(coords.R, coords.C);
+                    DeleteImage(this.selectedPic);
+                    RemoveFromHands();
+                }
             }
 
             // is MapCard
@@ -343,22 +355,21 @@ namespace Saboteur.Forms
 
                     if (gridPoint.HasValue) // grid point is valid
                     {
-                        if (!(this.selectedCard is CaveCard) || !field.IsValidPosition(ConvertLocationToCoords(mouseLocation), (CaveCard)selectedCard))
+                        if ((this.selectedCard is EquipmentCard) || (this.selectedCard is CaveCard && !field.IsValidPosition(ConvertLocationToCoords(mouseLocation), (CaveCard)selectedCard)))
                         {
                             MoveToStartPosition(selectedPic);
                             return;
                         }
                         else
                         {
-                            if (this.playerStates[this.clientID].hasDestroyed() && this.selectedCard is CaveCard)
-                            {
-                                MessageBox.Show("장비가 파괴되어 길을 놓을 수 없습니다.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                MoveToStartPosition(this.selectedPic);
-                                return;
-                            }
+                            //if (this.playerStates[this.clientID].hasDestroyed() && this.selectedCard is CaveCard)
+                            //{
+                            //    MessageBox.Show("장비가 파괴되어 길을 놓을 수 없습니다.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //    MoveToStartPosition(this.selectedPic);
+                            //    return;
+                            //}
                             ProcessGrid((Point)gridPoint);
-                            RemoveFromHands();
-                            Send();
+                            //Send();
                         }
                     }
                     else
