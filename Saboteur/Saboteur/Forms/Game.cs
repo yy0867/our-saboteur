@@ -169,7 +169,7 @@ namespace Saboteur.Forms
                 this.lblUsedCardNum.Text = usedCardCount.ToString();
                 this.lblDeckNum.Text = info.deckCards.Count.ToString();
             }));
-
+            setEquipmentIcon(info.playersState);
             DrawHands(hands);
         }
 
@@ -238,7 +238,8 @@ namespace Saboteur.Forms
         private void ProcessEquipment(int playerID, EquipmentCard equipment)
         {
             //Grapical
-            setEquipmentIcon(playerID, equipment);
+            applayEquipmentIcon(playerID, equipment);
+            //setEquipmentIcon(playerID, equipment);
 
             //Logical
         }
@@ -321,7 +322,7 @@ namespace Saboteur.Forms
 
                     int index = GetPlayerIndex(mouseLocation);
 
-                    if (index >= playerNum)
+                    if (index > playerNum)
                     {
                         MoveToStartPosition(selectedPic);
                     }
@@ -731,6 +732,32 @@ namespace Saboteur.Forms
                 }
             }));
         }
+        private bool hasMultiEffects(Tool tool)
+        {
+            return tool >= Tool.PICKLATTERN;
+        }
+        private bool hasMultiEffects(EquipmentCard equipment)
+        {
+            return hasMultiEffects(equipment.tool);
+        }
+        private EquipmentCard selectEffect(EquipmentCard equipment)
+        {
+            switch (equipment.tool)
+            {
+                case Tool.PICKLATTERN:
+                    break;
+                case Tool.PICKCART:
+                    break;
+                case Tool.LATTERNCART:
+                    break;
+            }
+        }
+        private void applayEquipmentIcon(int playerID, EquipmentCard equipment)
+        {
+            if (hasMultiEffects(equipment))
+                equipment = selectEffect(equipment);
+            setEquipmentIcon(playerID, equipment);
+        }
 
         private void setEquipmentIcon(int index, EquipmentCard equipment)
         {
@@ -756,6 +783,12 @@ namespace Saboteur.Forms
             }));
         }
 
+        private void setEquipmentIcon(List<PlayerState> states)
+        {
+            int i = 0;
+            foreach (var state in states)
+                setEquipmentIcon(i++, state);
+        }
 
         #endregion
 
