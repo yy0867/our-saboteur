@@ -71,6 +71,7 @@ namespace Saboteur.Forms
         Map field = new Map();
         Card selectedCard = null;               // which card is selected
         PictureBox selectedPic = null;          // selectedCard's Image
+        int selectedIndex = 0;                  // hand index
         List<Card> hands = new List<Card>();
         Stack<Card> frontUsedCard = new Stack<Card>();
         Stack<Card> backUsedCard = new Stack<Card>();
@@ -148,6 +149,7 @@ namespace Saboteur.Forms
             DrawCardOnField();
 
             this.hands = info.holdingCards;
+            DrawHands(hands);
 
             int usedCardCount = info.backUsedCards.Count + info.frontUsedCards.Count;
             this.Invoke((MethodInvoker)(() =>
@@ -155,8 +157,6 @@ namespace Saboteur.Forms
                 this.lblUsedCardNum.Text = usedCardCount.ToString();
                 this.lblDeckNum.Text = info.deckCards.Count.ToString();
             }));
-
-            DrawHands(hands);
         }
 
         private void picCard_MouseDown(object sender, MouseEventArgs e)
@@ -166,7 +166,7 @@ namespace Saboteur.Forms
 
             this.selectedPic = (PictureBox)sender;
 
-            int selectedIndex = GetHandIndexByLocation(this.selectedPic.Left + cardWidth / 2, this.selectedPic.Top / 2);
+            this.selectedIndex = GetHandIndexByLocation(this.selectedPic.Left + cardWidth / 2, this.selectedPic.Top / 2);
             if (selectedIndex != -1)
                 this.selectedCard = hands[selectedIndex];
 
@@ -279,6 +279,15 @@ namespace Saboteur.Forms
             return (Y - 10) / playerCardHeight;
         }
 
+        private void RemoveFromHands()
+        {
+            this.hands.RemoveAt(this.selectedIndex);
+
+            selectedPic.MouseUp -= picCard_MouseUp;
+            selectedPic.MouseDown -= picCard_MouseDown;
+            selectedPic.MouseMove -= picCard_MouseMove;
+        }
+
         private void picCard_MouseUp(object sender, MouseEventArgs e)
         {
             if (this.isMouseDown && this.selectedPic != null)
@@ -307,10 +316,8 @@ namespace Saboteur.Forms
                         else
                         {
                             ProcessGrid((Point)gridPoint);
-
-                            selectedPic.MouseUp -= picCard_MouseUp;
-                            selectedPic.MouseDown -= picCard_MouseDown;
-                            selectedPic.MouseMove -= picCard_MouseMove;
+                            RemoveFromHands();
+                            Send();
                         }
                     }
                     else
@@ -356,8 +363,6 @@ namespace Saboteur.Forms
                 {
                     MoveToStartPosition(selectedPic);
                 }
-
-                Send();
             }
         }
 
