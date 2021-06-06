@@ -218,7 +218,7 @@ namespace Server
             }
 
             sendGameInfo.usedCards = receiveInfo.usedCards;
-            sendGameInfo.clientID = receiveInfo.clientID;
+            
             
             if (nullIndex >= 0)
                 sendGameInfo.holdingCards[nullIndex] = dealer.GetCardFromDeck();
@@ -231,7 +231,7 @@ namespace Server
                 sendGameInfo.isTurn = (this.curTurnPlayer == i);
                 sendGameInfo.isSaboteur = this.roleArr[i];
                 sendGameInfo.usedCards = receiveInfo.usedCards;
-
+                sendGameInfo.clientID = i;
                 if (isFirstGameInfo)
                 {
                     CopyDivideToHoldingCard(i, sendGameInfo.holdingCards);
