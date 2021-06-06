@@ -62,10 +62,19 @@ namespace CardLibrary
         LATTERNCART
     }
 
+    public enum CardFace
+    {
+        FRONT = 0,
+        BACK
+    }
+
+
     [Serializable]
     public class Card
     {
         protected CType cType = CType.NONE;
+        public CardFace face = CardFace.FRONT;
+
 
         public void setType(CType cType)
         {
@@ -90,6 +99,7 @@ namespace CardLibrary
             isConnected = false;
             cType = CType.CAVE;
         }
+
         public CaveCard(Dir dir, bool isConnected)
         {
             this.dir = dir;
@@ -192,15 +202,14 @@ namespace CardLibrary
     [Serializable]
     public class DestCard : CaveCard
     {
-        public bool isOpen { get; set; }
         public bool nearByCardExist { get; set; }
         private bool isGoldCave;
 
-        public DestCard(bool isOpen, bool nearByCardExist, bool isGoldCave)
+        public DestCard(CardFace face, bool nearByCardExist, bool isGoldCave)
         {
             this.dir = Dir.ALL;
             this.isConnected = true;
-            this.isOpen = isOpen;
+            this.face = face;
             this.nearByCardExist = nearByCardExist;
             this.isGoldCave = isGoldCave;
         }
