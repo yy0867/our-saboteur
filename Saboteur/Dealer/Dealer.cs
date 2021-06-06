@@ -172,9 +172,11 @@ namespace DealerLibrary
         }
 
         // 
-        public void AddPlayerHoldingCard()
+        public Card GetCardFromDeck()
         {
-
+            Card card = this.deckCards[0];
+            this.deckCards.RemoveAt(0);
+            return card;
         }
 
         public void RemoveCardsFromDeck(List<Card> usedCards)

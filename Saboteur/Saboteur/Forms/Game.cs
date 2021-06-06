@@ -77,7 +77,8 @@ namespace Saboteur.Forms
         List<PlayerState> playerStates;
         Stack<Card> frontUsedCard = new Stack<Card>();
         Stack<Card> backUsedCard = new Stack<Card>();
-        Dictionary<int, List<PictureBox>> playersInfo = new Dictionary<int, List<PictureBox>>(); 
+        Dictionary<int, List<PictureBox>> playersInfo = new Dictionary<int, List<PictureBox>>();
+        Stack<Card> usedCard = new Stack<Card>();
 
         // Graphics Instances
         Graphics g = null;
@@ -339,9 +340,10 @@ namespace Saboteur.Forms
         private void ProcessEquipment(int playerID, EquipmentCard equipment)
         {
             //Grapical
-            applayEquipmentIcon(playerID, equipment);
+            equipment = applayEquipmentIcon(playerID, equipment);
 
             //Logical
+            setPlayerState(playerID, equipment);
         }
 
         private Field GetReleaseField(int X, int Y)
@@ -417,6 +419,9 @@ namespace Saboteur.Forms
                             //    return;
                             //}
                             ProcessGrid((Point)gridPoint);
+                            
+                            RemoveFromHands();
+                            this.selectedCard.face = CardFace.FRONT;
                             //Send();
                         }
                     }
@@ -442,23 +447,22 @@ namespace Saboteur.Forms
                     }
                     else
                     {
+                        this.selectedCard.face = CardFace.FRONT;
                         ProcessEquipment(index, selectedEquipment);
 
-                        selectedPic.MouseUp -= picCard_MouseUp;
-                        selectedPic.MouseDown -= picCard_MouseDown;
-                        selectedPic.MouseMove -= picCard_MouseMove;
-
                         DeleteImage(selectedPic);
+                        RemoveFromHands();
+                        Send();
                     }
                 }
 
-                // Release on Deck: Discard the Card
+                // Release on Deck: Discard the Card    => Show Card Back
                 else if (releasePoint == Field.DECK)
                 {
-
-
-
-
+                    this.selectedCard.face = CardFace.BACK;
+                    this.usedCard.Push(this.selectedCard);
+                    this.picUsedCard.Image = GetCardImage(this.usedCard.Peek());
+                    RemoveFromHands();
                 }
 
                 // ##################### ADD UP ########################
@@ -669,6 +673,10 @@ namespace Saboteur.Forms
 
         private Image GetCardImage(Card card)
         {
+            // Card 뒷면
+            if (card.face == CardFace.BACK)
+                return imgCards.Images[22];
+
             if (card is CaveCard)
             {
                 CaveCard c = (CaveCard)card;
@@ -905,11 +913,12 @@ namespace Saboteur.Forms
             query.Focus();
             return equipment;
         }
-        private void applayEquipmentIcon(int playerID, EquipmentCard equipment)
+        private EquipmentCard applayEquipmentIcon(int playerID, EquipmentCard equipment)
         {
             if (hasMultiEffects(equipment))
                 equipment = selectEffect(equipment);
             setEquipmentIcon(playerID, equipment);
+            return equipment;
         }
 
         private void setEquipmentIcon(int index, EquipmentCard equipment)
@@ -941,6 +950,32 @@ namespace Saboteur.Forms
             int i = 0;
             foreach (var state in states)
                 setEquipmentIcon(i++, state);
+        }
+
+        private void setPlayerState(int index, EquipmentCard equipment)
+        {
+            switch (equipment.tool)
+            {
+                case Tool.CART:
+                    if (equipment.getType() == CType.EQ_REPAIR)
+                        this.playerStates[index].isDestroyedCart = false;
+                    else
+                        this.playerStates[index].isDestroyedCart = true;
+                    break;
+                case Tool.LATTERN:
+                    if (equipment.getType() == CType.EQ_REPAIR)
+                        this.playerStates[index].isDestroyedLantern = false;
+                    else
+                        this.playerStates[index].isDestroyedLantern = true;
+                    break;
+                case Tool.PICKAXE:
+                    if (equipment.getType() == CType.EQ_REPAIR)
+                        this.playerStates[index].isDestroyedPickaxe = false;
+                    else
+                        this.playerStates[index].isDestroyedPickaxe = true;
+                    break;
+            }
+            
         }
 
         #endregion
