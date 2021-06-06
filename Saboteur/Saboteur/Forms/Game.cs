@@ -467,7 +467,10 @@ namespace Saboteur.Forms
                     this.selectedCard.face = CardFace.BACK;
                     this.usedCard.Push(this.selectedCard);
                     this.picUsedCard.Image = GetCardImage(this.usedCard.Peek());
+
+                    DeleteImage(selectedPic);
                     RemoveFromHands();
+                    Send();
                 }
 
                 // ##################### ADD UP ########################
@@ -802,7 +805,7 @@ namespace Saboteur.Forms
         {
             for (int i = 0; i < this.hands.Count(); i++)
             {
-                Point p = new Point(handPadding * (i + 1) + cardWidth * i + cardWidth / 2, fieldSize.Height + cardHeight / 2); ;
+                Point p = new Point(handPadding * (i + 1) + cardWidth * i + cardWidth / 2, fieldSize.Height + cardHeight / 2);
                 DeleteImage(FindPictureboxByLocation(p));
             }
         }
