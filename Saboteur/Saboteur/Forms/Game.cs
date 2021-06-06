@@ -253,7 +253,7 @@ namespace Saboteur.Forms
             GameInfo packet = new GameInfo();
 
             packet.clientID = this.clientID;
-            packet.fields = this.field;
+            this.field.CopyTo(packet.fields);
             packet.holdingCards = this.hands;
 
             packet.isSaboteur = this.isSaboteur;
