@@ -68,6 +68,8 @@ namespace Saboteur.Forms
         // Game Instances
         int playerNum = 0;
         bool isSaboteur = false;
+        bool isMyTurn = false;
+        int turn = 0;
         CaveCard[,] prevMap = new CaveCard[CONST.MAP_ROW, CONST.MAP_COL];
         Map field = new Map();
         Card selectedCard = null;               // which card is selected
@@ -165,18 +167,23 @@ namespace Saboteur.Forms
         {
             GameInfo info = (GameInfo)packet;
 
-            if (this.isFirstPacket)
-            {
-                string message = info.isSaboteur ? "당신은 사보타지입니다!" : "당신은 광부입니다!";
-                MessageBox.Show(message);
-            }
-
+            this.isMyTurn = info.isTurn;
             this.clientID = info.clientID;
             this.playerNum = info.playersState.Count;
             this.isSaboteur = info.isSaboteur;
             this.usedCard = info.usedCards;
             info.fields.CopyTo(this.field);
 
+            if (this.isFirstPacket)
+            {
+                string message = info.isSaboteur ? "당신은 사보타지입니다!" : "당신은 광부입니다!";
+                message += "\r\n당신의 " + (this.clientID+1) + "번 입니다.";
+                Controls.Find("lbl_player_" + this.clientID, true)[0].ForeColor = Color.Yellow;
+                MessageBox.Show(message);
+
+            }
+
+            rotatePlayerIcon();
             DrawCardOnField();
 
             if (this.hands.Contains(null) || this.isFirstPacket)
@@ -211,6 +218,11 @@ namespace Saboteur.Forms
             this.selectedIndex = GetHandIndexByLocation(this.selectedPic.Left + cardWidth / 2, this.selectedPic.Top / 2);
             if (selectedIndex != -1)
                 this.selectedCard = hands[selectedIndex];
+            if (!this.isMyTurn)
+            {
+                MessageBox.Show("당신의 턴이 아닙니다", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             if (e.Button == MouseButtons.Left)
             {
@@ -399,7 +411,7 @@ namespace Saboteur.Forms
 
         private void picCard_MouseUp(object sender, MouseEventArgs e)
         {
-            if (this.isMouseDown && this.selectedPic != null)
+            if (this.isMyTurn && this.isMouseDown && this.selectedPic != null)
             {
                 this.isMouseDown = false;
                 EraseGraphics();
@@ -925,6 +937,23 @@ namespace Saboteur.Forms
                 }
             }));
         }
+
+        private void rotatePlayerIcon()
+        {
+            if(this.turn == 0)
+            {
+                setPlayerIcon(playerNum-1, false);
+                setPlayerIcon(this.turn++, true);
+            }else
+            {
+                setPlayerIcon(this.turn-1, false);
+                setPlayerIcon(this.turn++, true);
+                if (this.turn == playerNum)
+                    this.turn = 0;
+            }
+            
+        }
+
         private bool hasMultiEffects(Tool tool)
         {
             return tool >= Tool.PICKLATTERN;
