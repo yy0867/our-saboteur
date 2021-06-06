@@ -238,7 +238,6 @@ namespace MapLibrary
 
             Stack<Point> stack = new Stack<Point>();
             visited = new bool[CONST.MAP_ROW, CONST.MAP_COL];
-            visited[curPoint.R, curPoint.C] = true;
             stack.Push(curPoint);
 
             while (stack.Count != 0)
