@@ -231,7 +231,11 @@ namespace MapLibrary
 
         public bool IsRoadConnectedToStart(Point curPoint) //목적지 포인트
         {
-            int[] ctr = { 0, -1, 0, 1, 0 };
+            int[] ctr = { 0, -1, 0, 1, 0 }; // LEFT, UP, RIGHT, DOWN
+
+            Dir[] dir = { Dir.LEFT, Dir.UP, Dir.RIGHT, Dir.DOWN };
+            Dir[] dirOp = { Dir.RIGHT, Dir.DOWN, Dir.LEFT, Dir.UP };
+
             Stack<Point> stack = new Stack<Point>();
             visited = new bool[CONST.MAP_ROW, CONST.MAP_COL];
             visited[curPoint.R, curPoint.C] = true;
@@ -244,23 +248,22 @@ namespace MapLibrary
                 if (isStart(visitedPoint)) 
                     return true;
 
-                if (!checkBoundary(visitedPoint) || !caveCards[visitedPoint.R, visitedPoint.C].getIsConnected())
+                if (!checkBoundary(visitedPoint) || 
+                    !caveCards[visitedPoint.R, visitedPoint.C].getIsConnected() ||
+                    visited[visitedPoint.R, visitedPoint.C])
                     continue;
-                    
+
+                visited[visitedPoint.R, visitedPoint.C] = true;
 
                 for (int i = 0; i < ctr.Length - 1; i++)
                 {
                     int r = visitedPoint.R + ctr[i], c = visitedPoint.C + ctr[i + 1];  // 주변 좌표       
                     Point watch = new Point(r, c);
 
-                    if (checkBoundary(watch) && caveCards[r, c].getIsConnected())
+                    if ((caveCards[visitedPoint.R, visitedPoint.C].getDir() & dir[i]) == dir[i] && 
+                        (caveCards[watch.R, watch.C].getDir() & dirOp[i]) == dirOp[i])
                     {
-                        //TODO
-                        visited[r, c] = true;
                         stack.Push(watch);
-
-                        stack.Pop();
-                        return false;
                     }
                 }
             }

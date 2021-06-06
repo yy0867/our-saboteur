@@ -122,7 +122,7 @@ namespace Saboteur.Forms
             mock.fields.MapInit();
             mock.playersState = mockedPlayerStates();
             mock.isSaboteur = false;
-            mock.clientID = 1;
+            mock.clientID = 0;
             
             #region(MockingTest_Hand)
             mock.holdingCards.Add(new CaveCard(Dir.RIGHTLEFT, true));
@@ -177,10 +177,9 @@ namespace Saboteur.Forms
             if (this.isFirstPacket)
             {
                 string message = info.isSaboteur ? "당신은 사보타지입니다!" : "당신은 광부입니다!";
-                message += "\r\n당신의 " + (this.clientID+1) + "번 입니다.";
+                message += "\r\n당신의 " + (this.clientID + 1) + "번 입니다.";
                 Controls.Find("lbl_player_" + this.clientID, true)[0].ForeColor = Color.Yellow;
                 MessageBox.Show(message);
-
             }
 
             rotatePlayerIcon();
@@ -271,13 +270,12 @@ namespace Saboteur.Forms
 
             packet.isSaboteur = this.isSaboteur;
             packet.playersState = this.playerStates; // 현재 플레이어의 상태
-            //packet.usedCards.Push(this.selectedCard);
             packet.usedCards = this.usedCard;
 
             Network.Send(packet);
         }
 
-        private bool IsArrived(Point gridPoint)
+        private MapLibrary.Point IsArrived(Point gridPoint)
         {
             MapLibrary.Point coords = ConvertLocationToCoords(gridPoint);
             int[] dir = { 0, -1, 0, 1, 0 };
@@ -287,11 +285,14 @@ namespace Saboteur.Forms
                 int r = coords.R + dir[i], c = coords.C + dir[i + 1];
 
                 if (field.GetCard(r, c) is DestCard)
-                    return true;
+                {
+                    return new MapLibrary.Point(r, c);
+                }
             }
 
-            return false;
+            return null;
         }
+
 
         // Release on Grid
         private void ProcessGrid(Point gridPoint)
@@ -299,13 +300,20 @@ namespace Saboteur.Forms
             // is CaveCard
             if (this.selectedCard is CaveCard)
             {
+                MapLibrary.Point coords = ConvertLocationToCoords(gridPoint);
                 Attach(gridPoint, (CaveCard)this.selectedCard);
                 RemoveFromHands();
 
+                coords = IsArrived(gridPoint);
+
                 // if arrived at destcard
-                if (IsArrived(gridPoint))
+                if (coords != null)
                 {
-                    // Logical check
+                    if (field.IsRoadConnectedToStart(coords))
+                    {
+                        // 논리적으로 이어졋는지 체크
+                        MessageBox.Show("Arrive!");
+                    }
                 }
             }
 
@@ -436,12 +444,12 @@ namespace Saboteur.Forms
                         }
                         else
                         {
-                            //if (this.playerStates[this.clientID].hasDestroyed() && this.selectedCard is CaveCard)
-                            //{
-                            //    MessageBox.Show("장비가 파괴되어 길을 놓을 수 없습니다.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            //    MoveToStartPosition(this.selectedPic);
-                            //    return;
-                            //}
+                            if (this.playerStates[this.clientID].hasDestroyed() && this.selectedCard is CaveCard)
+                            {
+                                MessageBox.Show("장비가 파괴되어 길을 놓을 수 없습니다.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                MoveToStartPosition(this.selectedPic);
+                                return;
+                            }
                             ProcessGrid((Point)gridPoint);
                             
                             Send();

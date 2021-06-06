@@ -179,9 +179,9 @@ namespace Server
             card.Add(new CaveCard(Dir.RIGHTLEFT, true));
             card.Add(new CaveCard(Dir.RIGHTLEFT, true));
             card.Add(new CaveCard(Dir.RIGHTLEFT, true));
-            card.Add(new RockDownCard());
-            card.Add(new RockDownCard());
-            card.Add(new RockDownCard());
+            card.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            card.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            card.Add(new CaveCard(Dir.RIGHTLEFT, true));
             card.Add(new RockDownCard());
 
             return card;
