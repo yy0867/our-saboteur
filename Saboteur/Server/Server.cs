@@ -33,7 +33,7 @@ namespace Server
         private bool isRoomExist = false;
 
         // GameInfo
-        private int curTurnPlayer = 0;      // 현재 Turn인 Player
+        private int curTurnPlayer = -1;      // 현재 Turn인 Player
         private Dealer dealer;
         private bool isFirstGameInfo = true;
         private Dictionary<int, List<Card>> divideCards = new Dictionary<int, List<Card>>();
@@ -93,12 +93,11 @@ namespace Server
             return -1;
         }
 
-        private int GetNextTurnPlayer()
+        private void GetNextTurnPlayer()
         {
+            if (this.curTurnPlayer == this.numConnectedClient - 1)
+                this.curTurnPlayer = -1;
             this.curTurnPlayer++;
-            if (this.curTurnPlayer == this.numConnectedClient)
-                this.curTurnPlayer = 0;
-            return this.curTurnPlayer;
         }
 
         // ########## Receive Functions #########
@@ -223,7 +222,8 @@ namespace Server
             if (nullIndex >= 0)
                 sendGameInfo.holdingCards[nullIndex] = dealer.GetCardFromDeck();
 
-            this.curTurnPlayer = GetNextTurnPlayer();
+            GetNextTurnPlayer();
+            Console.WriteLine("#### this is turn:{0} ####", this.curTurnPlayer);
             sendGameInfo.restCardNum = dealer.deckCards.Count;
 
             for (int i = 0; i < this.numConnectedClient; i++)
