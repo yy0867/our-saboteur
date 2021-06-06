@@ -304,7 +304,7 @@ namespace Saboteur.Forms
                 {
                     MoveToStartPosition(this.selectedPic);
                 }
-                else
+                else if (field.GetCard(coords) is CaveCard)
                 {
                     field.RockDown(coords);
                     DeleteImage(coords.R, coords.C);
