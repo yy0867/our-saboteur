@@ -26,7 +26,7 @@ namespace Server
         private int numConnectedClient = 0;
         private bool[] connectedClients = { false, false, false, false, false, false, false };
         private bool[] enteredPlayers = { false, false, false, false, false, false, false };
-        bool[] roleArr;
+        private bool[] roleArr;
         private bool isGameStarted = false;
 
         private int roomCode = 1000;
@@ -210,6 +210,7 @@ namespace Server
             {
                 sendGameInfo.isTurn = (this.curTurnPlayer == i);
                 sendGameInfo.isSaboteur = this.roleArr[i];
+                sendGameInfo.usedCards = receiveInfo.usedCards;
 
                 if (isFirstGameInfo)
                 {

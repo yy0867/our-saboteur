@@ -75,10 +75,8 @@ namespace Saboteur.Forms
         int selectedIndex = 0;                  // hand index
         List<Card> hands = new List<Card>();
         List<PlayerState> playerStates;
-        Stack<Card> frontUsedCard = new Stack<Card>();
-        Stack<Card> backUsedCard = new Stack<Card>();
-        Dictionary<int, List<PictureBox>> playersInfo = new Dictionary<int, List<PictureBox>>();
         Stack<Card> usedCard = new Stack<Card>();
+        Dictionary<int, List<PictureBox>> playersInfo = new Dictionary<int, List<PictureBox>>();
 
         // Graphics Instances
         Graphics g = null;
@@ -176,6 +174,7 @@ namespace Saboteur.Forms
             this.clientID = info.clientID;
             this.playerNum = info.playersState.Count;
             this.isSaboteur = info.isSaboteur;
+            this.usedCard = info.usedCards;
             info.fields.CopyTo(this.field);
 
             DrawCardOnField();
@@ -192,8 +191,10 @@ namespace Saboteur.Forms
             {
                 this.lblUsedCardNum.Text = usedCardCount.ToString();
                 this.lblDeckNum.Text = info.restCardNum.ToString();
+                if (usedCard.Count > 0)
+                    this.picUsedCard.Image = GetCardImage(usedCard.Peek());
             }));
-            
+
             this.playerStates = info.playersState;
             setEquipmentIcon(info.playersState);
 
@@ -258,8 +259,7 @@ namespace Saboteur.Forms
 
             packet.isSaboteur = this.isSaboteur;
             packet.playersState = this.playerStates; // 현재 플레이어의 상태
-            //packet.usedCards = 
-
+            packet.usedCards.Push(this.selectedCard);
 
             Network.Send(packet);
         }
@@ -316,6 +316,9 @@ namespace Saboteur.Forms
                 else
                 {
                     field.RockDown(coords);
+                    this.selectedCard.face = CardFace.FRONT;
+
+                    //this.usedCard.Push(this.selectedCard);
                     DeleteImage(coords.R, coords.C);
                     DeleteImage(this.selectedPic);
                     RemoveFromHands();
@@ -332,6 +335,8 @@ namespace Saboteur.Forms
                     string message = ((DestCard)card).getIsGoldCave() ? "금 카드입니다!" : "금 카드가 아닙니다!";
 
                     MessageBox.Show(message);
+                    this.selectedCard.face = CardFace.FRONT;
+                    //this.usedCard.Push(this.selectedCard);
                     DeleteImage(this.selectedPic);
                     RemoveFromHands();
                 }
@@ -466,7 +471,7 @@ namespace Saboteur.Forms
                 {
                     this.selectedCard.face = CardFace.BACK;
                     this.usedCard.Push(this.selectedCard);
-                    this.picUsedCard.Image = GetCardImage(this.usedCard.Peek());
+                    //this.picUsedCard.Image = GetCardImage(this.usedCard.Peek());
 
                     DeleteImage(selectedPic);
                     RemoveFromHands();
