@@ -68,6 +68,8 @@ namespace Saboteur.Forms
         // Game Instances
         int playerNum = 0;
         bool isSaboteur = false;
+        bool isMyTurn = false;
+        int turn = 0;
         CaveCard[,] prevMap = new CaveCard[CONST.MAP_ROW, CONST.MAP_COL];
         Map field = new Map();
         Card selectedCard = null;               // which card is selected
@@ -171,12 +173,13 @@ namespace Saboteur.Forms
                 MessageBox.Show(message);
             }
 
+            this.isMyTurn = info.isTurn;
             this.clientID = info.clientID;
             this.playerNum = info.playersState.Count;
             this.isSaboteur = info.isSaboteur;
             this.usedCard = info.usedCards;
             info.fields.CopyTo(this.field);
-
+            rotatePlayerIcon();
             DrawCardOnField();
 
             if (this.hands.Contains(null) || this.isFirstPacket)
@@ -212,7 +215,7 @@ namespace Saboteur.Forms
             if (selectedIndex != -1)
                 this.selectedCard = hands[selectedIndex];
 
-            if (e.Button == MouseButtons.Left)
+            if (this.isMyTurn && e.Button == MouseButtons.Left)
             {
                 isMouseDown = true;
                 mouseDragPrev.SetPosition(e.X, e.Y);
@@ -399,7 +402,7 @@ namespace Saboteur.Forms
 
         private void picCard_MouseUp(object sender, MouseEventArgs e)
         {
-            if (this.isMouseDown && this.selectedPic != null)
+            if (this.isMyTurn && this.isMouseDown && this.selectedPic != null)
             {
                 this.isMouseDown = false;
                 EraseGraphics();
@@ -925,6 +928,23 @@ namespace Saboteur.Forms
                 }
             }));
         }
+
+        private void rotatePlayerIcon()
+        {
+            if(this.turn == 0)
+            {
+                setPlayerIcon(playerNum-1, false);
+                setPlayerIcon(this.turn++, true);
+            }else
+            {
+                setPlayerIcon(this.turn-1, false);
+                setPlayerIcon(this.turn++, true);
+                if (this.turn == playerNum)
+                    this.turn = 0;
+            }
+            
+        }
+
         private bool hasMultiEffects(Tool tool)
         {
             return tool >= Tool.PICKLATTERN;
