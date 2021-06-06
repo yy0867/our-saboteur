@@ -17,6 +17,7 @@ namespace Saboteur.Forms
     {
         const int MAX_PLAYER = 7;
         const int SERVER_ID = -1;
+        int ROOM_LEADER = 0;
         List<PictureBox> playerLanterns = new List<PictureBox>();
         bool[] isPlayer = new bool[MAX_PLAYER];
         int playerID = -1;
@@ -67,11 +68,11 @@ namespace Saboteur.Forms
             if (this.InvokeRequired)
             {
                 this.Invoke((MethodInvoker)(() => {
-                    if (isPlayer[index])
+                    if (this.isPlayer[index])
                         playerLanterns[index].Image = lanternOn;
                     else
                         playerLanterns[index].Image = lanternOff;
-                    isPlayer[index] = !isPlayer[index];
+                    this.isPlayer[index] = !this.isPlayer[index];
                 }));
             }
         }
@@ -93,11 +94,10 @@ namespace Saboteur.Forms
             lanternImageToggle();
             if (this.playerID == SERVER_ID)
                 this.playerID = this.receivedRoomInfo.clientID;
-            if (this.receivedRoomInfo.clientID == 0)
+            if (this.receivedRoomInfo.clientID == ROOM_LEADER)
             {
                 if(this.InvokeRequired)
                     this.Invoke((MethodInvoker)(()=>{ this.btn_start.Visible = true; }));
-                
             }   
 
             updateChattingLog(this.receivedRoomInfo.message, this.receivedRoomInfo.clientID);
