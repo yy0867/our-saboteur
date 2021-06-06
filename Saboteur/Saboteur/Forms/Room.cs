@@ -17,6 +17,7 @@ namespace Saboteur.Forms
     {
         const int MAX_PLAYER = 7;
         const int SERVER_ID = -1;
+        int ROOM_LEADER = 0;
         List<PictureBox> playerLanterns = new List<PictureBox>();
         bool[] isPlayer = new bool[MAX_PLAYER];
         int playerID = -1;
@@ -64,13 +65,16 @@ namespace Saboteur.Forms
             Image lanternOn = Properties.Resources.light_on;
             Image lanternOff = Properties.Resources.light_off;
 
-            this.Invoke((MethodInvoker)(() => {
-                if (isPlayer[index])
-                    playerLanterns[index].Image = lanternOn;
-                else
-                    playerLanterns[index].Image = lanternOff;
-                isPlayer[index] = !isPlayer[index];
-            }));
+            if (this.InvokeRequired)
+            {
+                this.Invoke((MethodInvoker)(() => {
+                    if (this.isPlayer[index])
+                        playerLanterns[index].Image = lanternOn;
+                    else
+                        playerLanterns[index].Image = lanternOff;
+                    this.isPlayer[index] = !this.isPlayer[index];
+                }));
+            }
         }
 
         private void lanternImageToggle()
@@ -90,10 +94,10 @@ namespace Saboteur.Forms
             lanternImageToggle();
             if (this.playerID == SERVER_ID)
                 this.playerID = this.receivedRoomInfo.clientID;
-            if (this.playerID == 0)
+            if (this.receivedRoomInfo.clientID == ROOM_LEADER)
             {
-                this.Invoke((MethodInvoker)(()=>{ this.btn_start.Visible = true; }));
-                
+                if(this.InvokeRequired)
+                    this.Invoke((MethodInvoker)(()=>{ this.btn_start.Visible = true; }));
             }   
 
             updateChattingLog(this.receivedRoomInfo.message, this.receivedRoomInfo.clientID);
@@ -109,29 +113,32 @@ namespace Saboteur.Forms
         }
         private void updateChattingLog(string newMessage, int receivedID)
         {
-            this.Invoke((MethodInvoker)(() => {
-                if (!newMessage.Equals(""))
-                {
-                    var convertedMessage = convertMessage(newMessage, receivedID);
-                    this.chatResultBox.AppendText(convertedMessage);
-                    int endPosition = convertedMessage.Length;
-                    int startPosition = this.chatResultBox.Text.Length - endPosition + 1;
-                    this.chatResultBox.Select(startPosition, endPosition);
-                    if (receivedID == this.playerID)
+            if (this.InvokeRequired)
+            {
+                this.Invoke((MethodInvoker)(() => {
+                    if (!newMessage.Equals(""))
                     {
-                        this.chatResultBox.SelectionAlignment = HorizontalAlignment.Right;
-                        this.chatResultBox.SelectionColor = Color.Goldenrod;
-                        this.chatResultBox.SelectionFont = new Font(this.chatResultBox.Font, FontStyle.Bold | FontStyle.Underline);
-                    } else if (receivedID == SERVER_ID)
-                    {
-                        this.chatResultBox.SelectionAlignment = HorizontalAlignment.Center;
-                        this.chatResultBox.SelectionColor = Color.Green;
-                        this.chatResultBox.SelectionFont = new Font("돋움", 15, FontStyle.Italic | FontStyle.Bold);
+                        var convertedMessage = convertMessage(newMessage, receivedID);
+                        this.chatResultBox.AppendText(convertedMessage);
+                        int endPosition = convertedMessage.Length;
+                        int startPosition = this.chatResultBox.Text.Length - endPosition + 1;
+                        this.chatResultBox.Select(startPosition, endPosition);
+                        if (receivedID == this.playerID)
+                        {
+                            this.chatResultBox.SelectionAlignment = HorizontalAlignment.Right;
+                            this.chatResultBox.SelectionColor = Color.Goldenrod;
+                            this.chatResultBox.SelectionFont = new Font(this.chatResultBox.Font, FontStyle.Bold | FontStyle.Underline);
+                        } else if (receivedID == SERVER_ID)
+                        {
+                            this.chatResultBox.SelectionAlignment = HorizontalAlignment.Center;
+                            this.chatResultBox.SelectionColor = Color.Green;
+                            this.chatResultBox.SelectionFont = new Font("돋움", 15, FontStyle.Italic | FontStyle.Bold);
+                        }
                     }
-                }
-                this.chatResultBox.Select(this.chatResultBox.Text.Length, 0);
-                this.chatResultBox.ScrollToCaret();
-            }));
+                    this.chatResultBox.Select(this.chatResultBox.Text.Length, 0);
+                    this.chatResultBox.ScrollToCaret();
+                }));
+            }
         }
 
 

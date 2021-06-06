@@ -130,7 +130,7 @@ namespace Server
                     return;
                 }
 
-                SendToAllClient(sendRoomInfo);
+                SendToExistClient(sendRoomInfo);
                 isRoomExist = true;
             }
             else    // 2. Client가 Join Room 요청
@@ -143,7 +143,15 @@ namespace Server
                 }
 
                 SendToExistClient(sendRoomInfo);
+                
             }
+            SendToExistClient(new RoomInfo //전체 서버메시지
+            {
+                roomCode = this.roomCode,
+                message = "Client[" + receiveInfo.clientID + "] Join!",
+                clientID = -1,
+                players = enteredPlayers
+            });
         }
 
         private int GetNullIndex(List<Card> holdingCard)
