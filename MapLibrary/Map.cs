@@ -74,6 +74,17 @@ namespace MapLibrary
             }
         }
 
+        public void CopyTo(Map value)
+        {
+            for (int i = 0; i < CONST.MAP_ROW; i++)
+            {
+                for (int j = 0; j < CONST.MAP_COL; j++)
+                {
+                    value.caveCards[i, j] = this.caveCards[i, j];
+                }
+            }
+        }
+
         public CaveCard GetCard(int R, int C)
         {
             if (R < 0 || R >= CONST.MAP_ROW || C < 0 || C >= CONST.MAP_COL)

@@ -122,10 +122,8 @@ namespace PacketLibrary
 
         public Map fields;                // 현재까지 놓여진 맵(필드), Dest Card 포함
         public List<Card> holdingCards;         // 해당 Player가 소지하고 있는 Card들
-        public Stack<Card> frontUsedCards;       // 사용한 카드 - 앞면이 보이게 버림
-        public Stack<Card> backUsedCards;        // 버려진 카드 - 뒷면이 보이게 버림
+        public Stack<Card> usedCards;
         public List<PlayerState> playersState;  // 모든 플레이어의 state 정보(장비 파괴 상태)
-
 
         public GameInfo()
         {
@@ -138,8 +136,7 @@ namespace PacketLibrary
 
             this.fields = new Map();
             this.holdingCards = new List<Card>();
-            this.frontUsedCards = new Stack<Card>();
-            this.backUsedCards = new Stack<Card>();
+            this.usedCards = new Stack<Card>();
             this.playersState = new List<PlayerState>();
         }
     }
