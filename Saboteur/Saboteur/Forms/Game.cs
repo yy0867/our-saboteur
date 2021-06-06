@@ -306,10 +306,17 @@ namespace Saboteur.Forms
                 }
                 else if (field.GetCard(coords) is CaveCard)
                 {
-                    field.RockDown(coords);
-                    DeleteImage(coords.R, coords.C);
-                    DeleteImage(this.selectedPic);
-                    RemoveFromHands();
+                    if (((CaveCard)field.GetCard(coords)).getDir() != Dir.NONE)
+                    {
+                        field.RockDown(coords);
+                        DeleteImage(coords.R, coords.C);
+                        DeleteImage(this.selectedPic);
+                        RemoveFromHands();
+                    }
+                    else
+                    {
+                        MoveToStartPosition(selectedPic);
+                    }
                 }
             }
 
@@ -417,7 +424,6 @@ namespace Saboteur.Forms
                             //}
                             ProcessGrid((Point)gridPoint);
                             
-                            RemoveFromHands();
                             Send();
                         }
                     }
