@@ -170,6 +170,7 @@ namespace Saboteur.Forms
             if (this.isFirstPacket)
             {
                 string message = info.isSaboteur ? "당신은 사보타지입니다!" : "당신은 광부입니다!";
+                message += "\r\n당신의 " + this.clientID + "번 입니다.";
                 MessageBox.Show(message);
             }
 
@@ -214,8 +215,13 @@ namespace Saboteur.Forms
             this.selectedIndex = GetHandIndexByLocation(this.selectedPic.Left + cardWidth / 2, this.selectedPic.Top / 2);
             if (selectedIndex != -1)
                 this.selectedCard = hands[selectedIndex];
+            if (!this.isMyTurn)
+            {
+                MessageBox.Show("당신의 턴이 아닙니다", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            if (this.isMyTurn && e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 isMouseDown = true;
                 mouseDragPrev.SetPosition(e.X, e.Y);
