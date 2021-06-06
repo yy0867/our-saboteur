@@ -75,10 +75,8 @@ namespace Saboteur.Forms
         int selectedIndex = 0;                  // hand index
         List<Card> hands = new List<Card>();
         List<PlayerState> playerStates;
-        Stack<Card> frontUsedCard = new Stack<Card>();
-        Stack<Card> backUsedCard = new Stack<Card>();
-        Dictionary<int, List<PictureBox>> playersInfo = new Dictionary<int, List<PictureBox>>();
         Stack<Card> usedCard = new Stack<Card>();
+        Dictionary<int, List<PictureBox>> playersInfo = new Dictionary<int, List<PictureBox>>();
 
         // Graphics Instances
         Graphics g = null;
@@ -176,6 +174,7 @@ namespace Saboteur.Forms
             this.clientID = info.clientID;
             this.playerNum = info.playersState.Count;
             this.isSaboteur = info.isSaboteur;
+            this.usedCard = info.usedCards;
             info.fields.CopyTo(this.field);
 
             DrawCardOnField();
@@ -192,8 +191,10 @@ namespace Saboteur.Forms
             {
                 this.lblUsedCardNum.Text = usedCardCount.ToString();
                 this.lblDeckNum.Text = info.restCardNum.ToString();
+                if (usedCard.Count > 0)
+                    this.picUsedCard.Image = GetCardImage(usedCard.Peek());
             }));
-            
+
             this.playerStates = info.playersState;
             setEquipmentIcon(info.playersState);
 
@@ -258,8 +259,8 @@ namespace Saboteur.Forms
 
             packet.isSaboteur = this.isSaboteur;
             packet.playersState = this.playerStates; // 현재 플레이어의 상태
-            //packet.usedCards = 
-
+            //packet.usedCards.Push(this.selectedCard);
+            packet.usedCards = this.usedCard;
 
             Network.Send(packet);
         }
@@ -309,6 +310,8 @@ namespace Saboteur.Forms
                     if (((CaveCard)field.GetCard(coords)).getDir() != Dir.NONE)
                     {
                         field.RockDown(coords);
+                        this.selectedCard.face = CardFace.FRONT;
+                        this.usedCard.Push(this.selectedCard);
                         DeleteImage(coords.R, coords.C);
                         DeleteImage(this.selectedPic);
                         RemoveFromHands();
@@ -330,6 +333,8 @@ namespace Saboteur.Forms
                     string message = ((DestCard)card).getIsGoldCave() ? "금 카드입니다!" : "금 카드가 아닙니다!";
 
                     MessageBox.Show(message);
+                    this.selectedCard.face = CardFace.FRONT;
+                    this.usedCard.Push(this.selectedCard);
                     DeleteImage(this.selectedPic);
                     RemoveFromHands();
                 }
@@ -345,6 +350,9 @@ namespace Saboteur.Forms
         {
             //Grapical
             equipment = applayEquipmentIcon(playerID, equipment);
+
+            this.selectedCard.face = CardFace.FRONT;
+            this.usedCard.Push(this.selectedCard);
 
             //Logical
             setPlayerState(playerID, equipment);
@@ -449,7 +457,8 @@ namespace Saboteur.Forms
                     }
                     else
                     {
-                        this.selectedCard.face = CardFace.FRONT;
+                        //this.selectedCard.face = CardFace.FRONT;
+                        //this.usedCard.Push(this.selectedCard);
                         ProcessEquipment(index, selectedEquipment);
 
                         DeleteImage(selectedPic);
@@ -463,8 +472,11 @@ namespace Saboteur.Forms
                 {
                     this.selectedCard.face = CardFace.BACK;
                     this.usedCard.Push(this.selectedCard);
-                    this.picUsedCard.Image = GetCardImage(this.usedCard.Peek());
+                    //this.picUsedCard.Image = GetCardImage(this.usedCard.Peek());
+
+                    DeleteImage(selectedPic);
                     RemoveFromHands();
+                    Send();
                 }
 
                 // ##################### ADD UP ########################
@@ -679,6 +691,7 @@ namespace Saboteur.Forms
             if (card.face == CardFace.BACK)
                 return imgCards.Images[22];
 
+            // Card 앞면
             if (card is CaveCard)
             {
                 CaveCard c = (CaveCard)card;
@@ -779,8 +792,11 @@ namespace Saboteur.Forms
         {
             if (victim != null)
             {
-                this.Controls.Remove(victim);
-                this.allocatedImages.Remove(victim);
+                this.Invoke((MethodInvoker)(() =>
+                {
+                    this.Controls.Remove(victim);
+                    this.allocatedImages.Remove(victim);
+                }));
             }
         }
 
@@ -799,7 +815,7 @@ namespace Saboteur.Forms
         {
             for (int i = 0; i < this.hands.Count(); i++)
             {
-                Point p = new Point(handPadding * (i + 1) + cardWidth * i + cardWidth / 2, fieldSize.Height + cardHeight / 2); ;
+                Point p = new Point(handPadding * (i + 1) + cardWidth * i + cardWidth / 2, fieldSize.Height + cardHeight / 2);
                 DeleteImage(FindPictureboxByLocation(p));
             }
         }
@@ -863,7 +879,10 @@ namespace Saboteur.Forms
                         }
                     }
 
-                    prevMap[i, j] = curCard;
+                    prevMap[i, j].setDir(curCard.getDir());
+                    prevMap[i, j].setIsConnected(curCard.getIsConnected());
+                    prevMap[i, j].setType(curCard.getType());
+                    prevMap[i, j].face = curCard.face;
                 }
             }
         }
@@ -1073,15 +1092,16 @@ namespace Saboteur.Forms
 
             field.MapAdd(new MapLibrary.Point(row, col), cave);
 
-            this.selectedPic.Left = X;
-            this.selectedPic.Top = Y;
+            DeleteImage(this.selectedPic);
+
+            //this.selectedPic.Left = X;
+            //this.selectedPic.Top = Y;
         }
 
         // override Attach()
         private void Attach(Point point, CaveCard cave)
         {
             Attach(point.X, point.Y, cave);
-
         }
 
         private Point? GetGridPoint(int X, int Y)
