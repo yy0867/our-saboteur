@@ -177,7 +177,7 @@ namespace Saboteur.Forms
             if (this.isFirstPacket)
             {
                 string message = info.isSaboteur ? "당신은 사보타지입니다!" : "당신은 광부입니다!";
-                message += "\r\n당신의 " + (this.clientID+1) + "번 입니다.";
+                message += "\r\n당신은 " + (this.clientID+1) + "번 입니다!";
                 Controls.Find("lbl_player_" + this.clientID, true)[0].ForeColor = Color.Yellow;
                 MessageBox.Show(message);
 
