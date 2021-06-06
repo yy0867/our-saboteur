@@ -259,7 +259,8 @@ namespace Saboteur.Forms
 
             packet.isSaboteur = this.isSaboteur;
             packet.playersState = this.playerStates; // 현재 플레이어의 상태
-            packet.usedCards.Push(this.selectedCard);
+            //packet.usedCards.Push(this.selectedCard);
+            packet.usedCards = this.usedCard;
 
             Network.Send(packet);
         }
@@ -317,8 +318,8 @@ namespace Saboteur.Forms
                 {
                     field.RockDown(coords);
                     this.selectedCard.face = CardFace.FRONT;
-
-                    //this.usedCard.Push(this.selectedCard);
+                    // !!! 부서진 CaveCard를 this.usedCard에 Push 하기
+                    this.usedCard.Push(this.selectedCard);
                     DeleteImage(coords.R, coords.C);
                     DeleteImage(this.selectedPic);
                     RemoveFromHands();
@@ -336,7 +337,7 @@ namespace Saboteur.Forms
 
                     MessageBox.Show(message);
                     this.selectedCard.face = CardFace.FRONT;
-                    //this.usedCard.Push(this.selectedCard);
+                    this.usedCard.Push(this.selectedCard);
                     DeleteImage(this.selectedPic);
                     RemoveFromHands();
                 }
@@ -352,6 +353,9 @@ namespace Saboteur.Forms
         {
             //Grapical
             equipment = applayEquipmentIcon(playerID, equipment);
+
+            this.selectedCard.face = CardFace.FRONT;
+            this.usedCard.Push(this.selectedCard);
 
             //Logical
             setPlayerState(playerID, equipment);
@@ -457,7 +461,8 @@ namespace Saboteur.Forms
                     }
                     else
                     {
-                        this.selectedCard.face = CardFace.FRONT;
+                        //this.selectedCard.face = CardFace.FRONT;
+                        //this.usedCard.Push(this.selectedCard);
                         ProcessEquipment(index, selectedEquipment);
 
                         DeleteImage(selectedPic);
@@ -690,6 +695,7 @@ namespace Saboteur.Forms
             if (card.face == CardFace.BACK)
                 return imgCards.Images[22];
 
+            // Card 앞면
             if (card is CaveCard)
             {
                 CaveCard c = (CaveCard)card;
