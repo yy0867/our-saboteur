@@ -189,7 +189,7 @@ namespace Saboteur.Forms
             this.Invoke((MethodInvoker)(() =>
             {
                 this.lblUsedCardNum.Text = usedCardCount.ToString();
-                this.lblDeckNum.Text = info.deckCards.Count.ToString();
+                this.lblDeckNum.Text = info.restCardNum.ToString();
             }));
             
             this.playerStates = info.playersState;
