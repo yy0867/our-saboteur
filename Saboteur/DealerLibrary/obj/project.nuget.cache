@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "CEISQEvch9YkxFhZDRj98g7HwwhyxbRyLb+b8cyOVwvj7ADXS0Dt4ayB7srun5M0x5O5KKGGPCEmDTcP7w8ujw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\ts551\\Documents\\광운대\\3학년 1학기\\응용소프트웨어실습\\플젝\\our-saboteur\\Saboteur\\DealerLibrary\\DealerLibrary.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ts551\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\ts551\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

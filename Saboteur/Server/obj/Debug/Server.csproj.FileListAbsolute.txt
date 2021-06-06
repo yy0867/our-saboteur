@@ -1,0 +1,16 @@
+C:\Users\ts551\Documents\광운대\3학년 1학기\응용소프트웨어실습\플젝\our-saboteur\Saboteur\Server\bin\Debug\Server.exe.config
+C:\Users\ts551\Documents\광운대\3학년 1학기\응용소프트웨어실습\플젝\our-saboteur\Saboteur\Server\bin\Debug\Server.exe
+C:\Users\ts551\Documents\광운대\3학년 1학기\응용소프트웨어실습\플젝\our-saboteur\Saboteur\Server\bin\Debug\Server.pdb
+C:\Users\ts551\Documents\광운대\3학년 1학기\응용소프트웨어실습\플젝\our-saboteur\Saboteur\Server\bin\Debug\CardLibrary.dll
+C:\Users\ts551\Documents\광운대\3학년 1학기\응용소프트웨어실습\플젝\our-saboteur\Saboteur\Server\bin\Debug\Dealer.dll
+C:\Users\ts551\Documents\광운대\3학년 1학기\응용소프트웨어실습\플젝\our-saboteur\Saboteur\Server\bin\Debug\MapLibrary.dll
+C:\Users\ts551\Documents\광운대\3학년 1학기\응용소프트웨어실습\플젝\our-saboteur\Saboteur\Server\bin\Debug\PacketLibrary.dll
+C:\Users\ts551\Documents\광운대\3학년 1학기\응용소프트웨어실습\플젝\our-saboteur\Saboteur\Server\bin\Debug\CardLibrary.pdb
+C:\Users\ts551\Documents\광운대\3학년 1학기\응용소프트웨어실습\플젝\our-saboteur\Saboteur\Server\bin\Debug\MapLibrary.pdb
+C:\Users\ts551\Documents\광운대\3학년 1학기\응용소프트웨어실습\플젝\our-saboteur\Saboteur\Server\bin\Debug\Dealer.pdb
+C:\Users\ts551\Documents\광운대\3학년 1학기\응용소프트웨어실습\플젝\our-saboteur\Saboteur\Server\bin\Debug\PacketLibrary.pdb
+C:\Users\ts551\Documents\광운대\3학년 1학기\응용소프트웨어실습\플젝\our-saboteur\Saboteur\Server\obj\Debug\Server.csprojAssemblyReference.cache
+C:\Users\ts551\Documents\광운대\3학년 1학기\응용소프트웨어실습\플젝\our-saboteur\Saboteur\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+C:\Users\ts551\Documents\광운대\3학년 1학기\응용소프트웨어실습\플젝\our-saboteur\Saboteur\Server\obj\Debug\Server.csproj.CopyComplete
+C:\Users\ts551\Documents\광운대\3학년 1학기\응용소프트웨어실습\플젝\our-saboteur\Saboteur\Server\obj\Debug\Server.exe
+C:\Users\ts551\Documents\광운대\3학년 1학기\응용소프트웨어실습\플젝\our-saboteur\Saboteur\Server\obj\Debug\Server.pdb

@@ -159,7 +159,7 @@ namespace Saboteur.Forms
             DrawCardOnField();
 
             #region Test
-            //MockSendPacket();
+            MockSendPacket();
             #endregion
         }
 
@@ -264,7 +264,7 @@ namespace Saboteur.Forms
             Network.Send(packet);
         }
 
-        private bool IsArrived(Point gridPoint)
+        private MapLibrary.Point IsArrived(Point gridPoint)
         {
             MapLibrary.Point coords = ConvertLocationToCoords(gridPoint);
             int[] dir = { 0, -1, 0, 1, 0 };
@@ -275,33 +275,37 @@ namespace Saboteur.Forms
 
                 if (field.GetCard(r, c) is DestCard)
                 {
-                    DestCard dest = (DestCard)field.GetCard(r, c);
-
-                    // 여기부터 체크 ######################################################
-                    Dir query = dest.getDir() | ((CaveCard)this.selectedCard).getDir();
-                    if ((query & Dir.DOWNUP) == Dir.DOWNUP ||
-                        (query & Dir.RIGHTLEFT) == Dir.RIGHTLEFT)
-                        return true;
+                    return new MapLibrary.Point(r, c);
                 }
+                
             }
 
-            return false;
+            return null;
         }
 
         // Release on Grid
         private void ProcessGrid(Point gridPoint)
         {
+           
             // is CaveCard
             if (this.selectedCard is CaveCard)
             {
+                MapLibrary.Point coords = ConvertLocationToCoords(gridPoint);
                 Attach(gridPoint, (CaveCard)this.selectedCard);
                 RemoveFromHands();
 
+                coords = IsArrived(gridPoint);
+
                 // if arrived at destcard
-                if (IsArrived(gridPoint))
+                if (coords != null)
                 {
-                    // 논리적으로 이어졋는지 체크
-                    MessageBox.Show("Arrive!");
+
+                    if (field.IsRoadConnectedToStart(coords))
+                    {
+                        // 논리적으로 이어졋는지 체크
+                        MessageBox.Show("Arrive!");
+                    }
+                    
                 }
             }
 
@@ -427,7 +431,7 @@ namespace Saboteur.Forms
                             ProcessGrid((Point)gridPoint);
                             
                             RemoveFromHands();
-                            Send();
+                            //Send();
                         }
                     }
                     else
@@ -457,7 +461,7 @@ namespace Saboteur.Forms
 
                         DeleteImage(selectedPic);
                         RemoveFromHands();
-                        Send();
+                        //Send();
                     }
                 }
 
@@ -780,11 +784,14 @@ namespace Saboteur.Forms
 
         private void DeleteImage(PictureBox victim)
         {
-            if (victim != null)
+            this.Invoke((MethodInvoker)(() =>
             {
-                this.Controls.Remove(victim);
-                this.allocatedImages.Remove(victim);
-            }
+                if (victim != null)
+                {
+                    this.Controls.Remove(victim);
+                    this.allocatedImages.Remove(victim);
+                }
+            }));
         }
 
         private void DeleteImage(int row, int col)
