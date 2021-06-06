@@ -274,15 +274,7 @@ namespace Saboteur.Forms
                 int r = coords.R + dir[i], c = coords.C + dir[i + 1];
 
                 if (field.GetCard(r, c) is DestCard)
-                {
-                    DestCard dest = (DestCard)field.GetCard(r, c);
-
-                    // 여기부터 체크 ######################################################
-                    Dir query = dest.getDir() | ((CaveCard)this.selectedCard).getDir();
-                    if ((query & Dir.DOWNUP) == Dir.DOWNUP ||
-                        (query & Dir.RIGHTLEFT) == Dir.RIGHTLEFT)
-                        return true;
-                }
+                    return true;
             }
 
             return false;
@@ -300,8 +292,7 @@ namespace Saboteur.Forms
                 // if arrived at destcard
                 if (IsArrived(gridPoint))
                 {
-                    // 논리적으로 이어졋는지 체크
-                    MessageBox.Show("Arrive!");
+                    // Logical check
                 }
             }
 
