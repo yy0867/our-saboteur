@@ -118,12 +118,10 @@ namespace PacketLibrary
         public bool isSaboteur;
         public bool isTurn;                 // 해당 Player가 현재 Turn인지
         public string message;
-        //public Card curUsedCard;            // 현재 사용한 카드
-        //public bool isCardUsed;
+        public int restCardNum;            // 남은 카드 개수
 
         public Map fields;                // 현재까지 놓여진 맵(필드), Dest Card 포함
         public List<Card> holdingCards;         // 해당 Player가 소지하고 있는 Card들
-        public List<Card> deckCards;            // 남은 카드
         public Stack<Card> frontUsedCards;       // 사용한 카드 - 앞면이 보이게 버림
         public Stack<Card> backUsedCards;        // 버려진 카드 - 뒷면이 보이게 버림
         public List<PlayerState> playersState;  // 모든 플레이어의 state 정보(장비 파괴 상태)
@@ -136,10 +134,10 @@ namespace PacketLibrary
             this.isSaboteur = false;
             this.isTurn = false;
             this.message = "";
+            this.restCardNum = 0;
 
             this.fields = new Map();
             this.holdingCards = new List<Card>();
-            this.deckCards = new List<Card>();
             this.frontUsedCards = new Stack<Card>();
             this.backUsedCards = new Stack<Card>();
             this.playersState = new List<PlayerState>();

@@ -20,6 +20,8 @@ namespace Saboteur
         public static Forms.Game Game = new Forms.Game();
         public static Forms.Room Room = new Forms.Room();
 
+        public static bool IsGameStart = false;
+
         public static void SwitchScreen(Screen screen)
         {
             MainForm.mainForm.mainPanel.Invoke((MethodInvoker)(() =>
@@ -36,8 +38,12 @@ namespace Saboteur
                         MainForm.mainForm.mainPanel.Controls.Add(ViewController.Game);
                         break;
                     case Screen.Room:
-                        SetViewSize(false);
-                        MainForm.mainForm.mainPanel.Controls.Add(ViewController.Room);
+                        if (!ViewController.IsGameStart)
+                        {
+                            ViewController.IsGameStart = true;
+                            SetViewSize(false);
+                            MainForm.mainForm.mainPanel.Controls.Add(ViewController.Room);
+                        }
                         break;
                 }
             }));
