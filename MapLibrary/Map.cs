@@ -60,11 +60,11 @@ namespace MapLibrary
                     else if(j == 12)
                     {
                         if (i == 1)
-                            caveCards[i, j] = new DestCard(false, false, dest[0]);
+                            caveCards[i, j] = new DestCard(CardFace.BACK, false, dest[0]);
                         else if (i == 3)
-                            caveCards[i, j] = new DestCard(false, false, dest[1]);
+                            caveCards[i, j] = new DestCard(CardFace.BACK, false, dest[1]);
                         else if (i == 5)
-                            caveCards[i, j] = new DestCard(false, false, dest[2]);
+                            caveCards[i, j] = new DestCard(CardFace.BACK, false, dest[2]);
                         else
                             caveCards[i, j] = new CaveCard();
                     }  
@@ -122,7 +122,7 @@ namespace MapLibrary
             bool result = true;
             bool isolated = true;
 
-            if (r > 0 && !caveCards[r - 1, c].isEmpty()) 
+            if (r > 0 && !caveCards[r - 1, c].isEmpty() && caveCards[r - 1 ,c].face == CardFace.FRONT) 
             {
                 watch = caveCards[r - 1, c];
                 isolated = false;
@@ -136,7 +136,7 @@ namespace MapLibrary
                 }
             }
 
-            if (c > 0 && !caveCards[r, c - 1].isEmpty())
+            if (c > 0 && !caveCards[r, c - 1].isEmpty() && caveCards[r, c - 1].face == CardFace.FRONT)
             {
                 watch = caveCards[r, c - 1];
                 isolated = false;
@@ -150,7 +150,7 @@ namespace MapLibrary
                 }
             }
 
-            if (r < CONST.MAP_ROW - 1 && !caveCards[r + 1, c].isEmpty())
+            if (r < CONST.MAP_ROW - 1 && !caveCards[r + 1, c].isEmpty() && caveCards[r + 1, c].face == CardFace.FRONT)
             {
                 watch = caveCards[r + 1, c];
                 isolated = false;
@@ -164,7 +164,7 @@ namespace MapLibrary
                 }
             }
 
-            if (c < CONST.MAP_COL - 1 && !caveCards[r, c + 1].isEmpty())
+            if (c < CONST.MAP_COL - 1 && !caveCards[r, c + 1].isEmpty() && caveCards[r, c + 1].face == CardFace.FRONT)
             {
                 watch = caveCards[r, c + 1];
                 isolated = false;
@@ -218,6 +218,11 @@ namespace MapLibrary
             return false;
         }
 
+        private bool IsRoadConnectedToStart(Point curPoint)
+        {
+            return true;
+        }
+
         private bool isStart(Point point)
         {
             if (point.R == CONST.START_R && point.C == CONST.START_C)
@@ -231,7 +236,7 @@ namespace MapLibrary
             return r >= 0 && r < CONST.MAP_ROW && c >= 0 && c < CONST.MAP_COL;
         }
         
-        private bool isValidated(Point point) // 현재 좌표 유효성 검사
+        public bool isValidated(Point point) // 현재 좌표 유효성 검사
         {
             return (checkBoundary(point) && !isExist(point));
         }
