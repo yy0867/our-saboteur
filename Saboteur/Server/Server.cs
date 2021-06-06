@@ -32,23 +32,11 @@ namespace Server
         private int roomCode = 1000;
         private bool isRoomExist = false;
 
+        // GameInfo
         private int curTurnPlayer = 0;      // 현재 Turn인 Player
-
-        //private object lockObject = new object();
-        //private Semaphore sem = new Semaphore(1, 1);
-
-
-        /* -------------------- Map, Card -------------------- */
-        private Map fields;
         private Dealer dealer;
-        //private List<Card> deckCards;
-        private List<Card> frontUsedCards = new List<Card>();
-        private List<Card> backUsedCards = new List<Card>();
-        private List<PlayerState> playersState = new List<PlayerState>();
-
         private bool isFirstGameInfo = true;
-        private int cardNumPerPlayer = 0;
-        // Player 별로 손에 쥐고있는 카드 개수
+        private Dictionary<int, List<Card>> divideCards = new Dictionary<int, List<Card>>();
 
 
         public Server()
@@ -56,12 +44,6 @@ namespace Server
             // networkStream 배열 초기화
             for (int i = 0; i < MAX_CLIENT_NUM; i++)
                 networkStream[i] = null;
-
-            //this.fields = new Map();
-            //this.dealer = new Dealer(this.numConnectedClient);
-            //this.dealer.CardListInit();
-            //this.dealer.DeckCardsInit();
-            //bool[] roleArr = dealer.defineRole(this.connectedClients);
         }
 
         public void Run()
@@ -71,12 +53,15 @@ namespace Server
 
         public void Send(int clientID, Packet packet)
         {
-            Console.WriteLine("client {0} send message", packet.clientID);
-            byte[] sendBuffer = new byte[Packet.MAX_SIZE];
+            lock (this)
+            {
+                Console.WriteLine("client {0} send message", packet.clientID);
+                byte[] sendBuffer = new byte[Packet.MAX_SIZE];
 
-            Packet.Serialize(packet).CopyTo(sendBuffer, 0);
-            networkStream[clientID].Write(sendBuffer, 0, sendBuffer.Length);
-            networkStream[clientID].Flush();
+                Packet.Serialize(packet).CopyTo(sendBuffer, 0);
+                networkStream[clientID].Write(sendBuffer, 0, sendBuffer.Length);
+                networkStream[clientID].Flush();
+            }
         }
 
         public void SendToAllClient(Packet packet)
@@ -171,6 +156,15 @@ namespace Server
             return -1;
         }
 
+        private void CopyDivideToHoldingCard(int index, List<Card> holdingCard)
+        {
+            holdingCard.Clear();
+            for (int i = 0; i < divideCards[index].Count; i++)
+            {
+                holdingCard.Add(divideCards[index][i]);
+            }
+        }
+
         private void ProcessGameInfo(GameInfo receiveInfo)
         {
             Console.WriteLine("Client {0}으로부터 GameInfo 패킷 Receive", receiveInfo.clientID);
@@ -180,18 +174,23 @@ namespace Server
 
             if (isFirstGameInfo)
             {
+                this.dealer = new Dealer(this.numConnectedClient);
+
                 roleArr = dealer.defineRole(this.connectedClients);
                 sendGameInfo.fields.MapInit();
+
+                this.dealer.CardListInit();
+                this.dealer.DeckCardsInit();
+                this.divideCards = this.dealer.cardDivide();
             }
             else
             {
-                sendGameInfo.fields = receiveInfo.fields;
+                receiveInfo.fields.CopyTo(sendGameInfo.fields);
+                sendGameInfo.holdingCards = receiveInfo.holdingCards;
             }
 
             sendGameInfo.playersState = receiveInfo.playersState;
-            sendGameInfo.backUsedCards = receiveInfo.backUsedCards;
-            sendGameInfo.frontUsedCards = receiveInfo.frontUsedCards;
-            sendGameInfo.holdingCards = receiveInfo.holdingCards;
+            sendGameInfo.usedCards = receiveInfo.usedCards;
             
             if (nullIndex >= 0)
                 sendGameInfo.holdingCards[nullIndex] = dealer.GetCardFromDeck();
@@ -204,8 +203,15 @@ namespace Server
                 sendGameInfo.isTurn = (this.curTurnPlayer == i);
                 sendGameInfo.isSaboteur = this.roleArr[i];
 
+                if (isFirstGameInfo)
+                {
+                    CopyDivideToHoldingCard(i, sendGameInfo.holdingCards);
+                }
+
                 Send(i, sendGameInfo);
             }
+
+            isFirstGameInfo = false;
         }
 
 

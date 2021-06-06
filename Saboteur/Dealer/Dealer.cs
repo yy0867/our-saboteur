@@ -184,7 +184,7 @@ namespace DealerLibrary
             return card;
         }
 
-        public void RemoveCardsFromDeck(List<Card> usedCards)
+        private void RemoveCardsFromDeck(List<Card> usedCards)
         {
             foreach (var card in usedCards)
                 deckCards.Remove(card);
@@ -249,6 +249,8 @@ namespace DealerLibrary
                         cardDict.Add(i, cardList.GetRange(4 * i, 4));
                         break;
                 }
+
+                RemoveCardsFromDeck(cardDict[i]);
             }
             return cardDict;
         }

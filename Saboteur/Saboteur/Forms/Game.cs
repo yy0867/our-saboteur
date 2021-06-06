@@ -159,7 +159,7 @@ namespace Saboteur.Forms
             DrawCardOnField();
 
             #region Test
-            MockSendPacket();
+            //MockSendPacket();
             #endregion
         }
 
@@ -169,8 +169,6 @@ namespace Saboteur.Forms
 
             if (this.isFirstPacket)
             {
-                this.isFirstPacket = false;
-
                 string message = info.isSaboteur ? "당신은 사보타지입니다!" : "당신은 광부입니다!";
                 MessageBox.Show(message);
             }
@@ -178,14 +176,18 @@ namespace Saboteur.Forms
             this.clientID = info.clientID;
             this.playerNum = info.playersState.Count;
             this.isSaboteur = info.isSaboteur;
+            info.fields.CopyTo(this.field);
 
-            this.field = info.fields;
             DrawCardOnField();
 
-            this.hands = info.holdingCards;
-            DrawHands(hands);
+            if (this.hands.Contains(null) || this.isFirstPacket)
+            {
+                this.hands = info.holdingCards;
+                DeleteHands();
+                DrawHands(hands);
+            }
 
-            int usedCardCount = info.backUsedCards.Count + info.frontUsedCards.Count;
+            int usedCardCount = info.usedCards.Count;
             this.Invoke((MethodInvoker)(() =>
             {
                 this.lblUsedCardNum.Text = usedCardCount.ToString();
@@ -194,6 +196,8 @@ namespace Saboteur.Forms
             
             this.playerStates = info.playersState;
             setEquipmentIcon(info.playersState);
+
+            this.isFirstPacket = false;
         }
 
         private void picCard_MouseDown(object sender, MouseEventArgs e)
@@ -253,7 +257,9 @@ namespace Saboteur.Forms
             packet.holdingCards = this.hands;
 
             packet.isSaboteur = this.isSaboteur;
-            //packet.playersState = this.playerState; // 현재 플레이어의 상태
+            packet.playersState = this.playerStates; // 현재 플레이어의 상태
+            //packet.usedCards = 
+
 
             Network.Send(packet);
         }
@@ -398,7 +404,7 @@ namespace Saboteur.Forms
                 // ##################### ADD DOWN BY USING METHOD ########################
                 // Release on Grid
 
-                // Release on Map: Use CaveCard, MapCard, RockDownCard
+                // Release on Map
                 if (releasePoint == Field.MAP) // is in map
                 {
                     Point? gridPoint = GetGridPoint(mouseLocation.X, mouseLocation.Y); // Mouse Pointer Position
@@ -421,8 +427,7 @@ namespace Saboteur.Forms
                             ProcessGrid((Point)gridPoint);
                             
                             RemoveFromHands();
-                            this.selectedCard.face = CardFace.FRONT;
-                            //Send();
+                            Send();
                         }
                     }
                     else
@@ -791,6 +796,15 @@ namespace Saboteur.Forms
             PictureBox victim = FindPictureboxByLocation(point);
 
             DeleteImage(victim);
+        }
+
+        private void DeleteHands()
+        {
+            for (int i = 0; i < this.hands.Count(); i++)
+            {
+                Point p = new Point(handPadding * (i + 1) + cardWidth * i + cardWidth / 2, fieldSize.Height + cardHeight / 2); ;
+                DeleteImage(FindPictureboxByLocation(p));
+            }
         }
 
         private void DrawCardOnField()
