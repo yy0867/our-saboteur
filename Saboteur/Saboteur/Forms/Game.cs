@@ -253,7 +253,7 @@ namespace Saboteur.Forms
             GameInfo packet = new GameInfo();
 
             packet.clientID = this.clientID;
-            packet.fields = this.field;
+            this.field.CopyTo(packet.fields);
             packet.holdingCards = this.hands;
 
             packet.isSaboteur = this.isSaboteur;
@@ -277,7 +277,6 @@ namespace Saboteur.Forms
                 {
                     return new MapLibrary.Point(r, c);
                 }
-                
             }
 
             return null;
@@ -299,13 +298,11 @@ namespace Saboteur.Forms
                 // if arrived at destcard
                 if (coords != null)
                 {
-
                     if (field.IsRoadConnectedToStart(coords))
                     {
                         // 논리적으로 이어졋는지 체크
                         MessageBox.Show("Arrive!");
                     }
-                    
                 }
             }
 
@@ -317,7 +314,7 @@ namespace Saboteur.Forms
                 {
                     MoveToStartPosition(this.selectedPic);
                 }
-                else
+                else if (field.GetCard(coords) is CaveCard)
                 {
                     field.RockDown(coords);
                     DeleteImage(coords.R, coords.C);

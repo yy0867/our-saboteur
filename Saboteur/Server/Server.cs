@@ -173,6 +173,20 @@ namespace Server
             }
         }
 
+        private List<Card> MockingHoldingCard()
+        {
+            List<Card> card = new List<Card>();
+            card.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            card.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            card.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            card.Add(new RockDownCard());
+            card.Add(new RockDownCard());
+            card.Add(new RockDownCard());
+            card.Add(new RockDownCard());
+
+            return card;
+        }
+
         private void ProcessGameInfo(GameInfo receiveInfo)
         {
             Console.WriteLine("Client {0}으로부터 GameInfo 패킷 Receive", receiveInfo.clientID);
@@ -189,16 +203,22 @@ namespace Server
 
                 this.dealer.CardListInit();
                 this.dealer.DeckCardsInit();
-                this.divideCards = this.dealer.cardDivide();
+                //this.divideCards = this.dealer.cardDivide();
+                this.divideCards.Add(0, MockingHoldingCard());
+                this.divideCards.Add(1, MockingHoldingCard());
+
+                for (int i = 0; i < numConnectedClient; i++)
+                    sendGameInfo.playersState.Add(new PlayerState());
             }
             else
             {
                 receiveInfo.fields.CopyTo(sendGameInfo.fields);
                 sendGameInfo.holdingCards = receiveInfo.holdingCards;
+                sendGameInfo.playersState = receiveInfo.playersState;
             }
 
-            sendGameInfo.playersState = receiveInfo.playersState;
             sendGameInfo.usedCards = receiveInfo.usedCards;
+            sendGameInfo.clientID = receiveInfo.clientID;
             
             if (nullIndex >= 0)
                 sendGameInfo.holdingCards[nullIndex] = dealer.GetCardFromDeck();
