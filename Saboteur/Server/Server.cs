@@ -199,6 +199,7 @@ namespace Server
 
             sendGameInfo.playersState = receiveInfo.playersState;
             sendGameInfo.usedCards = receiveInfo.usedCards;
+            sendGameInfo.clientID = receiveInfo.clientID;
             
             if (nullIndex >= 0)
                 sendGameInfo.holdingCards[nullIndex] = dealer.GetCardFromDeck();
