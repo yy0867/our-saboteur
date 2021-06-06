@@ -174,6 +174,11 @@ namespace DealerLibrary
         // 
         public Card GetCardFromDeck()
         {
+            if (deckCards.Count <= 0)
+            {
+                return null;
+            }
+
             Card card = this.deckCards[0];
             this.deckCards.RemoveAt(0);
             return card;
