@@ -77,7 +77,8 @@ namespace Saboteur.Forms
         List<PlayerState> playerStates;
         Stack<Card> frontUsedCard = new Stack<Card>();
         Stack<Card> backUsedCard = new Stack<Card>();
-        Dictionary<int, List<PictureBox>> playersInfo = new Dictionary<int, List<PictureBox>>(); 
+        Dictionary<int, List<PictureBox>> playersInfo = new Dictionary<int, List<PictureBox>>();
+        Stack<Card> usedCard = new Stack<Card>();
 
         // Graphics Instances
         Graphics g = null;
@@ -103,12 +104,12 @@ namespace Saboteur.Forms
         private List<PlayerState> mockedPlayerStates()
         {
             var states = new List<PlayerState>();
-            states.Add(mockedPlayerStates(true, true, true));
-            states.Add(mockedPlayerStates(true, true, false));
-            states.Add(mockedPlayerStates(true, false, false));
-            states.Add(mockedPlayerStates(false, false, false));
-            states.Add(mockedPlayerStates(false, true, true));
-            states.Add(mockedPlayerStates(false, false, true));
+            //states.Add(mockedPlayerStates(true, true, true));
+            //states.Add(mockedPlayerStates(true, true, false));
+            //states.Add(mockedPlayerStates(true, false, false));
+            //states.Add(mockedPlayerStates(false, false, false));
+            //states.Add(mockedPlayerStates(false, true, true));
+            //states.Add(mockedPlayerStates(false, false, true));
             return states;
         }
         private void MockSendPacket()
@@ -121,16 +122,21 @@ namespace Saboteur.Forms
             mock.fields.MapInit();
             mock.playersState = mockedPlayerStates();
             mock.isSaboteur = false;
+            mock.clientID = 1;
             
             #region(MockingTest_Hand)
-            mock.holdingCards.Add(new CaveCard(Dir.ALL, true));
+            mock.holdingCards.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            mock.holdingCards.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            mock.holdingCards.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            mock.holdingCards.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            mock.holdingCards.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            mock.holdingCards.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            mock.holdingCards.Add(new CaveCard(Dir.RIGHTLEFT, true));
             mock.holdingCards.Add(new CaveCard(Dir.LEFTDOWN, true));
-            mock.holdingCards.Add(new CaveCard(Dir.UP, false));
-            mock.holdingCards.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.PICKLATTERN));
-            mock.holdingCards.Add(new EquipmentCard(CType.EQ_DESTRUCTION, Tool.CART));
+            mock.holdingCards.Add(new RockDownCard());
             #endregion
 
-            
+
             updateInfo(mock);
         }
         #endregion
@@ -163,8 +169,6 @@ namespace Saboteur.Forms
 
             if (this.isFirstPacket)
             {
-                this.isFirstPacket = false;
-
                 string message = info.isSaboteur ? "당신은 사보타지입니다!" : "당신은 광부입니다!";
                 MessageBox.Show(message);
             }
@@ -172,22 +176,28 @@ namespace Saboteur.Forms
             this.clientID = info.clientID;
             this.playerNum = info.playersState.Count;
             this.isSaboteur = info.isSaboteur;
+            info.fields.CopyTo(this.field);
 
-            this.field = info.fields;
             DrawCardOnField();
 
-            this.hands = info.holdingCards;
-            DrawHands(hands);
+            if (this.hands.Contains(null) || this.isFirstPacket)
+            {
+                this.hands = info.holdingCards;
+                DeleteHands();
+                DrawHands(hands);
+            }
 
-            int usedCardCount = info.backUsedCards.Count + info.frontUsedCards.Count;
+            int usedCardCount = info.usedCards.Count;
             this.Invoke((MethodInvoker)(() =>
             {
                 this.lblUsedCardNum.Text = usedCardCount.ToString();
-                this.lblDeckNum.Text = info.deckCards.Count.ToString();
+                this.lblDeckNum.Text = info.restCardNum.ToString();
             }));
             
             this.playerStates = info.playersState;
             setEquipmentIcon(info.playersState);
+
+            this.isFirstPacket = false;
         }
 
         private void picCard_MouseDown(object sender, MouseEventArgs e)
@@ -247,9 +257,35 @@ namespace Saboteur.Forms
             packet.holdingCards = this.hands;
 
             packet.isSaboteur = this.isSaboteur;
-            //packet.playersState = this.playerState; // 현재 플레이어의 상태
+            packet.playersState = this.playerStates; // 현재 플레이어의 상태
+            //packet.usedCards = 
+
 
             Network.Send(packet);
+        }
+
+        private bool IsArrived(Point gridPoint)
+        {
+            MapLibrary.Point coords = ConvertLocationToCoords(gridPoint);
+            int[] dir = { 0, -1, 0, 1, 0 };
+
+            for (int i = 0; i < dir.Length - 1; i++)
+            {
+                int r = coords.R + dir[i], c = coords.C + dir[i + 1];
+
+                if (field.GetCard(r, c) is DestCard)
+                {
+                    DestCard dest = (DestCard)field.GetCard(r, c);
+
+                    // 여기부터 체크 ######################################################
+                    Dir query = dest.getDir() | ((CaveCard)this.selectedCard).getDir();
+                    if ((query & Dir.DOWNUP) == Dir.DOWNUP ||
+                        (query & Dir.RIGHTLEFT) == Dir.RIGHTLEFT)
+                        return true;
+                }
+            }
+
+            return false;
         }
 
         // Release on Grid
@@ -259,18 +295,50 @@ namespace Saboteur.Forms
             if (this.selectedCard is CaveCard)
             {
                 Attach(gridPoint, (CaveCard)this.selectedCard);
+                RemoveFromHands();
+
+                // if arrived at destcard
+                if (IsArrived(gridPoint))
+                {
+                    // 논리적으로 이어졋는지 체크
+                    MessageBox.Show("Arrive!");
+                }
             }
 
             // is RockDownCard
-            else if (this.selectedCard is ActionCard)
+            else if (this.selectedCard is RockDownCard)
             {
-
+                MapLibrary.Point coords = ConvertLocationToCoords(gridPoint);
+                if (field.isValidated(coords) || field.GetCard(coords) is StartCard || field.GetCard(coords) is DestCard)
+                {
+                    MoveToStartPosition(this.selectedPic);
+                }
+                else
+                {
+                    field.RockDown(coords);
+                    DeleteImage(coords.R, coords.C);
+                    DeleteImage(this.selectedPic);
+                    RemoveFromHands();
+                }
             }
 
             // is MapCard
             else if (this.selectedCard is MapCard)
             {
+                MapLibrary.Point coords = ConvertLocationToCoords(gridPoint);
+                CaveCard card = field.GetCard(coords);
+                if (card is DestCard)
+                {
+                    string message = ((DestCard)card).getIsGoldCave() ? "금 카드입니다!" : "금 카드가 아닙니다!";
 
+                    MessageBox.Show(message);
+                    DeleteImage(this.selectedPic);
+                    RemoveFromHands();
+                }
+                else
+                {
+                    MoveToStartPosition(this.selectedPic);
+                }
             }
         }
 
@@ -336,21 +404,28 @@ namespace Saboteur.Forms
                 // ##################### ADD DOWN BY USING METHOD ########################
                 // Release on Grid
 
-                // Release on Map: Use CaveCard, MapCard, RockDownCard
+                // Release on Map
                 if (releasePoint == Field.MAP) // is in map
                 {
                     Point? gridPoint = GetGridPoint(mouseLocation.X, mouseLocation.Y); // Mouse Pointer Position
 
                     if (gridPoint.HasValue) // grid point is valid
                     {
-                        if (!(this.selectedCard is CaveCard) || !field.IsValidPosition(ConvertLocationToCoords(mouseLocation), (CaveCard)selectedCard))
+                        if ((this.selectedCard is EquipmentCard) || (this.selectedCard is CaveCard && !field.IsValidPosition(ConvertLocationToCoords(mouseLocation), (CaveCard)selectedCard)))
                         {
                             MoveToStartPosition(selectedPic);
                             return;
                         }
                         else
                         {
+                            //if (this.playerStates[this.clientID].hasDestroyed() && this.selectedCard is CaveCard)
+                            //{
+                            //    MessageBox.Show("장비가 파괴되어 길을 놓을 수 없습니다.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //    MoveToStartPosition(this.selectedPic);
+                            //    return;
+                            //}
                             ProcessGrid((Point)gridPoint);
+                            
                             RemoveFromHands();
                             Send();
                         }
@@ -377,6 +452,7 @@ namespace Saboteur.Forms
                     }
                     else
                     {
+                        this.selectedCard.face = CardFace.FRONT;
                         ProcessEquipment(index, selectedEquipment);
 
                         DeleteImage(selectedPic);
@@ -385,13 +461,13 @@ namespace Saboteur.Forms
                     }
                 }
 
-                // Release on Deck: Discard the Card
+                // Release on Deck: Discard the Card    => Show Card Back
                 else if (releasePoint == Field.DECK)
                 {
-
-
-
-
+                    this.selectedCard.face = CardFace.BACK;
+                    this.usedCard.Push(this.selectedCard);
+                    this.picUsedCard.Image = GetCardImage(this.usedCard.Peek());
+                    RemoveFromHands();
                 }
 
                 // ##################### ADD UP ########################
@@ -570,16 +646,25 @@ namespace Saboteur.Forms
                         break;
 
                     case Dir.NOUP:
-                        cardImage = imgCards.Images[37];
+                        cardImage = imgCards.Images[39];
+                        Rotate(cardImage);
                         break;
 
                     case Dir.NODOWN:
-                        cardImage = imgCards.Images[37];
+                        cardImage = imgCards.Images[39];
+                        break;
+
+                    case Dir.NOLEFT:
+                        cardImage = imgCards.Images[38];
+                        break;
+
+                    case Dir.NORIGHT:
+                        cardImage = imgCards.Images[38];
                         Rotate(cardImage);
                         break;
 
                     case Dir.ALL:
-                        cardImage = imgCards.Images[38];
+                        cardImage = imgCards.Images[37];
                         break;
 
                     default:
@@ -593,6 +678,10 @@ namespace Saboteur.Forms
 
         private Image GetCardImage(Card card)
         {
+            // Card 뒷면
+            if (card.face == CardFace.BACK)
+                return imgCards.Images[22];
+
             if (card is CaveCard)
             {
                 CaveCard c = (CaveCard)card;
@@ -709,6 +798,15 @@ namespace Saboteur.Forms
             DeleteImage(victim);
         }
 
+        private void DeleteHands()
+        {
+            for (int i = 0; i < this.hands.Count(); i++)
+            {
+                Point p = new Point(handPadding * (i + 1) + cardWidth * i + cardWidth / 2, fieldSize.Height + cardHeight / 2); ;
+                DeleteImage(FindPictureboxByLocation(p));
+            }
+        }
+
         private void DrawCardOnField()
         {
             CaveCard curCard = null;
@@ -734,7 +832,22 @@ namespace Saboteur.Forms
                     // Draw Dest Card
                     else if (curCard is DestCard)
                     {
-                        AddImage(location, imgCards.Images["goal_back.png"]);
+                        DestCard dest = (DestCard)curCard;
+                        Image image;
+                        if (dest.face == CardFace.FRONT)
+                        {
+                            if (dest.getIsGoldCave())
+                                image = imgCards.Images["goal_gold.png"];
+
+                            else
+                            {
+                                image = imgCards.Images["goal_stone_down_left.png"];
+                            }
+                        }
+                        else
+                            image = imgCards.Images["goal_back.png"];
+
+                        AddImage(location, image);
                     }
 
                     // Draw Cave Card

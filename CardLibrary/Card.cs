@@ -202,15 +202,14 @@ namespace CardLibrary
     [Serializable]
     public class DestCard : CaveCard
     {
-        public bool isOpen { get; set; }
         public bool nearByCardExist { get; set; }
         private bool isGoldCave;
 
-        public DestCard(bool isOpen, bool nearByCardExist, bool isGoldCave)
+        public DestCard(CardFace face, bool nearByCardExist, bool isGoldCave)
         {
             this.dir = Dir.ALL;
             this.isConnected = true;
-            this.isOpen = isOpen;
+            this.face = face;
             this.nearByCardExist = nearByCardExist;
             this.isGoldCave = isGoldCave;
         }

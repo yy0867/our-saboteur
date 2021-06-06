@@ -26,28 +26,17 @@ namespace Server
         private int numConnectedClient = 0;
         private bool[] connectedClients = { false, false, false, false, false, false, false };
         private bool[] enteredPlayers = { false, false, false, false, false, false, false };
+        bool[] roleArr;
         private bool isGameStarted = false;
 
         private int roomCode = 1000;
         private bool isRoomExist = false;
 
+        // GameInfo
         private int curTurnPlayer = 0;      // 현재 Turn인 Player
-
-        //private object lockObject = new object();
-        //private Semaphore sem = new Semaphore(1, 1);
-
-
-        /* -------------------- Map, Card -------------------- */
-        private Map fields;
         private Dealer dealer;
-        //private List<Card> deckCards;
-        private List<Card> frontUsedCards = new List<Card>();
-        private List<Card> backUsedCards = new List<Card>();
-        private List<PlayerState> playersState = new List<PlayerState>();
-
         private bool isFirstGameInfo = true;
-        private int cardNumPerPlayer = 0;
-        // Player 별로 손에 쥐고있는 카드 개수
+        private Dictionary<int, List<Card>> divideCards = new Dictionary<int, List<Card>>();
 
 
         public Server()
@@ -55,12 +44,6 @@ namespace Server
             // networkStream 배열 초기화
             for (int i = 0; i < MAX_CLIENT_NUM; i++)
                 networkStream[i] = null;
-
-            //this.fields = new Map();
-            //this.dealer = new Dealer(this.numConnectedClient);
-            //this.dealer.CardListInit();
-            //this.dealer.DeckCardsInit();
-            //bool[] roleArr = dealer.defineRole(this.connectedClients);
         }
 
         public void Run()
@@ -70,12 +53,15 @@ namespace Server
 
         public void Send(int clientID, Packet packet)
         {
-            Console.WriteLine("client {0} send message", packet.clientID);
-            byte[] sendBuffer = new byte[Packet.MAX_SIZE];
+            lock (this)
+            {
+                Console.WriteLine("client {0} send message", packet.clientID);
+                byte[] sendBuffer = new byte[Packet.MAX_SIZE];
 
-            Packet.Serialize(packet).CopyTo(sendBuffer, 0);
-            networkStream[clientID].Write(sendBuffer, 0, sendBuffer.Length);
-            networkStream[clientID].Flush();
+                Packet.Serialize(packet).CopyTo(sendBuffer, 0);
+                networkStream[clientID].Write(sendBuffer, 0, sendBuffer.Length);
+                networkStream[clientID].Flush();
+            }
         }
 
         public void SendToAllClient(Packet packet)
@@ -168,90 +154,72 @@ namespace Server
             });
         }
 
+        private int GetNullIndex(List<Card> holdingCard)
+        {
+            for (int i = 0; i < holdingCard.Count; i++)
+            {
+                if (holdingCard[i] == null)
+                    return i;
+            }
+            return -1;
+        }
+
+        private void CopyDivideToHoldingCard(int index, List<Card> holdingCard)
+        {
+            holdingCard.Clear();
+            for (int i = 0; i < divideCards[index].Count; i++)
+            {
+                holdingCard.Add(divideCards[index][i]);
+            }
+        }
+
         private void ProcessGameInfo(GameInfo receiveInfo)
         {
             Console.WriteLine("Client {0}으로부터 GameInfo 패킷 Receive", receiveInfo.clientID);
 
             GameInfo sendGameInfo = new GameInfo();
-            //Map fields = new Map();
-            //Dealer dealer = new Dealer(this.numConnectedClient);
-            //dealer.CardListInit();
-            //dealer.DeckCardsInit();
-            //bool[] roleArr = dealer.defineRole(this.connectedClients);
+            int nullIndex = GetNullIndex(receiveInfo.holdingCards);
 
-            // 게임 시작 직후 받은 GameInfo 패킷
-            if (this.isFirstGameInfo)
+            if (isFirstGameInfo)
             {
-                this.fields = new Map();
-                this.fields.MapInit();
                 this.dealer = new Dealer(this.numConnectedClient);
+
+                roleArr = dealer.defineRole(this.connectedClients);
+                sendGameInfo.fields.MapInit();
+
                 this.dealer.CardListInit();
                 this.dealer.DeckCardsInit();
-                bool[] roleArr = this.dealer.defineRole(this.connectedClients);
-                
-                Dictionary<int, List<Card>> DicCardsPerPlayer = this.dealer.cardDivide();
-                this.cardNumPerPlayer = DicCardsPerPlayer[0].Count;
-
-                for (int i = 0; i < this.numConnectedClient; i++)
-                    this.dealer.RemoveCardsFromDeck(DicCardsPerPlayer[i]);
-
-                PlayerState state = new PlayerState();
-                for (int i = 0; i < this.numConnectedClient; i++)
-                {
-                    sendGameInfo.playersState.Add(state);
-
-                    sendGameInfo.clientID = i;
-                    sendGameInfo.holdingCards = DicCardsPerPlayer[i];
-                    sendGameInfo.fields = this.fields;
-                    sendGameInfo.deckCards = this.dealer.deckCards;
-
-                    if (i == 0)     // 0번 플레이어부터 Turn 시작
-                        sendGameInfo.isTurn = true;
-                    else
-                        sendGameInfo.isTurn = false;
-
-                    if (roleArr[i])
-                        sendGameInfo.isSaboteur = true;
-                    else
-                        sendGameInfo.isSaboteur = false;
-
-                    Send(i, sendGameInfo);
-                }
-
-                this.isFirstGameInfo = false;
+                this.divideCards = this.dealer.cardDivide();
             }
-            // 게임 진행: Turn 정하고, holdingCards 1장 추가해서 GameInfo 패킷 Send
             else
             {
-                int nextTurnPlayer = GetNextTurnPlayer();
-
-                for (int i = 0; i < this.numConnectedClient; i++)
-                {
-                    sendGameInfo.clientID = i;
-                    sendGameInfo.fields = this.fields;
-
-                    if (i == nextTurnPlayer)
-                        sendGameInfo.isTurn = true;
-                    else
-                        sendGameInfo.isTurn = false;
-
-                    sendGameInfo.holdingCards = receiveInfo.holdingCards;
-
-                    // holdingCards 한장 추가
-                    for (int j = 0; j < this.cardNumPerPlayer; j++)
-                    {
-                        if (i == receiveInfo.clientID)
-                            if (receiveInfo.holdingCards[j] == null)
-                            {
-                                sendGameInfo.holdingCards[j] = dealer.deckCards[0];
-                                //sendGameInfo.holdingCards.Add(dealer.deckCards[0]);
-                                this.dealer.deckCards.RemoveAt(0);
-                            }
-                    }
-
-                    Send(i, sendGameInfo);
-                }
+                receiveInfo.fields.CopyTo(sendGameInfo.fields);
+                sendGameInfo.holdingCards = receiveInfo.holdingCards;
             }
+
+            sendGameInfo.playersState = receiveInfo.playersState;
+            sendGameInfo.usedCards = receiveInfo.usedCards;
+            
+            if (nullIndex >= 0)
+                sendGameInfo.holdingCards[nullIndex] = dealer.GetCardFromDeck();
+
+            this.curTurnPlayer = GetNextTurnPlayer();
+            sendGameInfo.restCardNum = dealer.deckCards.Count;
+
+            for (int i = 0; i < this.numConnectedClient; i++)
+            {
+                sendGameInfo.isTurn = (this.curTurnPlayer == i);
+                sendGameInfo.isSaboteur = this.roleArr[i];
+
+                if (isFirstGameInfo)
+                {
+                    CopyDivideToHoldingCard(i, sendGameInfo.holdingCards);
+                }
+
+                Send(i, sendGameInfo);
+            }
+
+            isFirstGameInfo = false;
         }
 
 
