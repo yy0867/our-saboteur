@@ -203,9 +203,9 @@ namespace Server
 
                 this.dealer.CardListInit();
                 this.dealer.DeckCardsInit();
-                //this.divideCards = this.dealer.cardDivide();
-                this.divideCards.Add(0, MockingHoldingCard());
-                this.divideCards.Add(1, MockingHoldingCard());
+                this.divideCards = this.dealer.cardDivide();
+                //this.divideCards.Add(0, MockingHoldingCard());
+                //this.divideCards.Add(1, MockingHoldingCard());
 
                 for (int i = 0; i < numConnectedClient; i++)
                     sendGameInfo.playersState.Add(new PlayerState());
