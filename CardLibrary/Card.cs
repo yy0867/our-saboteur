@@ -180,12 +180,14 @@ namespace CardLibrary
         public static bool operator ==(CaveCard lhs, CaveCard rhs)
         {
             return lhs.dir == rhs.dir
-                && lhs.isConnected == rhs.isConnected;
+                && lhs.isConnected == rhs.isConnected
+                && lhs.face == rhs.face;
         }
         public static bool operator !=(CaveCard lhs, CaveCard rhs)
         {
             return lhs.dir != rhs.dir
-                || lhs.isConnected != rhs.isConnected;
+                || lhs.isConnected != rhs.isConnected
+                || lhs.face != rhs.face;
         }
     }
 
