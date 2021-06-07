@@ -44,8 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Server.cs" />
-    <Compile Include="ServerMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerMain.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -66,6 +66,10 @@
     <ProjectReference Include="..\PacketLibrary\PacketLibrary.csproj">
       <Project>{80ebbea2-b16a-4882-96d3-b651cdaf130a}</Project>
       <Name>PacketLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Saboteur\Saboteur.csproj">
+      <Project>{a9ea3168-35d5-40ea-b175-1637fb9da8cb}</Project>
+      <Name>Saboteur</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

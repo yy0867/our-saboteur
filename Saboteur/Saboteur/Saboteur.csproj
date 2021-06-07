@@ -61,6 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\Chatting form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Chatting form.Designer.cs">
+      <DependentUpon>Chatting form.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Game.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -85,6 +91,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MessageServer.cs" />
     <Compile Include="Network.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -100,6 +107,9 @@
       <DependentUpon>QueryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewController.cs" />
+    <EmbeddedResource Include="Forms\Chatting form.resx">
+      <DependentUpon>Chatting form.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Game.resx">
       <DependentUpon>Game.cs</DependentUpon>
     </EmbeddedResource>
