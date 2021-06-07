@@ -198,6 +198,7 @@ namespace Saboteur.Forms
             this.player_0_icon.Size = new System.Drawing.Size(85, 120);
             this.player_0_icon.TabIndex = 14;
             this.player_0_icon.TabStop = false;
+            this.player_0_icon.Visible = false;
             // 
             // picUsedCard
             // 
@@ -241,6 +242,7 @@ namespace Saboteur.Forms
             this.player_1_icon.Size = new System.Drawing.Size(85, 120);
             this.player_1_icon.TabIndex = 14;
             this.player_1_icon.TabStop = false;
+            this.player_1_icon.Visible = false;
             // 
             // player_1_cart
             // 
@@ -285,6 +287,7 @@ namespace Saboteur.Forms
             this.player_2_icon.Size = new System.Drawing.Size(85, 120);
             this.player_2_icon.TabIndex = 14;
             this.player_2_icon.TabStop = false;
+            this.player_2_icon.Visible = false;
             // 
             // player_2_cart
             // 
@@ -329,6 +332,7 @@ namespace Saboteur.Forms
             this.player_3_icon.Size = new System.Drawing.Size(85, 120);
             this.player_3_icon.TabIndex = 14;
             this.player_3_icon.TabStop = false;
+            this.player_3_icon.Visible = false;
             // 
             // player_3_cart
             // 
@@ -373,6 +377,7 @@ namespace Saboteur.Forms
             this.player_4_icon.Size = new System.Drawing.Size(85, 120);
             this.player_4_icon.TabIndex = 14;
             this.player_4_icon.TabStop = false;
+            this.player_4_icon.Visible = false;
             // 
             // player_4_cart
             // 
@@ -417,6 +422,7 @@ namespace Saboteur.Forms
             this.player_5_icon.Size = new System.Drawing.Size(85, 120);
             this.player_5_icon.TabIndex = 14;
             this.player_5_icon.TabStop = false;
+            this.player_5_icon.Visible = false;
             // 
             // player_5_cart
             // 
@@ -461,6 +467,7 @@ namespace Saboteur.Forms
             this.player_6_icon.Size = new System.Drawing.Size(85, 120);
             this.player_6_icon.TabIndex = 14;
             this.player_6_icon.TabStop = false;
+            this.player_6_icon.Visible = false;
             // 
             // player_6_cart
             // 
@@ -506,6 +513,7 @@ namespace Saboteur.Forms
             this.lbl_player_0.Size = new System.Drawing.Size(24, 25);
             this.lbl_player_0.TabIndex = 12;
             this.lbl_player_0.Text = "1";
+            this.lbl_player_0.Visible = false;
             // 
             // lbl_player_1
             // 
@@ -518,6 +526,7 @@ namespace Saboteur.Forms
             this.lbl_player_1.Size = new System.Drawing.Size(24, 25);
             this.lbl_player_1.TabIndex = 12;
             this.lbl_player_1.Text = "2";
+            this.lbl_player_1.Visible = false;
             // 
             // lbl_player_2
             // 
@@ -530,6 +539,7 @@ namespace Saboteur.Forms
             this.lbl_player_2.Size = new System.Drawing.Size(24, 25);
             this.lbl_player_2.TabIndex = 12;
             this.lbl_player_2.Text = "3";
+            this.lbl_player_2.Visible = false;
             // 
             // lbl_player_3
             // 
@@ -542,6 +552,7 @@ namespace Saboteur.Forms
             this.lbl_player_3.Size = new System.Drawing.Size(24, 25);
             this.lbl_player_3.TabIndex = 12;
             this.lbl_player_3.Text = "4";
+            this.lbl_player_3.Visible = false;
             // 
             // lbl_player_4
             // 
@@ -554,6 +565,7 @@ namespace Saboteur.Forms
             this.lbl_player_4.Size = new System.Drawing.Size(24, 25);
             this.lbl_player_4.TabIndex = 12;
             this.lbl_player_4.Text = "5";
+            this.lbl_player_4.Visible = false;
             // 
             // lbl_player_5
             // 
@@ -566,6 +578,7 @@ namespace Saboteur.Forms
             this.lbl_player_5.Size = new System.Drawing.Size(24, 25);
             this.lbl_player_5.TabIndex = 12;
             this.lbl_player_5.Text = "6";
+            this.lbl_player_5.Visible = false;
             // 
             // lbl_player_6
             // 
@@ -578,6 +591,7 @@ namespace Saboteur.Forms
             this.lbl_player_6.Size = new System.Drawing.Size(24, 25);
             this.lbl_player_6.TabIndex = 12;
             this.lbl_player_6.Text = "7";
+            this.lbl_player_6.Visible = false;
             // 
             // imgCards
             // 

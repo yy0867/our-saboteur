@@ -84,6 +84,7 @@ namespace Saboteur.Forms
         Graphics g = null;
         List<PictureBox> allocatedImages = new List<PictureBox>();
         List<PictureBox> playerIcons = new List<PictureBox>();
+        List<Label> playerNumberIcons = new List<Label>();
         Dictionary<Tool, List<PictureBox>> toolIcons = new Dictionary<Tool, List<PictureBox>>();
 
 
@@ -176,9 +177,10 @@ namespace Saboteur.Forms
 
             if (this.isFirstPacket)
             {
+                initializePlayerIcon();
                 string message = info.isSaboteur ? "당신은 사보타지입니다!" : "당신은 광부입니다!";
                 message += "\r\n당신은 " + (this.clientID+1) + "번 입니다!";
-                Controls.Find("lbl_player_" + this.clientID, true)[0].ForeColor = Color.Yellow;
+                playerNumberIcons[this.clientID].ForeColor = Color.Yellow;
                 MessageBox.Show(message);
             }
 
@@ -926,9 +928,21 @@ namespace Saboteur.Forms
                 this.toolIcons[Tool.CART][i].Visible = false;
                 this.toolIcons[Tool.PICKAXE][i].Visible = false;
                 this.toolIcons[Tool.LATTERN][i].Visible = false;
+
+                this.playerNumberIcons.Add((Label)Controls.Find("lbl_" + player, true)[0]);
             }
         }
 
+        private void initializePlayerIcon()
+        {
+            this.Invoke((MethodInvoker)(() => {
+                for (int i = 0; i < this.playerNum; i++)
+                {
+                    this.playerIcons[i].Visible = true;
+                    this.playerNumberIcons[i].Visible = true;
+                }
+            }));
+        }
         private void setPlayerIcon(int index, bool isTurnOn)
         {
             Image on = Properties.Resources.player_on;
