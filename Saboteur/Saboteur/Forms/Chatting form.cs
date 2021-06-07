@@ -18,6 +18,7 @@ namespace Saboteur.Forms
         {
             this.playerID = playerID;
             InitializeComponent();
+            Network.Connect(15000);
             Task.Run(() =>
             {
                 Network.Receive(updateInfo);

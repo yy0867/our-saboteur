@@ -141,20 +141,24 @@ namespace Saboteur
 
         public static void Receive(Action<Packet> action)
         {
+            Receive(action, networkStream);
+        }
+        public static void Receive(Action<Packet> action, NetworkStream stream)
+        {
             byte[] readBuffer = new byte[Packet.MAX_SIZE];
             while (true)
             {
                 try
                 {
-                    networkStream.Read(readBuffer, 0, Packet.MAX_SIZE);
+                    stream.Read(readBuffer, 0, Packet.MAX_SIZE);
                 }
                 catch
                 {
-                    if (!client.Connected || networkStream == null)
+                    if (!client.Connected || stream == null)
                         return;
 
                     isConnected = false;
-                    networkStream.Close();
+                    stream.Close();
 
                     return;
                 }
