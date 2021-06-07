@@ -39,7 +39,6 @@ namespace Server
         private bool isFirstGameInfo = true;
         private Dictionary<int, List<Card>> divideCards = new Dictionary<int, List<Card>>();
 
-
         public Server()
         {
             // networkStream 배열 초기화
@@ -49,6 +48,9 @@ namespace Server
 
         public void Run()
         {
+            Task.Run(() =>{
+                new Saboteur.MessageServer(serverIP);
+            });
             Connect();
         }
 

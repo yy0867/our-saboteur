@@ -4,25 +4,30 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PacketLibrary;
+
 namespace Saboteur.Forms
 {
     public partial class Chatting_form : Form
     {
         const int SERVER_ID = -1;
-        int playerID; 
+        int playerID;
+        NetworkStream stream = null;
         public Chatting_form(int playerID)
         {
             this.playerID = playerID;
             InitializeComponent();
-            Network.Connect(15000);
+            Network.setServerIP ="127.0.0.1";
+            Network.Connect(15000, ref stream);
             Task.Run(() =>
             {
-                Network.Receive(updateInfo);
+                Network.Receive(updateInfo, stream);
             });
+            this.ShowDialog();
         }
 
         private string convertMessage(string msg, int ID)
@@ -73,7 +78,9 @@ namespace Saboteur.Forms
         }
         private MessagePacket setMessagePacket(string msg)
         {
-            return new MessagePacket(msg);
+            var packet = new MessagePacket(msg);
+            packet.clientID = this.playerID;
+            return packet;
         }
         private void chatInputBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -82,7 +89,7 @@ namespace Saboteur.Forms
                 var newChat = this.chatInputBox.Text;
                 Task task = Task.Run(() =>
                 {
-                    Network.Send(setMessagePacket(newChat));
+                    Network.Send(setMessagePacket(newChat), this.stream);
                 });
 
                 this.chatInputBox.ResetText();

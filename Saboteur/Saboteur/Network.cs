@@ -58,8 +58,9 @@ namespace Saboteur
             return true;
         }
 
-        public static bool Connect(int port)
+        public static bool Connect(int port, ref NetworkStream stream)
         {
+            TcpClient client;
             try
             {
                 client = new TcpClient();
@@ -71,7 +72,7 @@ namespace Saboteur
             }
 
             isConnected = true;
-            networkStream = client.GetStream();
+            stream = client.GetStream();
 
             return true;
         }
@@ -139,10 +140,6 @@ namespace Saboteur
             }
         }
 
-        public static void Receive(Action<Packet> action)
-        {
-            Receive(action, networkStream);
-        }
         public static void Receive(Action<Packet> action, NetworkStream stream)
         {
             byte[] readBuffer = new byte[Packet.MAX_SIZE];
@@ -154,9 +151,7 @@ namespace Saboteur
                 }
                 catch
                 {
-                    if (!client.Connected || stream == null)
-                        return;
-
+                    
                     isConnected = false;
                     stream.Close();
 
@@ -189,6 +184,17 @@ namespace Saboteur
 
             networkStream.Write(sendBuffer, 0, sendBuffer.Length);
             networkStream.Flush();
+        }
+
+        public static void Send(Packet p, NetworkStream stream)
+        {
+            byte[] sendBuffer = new byte[Packet.MAX_SIZE];
+            ClearBuffer(sendBuffer);
+
+            Packet.Serialize(p).CopyTo(sendBuffer, 0);
+
+            stream.Write(sendBuffer, 0, sendBuffer.Length);
+            stream.Flush();
         }
 
         // 타입별 버퍼 초기화 

@@ -35,7 +35,7 @@ namespace Saboteur.Forms
             // 
             // chatResultBox
             // 
-            this.chatResultBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(72)))), ((int)(((byte)(53)))));
+            this.chatResultBox.BackColor = System.Drawing.Color.DimGray;
             this.chatResultBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.chatResultBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chatResultBox.Font = new System.Drawing.Font("돋움", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
