@@ -203,8 +203,6 @@ namespace Saboteur.Forms
             {
                 Network.Send(getGameStartPacket());
             });
-
-            ViewController.SwitchScreen(Screen.Game);
         }
     }
 }
