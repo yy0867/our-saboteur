@@ -90,15 +90,15 @@ namespace Saboteur.Forms
         public void updateInfo(Packet packet)
         {
             this.receivedRoomInfo = (RoomInfo)packet;
-            this.isPlayer = this.receivedRoomInfo.players;
+            this.receivedRoomInfo.players.CopyTo(this.isPlayer, 0);
             lanternImageToggle();
             if (this.playerID == SERVER_ID)
                 this.playerID = this.receivedRoomInfo.clientID;
             if (this.receivedRoomInfo.clientID == ROOM_LEADER)
             {
-                if(this.InvokeRequired)
-                    this.Invoke((MethodInvoker)(()=>{ this.btn_start.Visible = true; }));
-            }   
+                if (this.InvokeRequired)
+                    this.Invoke((MethodInvoker)(() => { this.btn_start.Visible = true; }));
+            }
 
             updateChattingLog(this.receivedRoomInfo.message, this.receivedRoomInfo.clientID);
         }

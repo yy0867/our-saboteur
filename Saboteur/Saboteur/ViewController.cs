@@ -34,16 +34,16 @@ namespace Saboteur
                         MainForm.mainForm.mainPanel.Controls.Add(ViewController.MainMenu);
                         break;
                     case Screen.Game:
-                        SetViewSize(true);
-                        MainForm.mainForm.mainPanel.Controls.Add(ViewController.Game);
-                        break;
-                    case Screen.Room:
                         if (!ViewController.IsGameStart)
                         {
                             ViewController.IsGameStart = true;
+                            SetViewSize(true);
+                            MainForm.mainForm.mainPanel.Controls.Add(ViewController.Game);
+                        }
+                        break;
+                    case Screen.Room:
                             SetViewSize(false);
                             MainForm.mainForm.mainPanel.Controls.Add(ViewController.Room);
-                        }
                         break;
                 }
             }));

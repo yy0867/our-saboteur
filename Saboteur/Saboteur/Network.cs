@@ -68,6 +68,9 @@ namespace Saboteur
                 case ErrorCode.RoomExistException:
                     ViewController.MainMenu.HandleError(error.code);
                     break;
+                case ErrorCode.NoRoomExistException:
+                    ViewController.MainMenu.HandleError(error.code);
+                    break;
             }
         }
 
