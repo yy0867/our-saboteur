@@ -64,6 +64,7 @@ namespace Saboteur.Forms
             this.Controls.Add(this.btn_top);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "QueryForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.ResumeLayout(false);
 
         }
