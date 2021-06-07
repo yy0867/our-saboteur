@@ -66,6 +66,7 @@ namespace Saboteur.Forms
         Point rectPrev = new Point();           // for grid rect
 
         // Game Instances
+        int saboteurWinCount = 0;
         int playerNum = 0;
         bool isSaboteur = false;
         bool isMyTurn = false;
@@ -190,6 +191,10 @@ namespace Saboteur.Forms
             if (this.hands.Contains(null) || this.isFirstPacket)
             {
                 this.hands = info.holdingCards;
+                if (this.hands.Count() == 0)
+                    saboteurWinCount++;
+                if (saboteurWinCount == playerNum)
+                    MessageBox.Show("사보타지가 승리하였습니다!");
                 DeleteHands();
                 DrawHands(hands);
             }
@@ -705,6 +710,8 @@ namespace Saboteur.Forms
 
         private Image GetCardImage(Card card)
         {
+            if (card == null)
+                return null;
             // Card 뒷면
             if (card.face == CardFace.BACK)
                 return imgCards.Images[22];
