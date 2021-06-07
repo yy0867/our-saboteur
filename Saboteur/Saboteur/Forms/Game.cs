@@ -161,7 +161,7 @@ namespace Saboteur.Forms
 
             DrawCardOnField();
             Task.Run(() => {
-                new Chatting_form(this.clientID);
+                new Chatting_form(this.clientID, Network.ServerIP.ToString());
             });
             #region Test
             //MockSendPacket();
@@ -186,7 +186,6 @@ namespace Saboteur.Forms
                 message += "\r\n당신은 " + (this.clientID+1) + "번 입니다!";
                 playerNumberIcons[this.clientID].ForeColor = Color.Yellow;
                 MessageBox.Show(message);
-                
             }
 
             rotatePlayerIcon();
