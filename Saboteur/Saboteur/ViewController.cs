@@ -26,7 +26,10 @@ namespace Saboteur
         {
             MainForm.mainForm.mainPanel.Invoke((MethodInvoker)(() =>
             {
-                MainForm.mainForm.mainPanel.Controls.Clear();
+                if (!ViewController.IsGameStart)
+                {
+                    MainForm.mainForm.mainPanel.Controls.Clear();
+                }
                 switch (screen)
                 {
                     case Screen.MainMenu:
