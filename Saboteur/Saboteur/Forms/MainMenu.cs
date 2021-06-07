@@ -91,6 +91,12 @@ namespace Saboteur.Forms
         private void btnConnectServer_Click(object sender, EventArgs e)
         {
             Network.setServerIP = txtServerIP.Text;
+            if (Network.isAlreadyConnected())
+            {
+                MessageBox.Show("이미 서버와 연결되어있습니다..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             if (Network.Connect())
             {
                 MessageBox.Show("서버와 정상적으로 연결되었습니다.", "Connected", MessageBoxButtons.OK, MessageBoxIcon.Information);

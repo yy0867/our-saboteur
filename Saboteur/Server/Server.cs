@@ -83,7 +83,7 @@ namespace Server
                 }
             });
         }
-
+        
         private int FindEmptyClientID()
         {
             for (int i = 0; i < enteredPlayers.Length; i++)
