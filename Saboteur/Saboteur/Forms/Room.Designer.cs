@@ -171,8 +171,9 @@ namespace Saboteur.Forms
             // Room
             // 
             this.AutoScroll = true;
-            this.BackgroundImage = global::Saboteur.Properties.Resources.backGround2;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.BackColor = System.Drawing.Color.Transparent;
+            this.BackgroundImage = global::Saboteur.Properties.Resources.back_ground;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Controls.Add(this.chatResultBox);
             this.Controls.Add(this.btn_start);
             this.Controls.Add(this.playerLantern6);
