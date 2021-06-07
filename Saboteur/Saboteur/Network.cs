@@ -38,7 +38,7 @@ namespace Saboteur
         // false면 폼에서 호출한 후 Error MessageBox 띄우기
 
         public static bool isAlreadyConnected() {
-            return client != null;
+            return client != null; 
         }
         public static bool Connect()
         {
