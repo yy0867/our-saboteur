@@ -307,13 +307,9 @@ namespace Saboteur.Forms
                 coords = IsArrived(gridPoint);
 
                 // if arrived at destcard
-                if (coords != null)
+                if (coords != null && field.IsRoadConnectedToStart(coords))
                 {
-                    if (field.IsRoadConnectedToStart(coords))
-                    {
-                        // 논리적으로 이어졋는지 체크
-                        MessageBox.Show("Arrive!");
-                    }
+                    field.GetCard(coords).face = CardFace.FRONT;
                 }
             }
 
@@ -870,11 +866,15 @@ namespace Saboteur.Forms
                         if (dest.face == CardFace.FRONT)
                         {
                             if (dest.getIsGoldCave())
+                            {
                                 image = imgCards.Images["goal_gold.png"];
+                                MessageBox.Show("금을 찾았습니다!\r\n광부 승!!");
+                            }
 
                             else
                             {
                                 image = imgCards.Images["goal_stone_down_left.png"];
+                                MessageBox.Show("돌입니다!\r\n다른 목적지를 방문해보세요.");
                             }
                         }
                         else
