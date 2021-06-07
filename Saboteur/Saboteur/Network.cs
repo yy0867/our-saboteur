@@ -58,6 +58,24 @@ namespace Saboteur
             return true;
         }
 
+        public static bool Connect(int port)
+        {
+            try
+            {
+                client = new TcpClient();
+                client.Connect(ServerIP, port);
+            }
+            catch
+            {
+                return false;
+            }
+
+            isConnected = true;
+            networkStream = client.GetStream();
+
+            return true;
+        }
+
         // 에러 분석
         // 각각의 에러 처리해서 필요한 작업 수행
         // 필요하다면 Form Update
@@ -113,7 +131,46 @@ namespace Saboteur
                         ViewController.SwitchScreen(Screen.Game);
                         ViewController.Game.updateInfo(packet);
                         break;
+                    case (int)PacketType.Message:
+
+                        break;
                         // 나중에 패킷 타입 추가되면 작성하기 ##########################
+                }
+            }
+        }
+
+        public static void Receive(Action<Packet> action)
+        {
+            byte[] readBuffer = new byte[Packet.MAX_SIZE];
+            while (true)
+            {
+                try
+                {
+                    networkStream.Read(readBuffer, 0, Packet.MAX_SIZE);
+                }
+                catch
+                {
+                    if (!client.Connected || networkStream == null)
+                        return;
+
+                    isConnected = false;
+                    networkStream.Close();
+
+                    return;
+                }
+
+                // 패킷 타입 추출
+                Packet packet = (Packet)Packet.Desserialize(readBuffer);
+                ClearBuffer(readBuffer);
+
+                switch (packet.Type)
+                {
+                    case (int)PacketType.Error:
+                        ParseError((Error)packet);
+                        break;
+                    default:
+                        action((MessagePacket)packet);
+                        break;
                 }
             }
         }
