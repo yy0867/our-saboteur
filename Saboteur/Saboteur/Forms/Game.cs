@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using PacketLibrary;
 using MapLibrary;
 using CardLibrary;
+using System.Threading.Tasks;
 
 namespace Saboteur.Forms
 {
@@ -150,6 +151,7 @@ namespace Saboteur.Forms
             for (int i = 0; i < CONST.MAP_ROW; i++)
                 for (int j = 0; j < CONST.MAP_COL; j++)
                     prevMap[i, j] = new CaveCard();
+            
         }
 
         private void Game_Load(object sender, EventArgs e)
@@ -158,7 +160,9 @@ namespace Saboteur.Forms
             field.MapInit();
 
             DrawCardOnField();
-
+            Task.Run(() => {
+                new Chatting_form(this.clientID);
+            });
             #region Test
             //MockSendPacket();
             #endregion
@@ -182,6 +186,7 @@ namespace Saboteur.Forms
                 message += "\r\n당신은 " + (this.clientID+1) + "번 입니다!";
                 playerNumberIcons[this.clientID].ForeColor = Color.Yellow;
                 MessageBox.Show(message);
+                
             }
 
             rotatePlayerIcon();

@@ -10,13 +10,18 @@ using System.Net.Sockets;
 
 namespace Saboteur
 {
-    class MessageServer
+    public class MessageServer
     {
         private int serverPort = 15000;
         private const int MAX_CLIENT_NUM = 7;
         private List<NetworkStream> streams = new List<NetworkStream>();
         private List<int> connectedID = new List<int>();
 
+        public MessageServer(IPAddress ip)
+        {
+            //initializeStream();
+            Run(ip, 15000);
+        }
         private void initializeStream()
         {
             for (int i = 0; i < MAX_CLIENT_NUM; i++)
@@ -54,17 +59,13 @@ namespace Saboteur
                     client = msgListener.AcceptTcpClient();
                     if (client.Connected)
                     {
-                        this.streams[connectedID.Count] = client.GetStream();
-
-
+                        this.streams.Add(client.GetStream());
+                        connectedID.Add(connectedID.Count);
                         Task.Run(() =>
                         {
-                            Network.Receive(sendEcho, this.streams[connectedID.Count]);
+                            Network.Receive(sendEcho, this.streams[connectedID.Count-1]);
                         });
                         
-
-                        Thread.Sleep(100);
-                        connectedID.Add(connectedID.Count);
                     }
                 }
             }
