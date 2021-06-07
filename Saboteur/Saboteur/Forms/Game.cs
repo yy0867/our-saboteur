@@ -161,7 +161,7 @@ namespace Saboteur.Forms
 
             DrawCardOnField();
             Task.Run(() => {
-                new Chatting_form(this.clientID);
+                new Chatting_form(this.clientID, Network.ServerIP.ToString());
             });
             #region Test
             //MockSendPacket();

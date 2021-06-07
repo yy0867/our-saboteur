@@ -17,11 +17,11 @@ namespace Saboteur.Forms
         const int SERVER_ID = -1;
         int playerID;
         NetworkStream stream = null;
-        public Chatting_form(int playerID)
+        public Chatting_form(int playerID, string ip)
         {
             this.playerID = playerID;
             InitializeComponent();
-            Network.setServerIP ="127.0.0.1";
+            Network.setServerIP = ip;
             Network.Connect(15000, ref stream);
             Task.Run(() =>
             {
