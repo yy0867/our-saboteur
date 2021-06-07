@@ -29,13 +29,17 @@ namespace Saboteur
 
         public const int Port = 11000;
 
-        private static TcpClient client;
+        private static TcpClient client = null;
         public static bool isConnected = false;
         public static NetworkStream networkStream;
 
         // 클라이언트 --> 서버 연결
         // true -> Success / false -> Fail 
         // false면 폼에서 호출한 후 Error MessageBox 띄우기
+
+        public static bool isAlreadyConnected() {
+            return client != null; 
+        }
         public static bool Connect()
         {
             try
@@ -62,6 +66,9 @@ namespace Saboteur
             switch (error.code)
             {
                 case ErrorCode.RoomExistException:
+                    ViewController.MainMenu.HandleError(error.code);
+                    break;
+                case ErrorCode.NoRoomExistException:
                     ViewController.MainMenu.HandleError(error.code);
                     break;
             }

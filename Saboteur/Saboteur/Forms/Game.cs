@@ -302,7 +302,7 @@ namespace Saboteur.Forms
             // is CaveCard
             if (this.selectedCard is CaveCard)
             {
-                MapLibrary.Point coords = ConvertLocationToCoords(gridPoint);
+                MapLibrary.Point coords;
                 Attach(gridPoint, (CaveCard)this.selectedCard);
                 RemoveFromHands();
 

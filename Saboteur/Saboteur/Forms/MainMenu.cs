@@ -85,19 +85,18 @@ namespace Saboteur.Forms
             info.roomCode = int.Parse(txtRoomCode.Text);
             Network.Send(info);
 
-            // else (failed)
-            //MessageBox.Show("일치하는 방이 없습니다. \r\n다시 입력해주세요!", "No Room", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //txtRoomCode.Clear();
-            //txtRoomCode.Focus();
-
-            /// [IMPORTANT] TEST CODE
-            /// ******** DELETE REQUIRED ********
             ViewController.SwitchScreen(Screen.Room);
         }
 
         private void btnConnectServer_Click(object sender, EventArgs e)
         {
             Network.setServerIP = txtServerIP.Text;
+            if (Network.isAlreadyConnected())
+            {
+                MessageBox.Show("이미 서버와 연결되어있습니다..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             if (Network.Connect())
             {
                 MessageBox.Show("서버와 정상적으로 연결되었습니다.", "Connected", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -123,6 +122,10 @@ namespace Saboteur.Forms
             {
                 case ErrorCode.RoomExistException:
                     MessageBox.Show("이미 방이 존재합니다.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ViewController.SwitchScreen(Screen.MainMenu);
+                    break;
+                case ErrorCode.NoRoomExistException:
+                    MessageBox.Show("방이 존재하지 않습니다.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     ViewController.SwitchScreen(Screen.MainMenu);
                     break;
             }

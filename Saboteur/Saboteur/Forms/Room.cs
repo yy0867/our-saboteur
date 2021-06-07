@@ -20,6 +20,7 @@ namespace Saboteur.Forms
         int ROOM_LEADER = 0;
         List<PictureBox> playerLanterns = new List<PictureBox>();
         bool[] isPlayer = new bool[MAX_PLAYER];
+        bool amIRoomLeader = false;
         int playerID = -1;
         
         private string serverIP = "172.30.1.37";
@@ -46,7 +47,18 @@ namespace Saboteur.Forms
             //updateInfo(mockPacket(3, "my msg"));
         }
 
-
+        private bool AmIRoomLeader(bool[] isPlayers)
+        {
+            int i = 0;
+            for (; i < isPlayers.Length; i++)
+                if (isPlayers[i]){
+                    i++;
+                    break;
+                }
+            for (; i < isPlayers.Length; i++)
+                if (isPlayers[i]) return false;
+            return true;
+        }
         private void InitializeLantern()
         {
             for (int i = 0; i < MAX_PLAYER; i++)
@@ -72,7 +84,6 @@ namespace Saboteur.Forms
                         playerLanterns[index].Image = lanternOn;
                     else
                         playerLanterns[index].Image = lanternOff;
-                    this.isPlayer[index] = !this.isPlayer[index];
                 }));
             }
         }
@@ -90,15 +101,19 @@ namespace Saboteur.Forms
         public void updateInfo(Packet packet)
         {
             this.receivedRoomInfo = (RoomInfo)packet;
-            this.isPlayer = this.receivedRoomInfo.players;
+            this.receivedRoomInfo.players.CopyTo(this.isPlayer, 0);
             lanternImageToggle();
             if (this.playerID == SERVER_ID)
-                this.playerID = this.receivedRoomInfo.clientID;
-            if (this.receivedRoomInfo.clientID == ROOM_LEADER)
             {
-                if(this.InvokeRequired)
-                    this.Invoke((MethodInvoker)(()=>{ this.btn_start.Visible = true; }));
-            }   
+                this.playerID = this.receivedRoomInfo.clientID;
+                this.amIRoomLeader = AmIRoomLeader(this.isPlayer);
+            }
+                
+            if (this.amIRoomLeader)
+            {
+                if (this.InvokeRequired)
+                    this.Invoke((MethodInvoker)(() => { this.btn_start.Visible = true; }));
+            }
 
             updateChattingLog(this.receivedRoomInfo.message, this.receivedRoomInfo.clientID);
         }
