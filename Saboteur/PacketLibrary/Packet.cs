@@ -15,7 +15,8 @@ namespace PacketLibrary
     {
         RoomInfo = 0,
         Error,
-        GameInfo
+        GameInfo,
+        Message
     }
 
     [Serializable]
@@ -139,5 +140,21 @@ namespace PacketLibrary
             this.usedCards = new Stack<Card>();
             this.playersState = new List<PlayerState>();
         }
+    }
+
+    [Serializable]
+    public class MessagePacket: Packet
+    {
+        public string message;
+        public MessagePacket()
+        {
+            message = "";
+        }
+
+        public MessagePacket(string msg)
+        {
+            message = msg;
+        }
+
     }
 }
