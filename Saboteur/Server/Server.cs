@@ -26,6 +26,7 @@ namespace Server
         private int numConnectedClient = 0;
         private bool[] connectedClients = { false, false, false, false, false, false, false };
         private bool[] enteredPlayers = { false, false, false, false, false, false, false };
+        private bool[] isNoob = { true, true, true, true, true, true, true };
         private bool[] roleArr;
         private bool isGameStarted = false;
 
@@ -144,13 +145,17 @@ namespace Server
                 SendToExistClient(sendRoomInfo);
                 
             }
-            SendToExistClient(new RoomInfo //전체 서버메시지
-            {
-                roomCode = this.roomCode,
-                message = "Client[" + receiveInfo.clientID + "] Join!",
-                clientID = -1,
-                players = enteredPlayers
-            });
+            if (isNoob[receiveInfo.clientID]) {
+                SendToExistClient(new RoomInfo //전체 서버메시지
+                {
+                    roomCode = this.roomCode,
+                    message = "Client[" + receiveInfo.clientID + "] Join!",
+                    clientID = -1,
+                    players = enteredPlayers
+                });
+                isNoob[receiveInfo.clientID] = false;
+            }
+            
         }
 
         private int GetNullIndex(List<Card> holdingCard)
