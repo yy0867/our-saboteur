@@ -452,7 +452,7 @@ namespace Saboteur.Forms
 
                     if (gridPoint.HasValue) // grid point is valid
                     {
-                        if ((this.selectedCard is EquipmentCard) || (this.selectedCard is CaveCard && !field.IsValidPosition(ConvertLocationToCoords(mouseLocation), (CaveCard)selectedCard)))
+                        if (this.field.GetCard(ConvertLocationToCoords((Point)gridPoint)).isEmpty() || (this.selectedCard is EquipmentCard) || (this.selectedCard is CaveCard && !field.IsValidPosition(ConvertLocationToCoords(mouseLocation), (CaveCard)selectedCard)))
                         {
                             MoveToStartPosition(selectedPic);
                             return;
