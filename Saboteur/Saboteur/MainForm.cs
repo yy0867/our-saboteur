@@ -19,6 +19,9 @@ namespace Saboteur
         {
             InitializeComponent();
             mainForm = this;
+            var startPoint = new Point((System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width - this.Width)/2, 
+                (System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height - this.Height) / 2);
+            this.Location = startPoint;
         }
 
         private void MainForm_Load(object sender, EventArgs e)

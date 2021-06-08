@@ -17,8 +17,9 @@ namespace Saboteur.Forms
         const int SERVER_ID = -1;
         int playerID;
         NetworkStream stream = null;
-        public Chatting_form(int playerID, string ip)
+        public Chatting_form(int playerID, string ip,System.Drawing.Point startPoint)
         {
+            this.Location = startPoint;
             this.playerID = playerID;
             InitializeComponent();
             Network.setServerIP = ip;
@@ -27,7 +28,6 @@ namespace Saboteur.Forms
             {
                 Network.Receive(updateInfo, stream);
             });
-            this.ShowDialog();
         }
 
         private string convertMessage(string msg, int ID)

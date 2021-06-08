@@ -41,6 +41,7 @@ namespace Saboteur
                         {
                             ViewController.IsGameStart = true;
                             SetViewSize(true);
+                            MainForm.mainForm.Location = new System.Drawing.Point(0, 0);
                             MainForm.mainForm.mainPanel.Controls.Add(ViewController.Game);
                         }
                         break;

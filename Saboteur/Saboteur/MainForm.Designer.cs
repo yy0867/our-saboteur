@@ -49,6 +49,7 @@ namespace Saboteur
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Saboteur";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);

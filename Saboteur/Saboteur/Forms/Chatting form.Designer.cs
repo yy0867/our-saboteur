@@ -67,6 +67,7 @@ namespace Saboteur.Forms
             this.Controls.Add(this.chatResultBox);
             this.Controls.Add(this.chatInputBox);
             this.Name = "Chatting_form";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Chatting_form";
             this.ResumeLayout(false);
             this.PerformLayout();

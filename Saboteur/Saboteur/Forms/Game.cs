@@ -165,7 +165,12 @@ namespace Saboteur.Forms
             Task.Run(() => {
                 while (this.clientID == DEFAULT_CLIENT_ID)
                     Task.Delay(10);
-                new Chatting_form(this.clientID, Network.ServerIP.ToString());
+                
+                var startPoint = new System.Drawing.Point(this.Location.X + this.Width, this.Location.Y);
+                var chat = new Chatting_form(this.clientID, Network.ServerIP.ToString(), startPoint);
+                chat.Width = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width - this.Width;
+                chat.Height = this.Height;
+                chat.ShowDialog();
             });
             #region Test
             //MockSendPacket();
