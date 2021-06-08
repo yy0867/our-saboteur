@@ -331,7 +331,7 @@ namespace Saboteur.Forms
                 coords = IsArrived(gridPoint);
 
                 // if arrived at destcard
-                if (coords != null && field.IsRoadConnectedToStart(coords))
+                if (coords != null)
                 {
                     field.GetCard(coords).face = CardFace.FRONT;
                 }

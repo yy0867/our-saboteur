@@ -120,7 +120,7 @@ namespace MapLibrary
         public bool IsValidPosition(Point point, CaveCard cave)
         {
             if (isValidated(point))
-                return CanBeConntectedSurrounding(point, cave) && isConntectedStart(point);
+                return IsRoadConnectedToStart(point) && isConntectedStart(point);
             else
                 return false;
         }
@@ -247,8 +247,7 @@ namespace MapLibrary
                 if (isStart(visitedPoint)) 
                     return true;
 
-                if (!checkBoundary(visitedPoint) || 
-                    !caveCards[visitedPoint.R, visitedPoint.C].getIsConnected() ||
+                if (!caveCards[visitedPoint.R, visitedPoint.C].getIsConnected() ||
                     visited[visitedPoint.R, visitedPoint.C])
                     continue;
 
@@ -259,7 +258,8 @@ namespace MapLibrary
                     int r = visitedPoint.R + ctr[i], c = visitedPoint.C + ctr[i + 1];  // 주변 좌표       
                     Point watch = new Point(r, c);
 
-                    if ((caveCards[visitedPoint.R, visitedPoint.C].getDir() & dir[i]) == dir[i] && 
+                    if (checkBoundary(watch) &&
+                        (caveCards[visitedPoint.R, visitedPoint.C].getDir() & dir[i]) == dir[i] && 
                         (caveCards[watch.R, watch.C].getDir() & dirOp[i]) == dirOp[i])
                     {
                         stack.Push(watch);
