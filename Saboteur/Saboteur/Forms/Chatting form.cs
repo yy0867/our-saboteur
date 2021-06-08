@@ -33,10 +33,10 @@ namespace Saboteur.Forms
         private string convertMessage(string msg, int ID)
         {
             if (ID == this.playerID)
-                return msg + " : [ " + this.playerID + " User ] \r\n";
+                return msg + " : User [ " + this.playerID + " ] \r\n";
             else if (ID == SERVER_ID)
                 return "******** " + msg + " ********\r\n";
-            return "[ " + ID + " User ] : " + msg + "\r\n";
+            return "User [ " + ID + " ] : " + msg + "\r\n";
         }
 
         private void updateInfo(Packet packet)
