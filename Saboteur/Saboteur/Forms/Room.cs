@@ -117,7 +117,8 @@ namespace Saboteur.Forms
             int i = 10;
             while (this.playerID == SERVER_ID && i < 0)
             {
-                Task.Delay(i--);
+                Task.Delay(i);
+                i--;
 
             }
                 

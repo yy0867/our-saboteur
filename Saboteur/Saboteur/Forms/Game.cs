@@ -166,7 +166,8 @@ namespace Saboteur.Forms
                 int i = 10;
                 while (this.clientID == DEFAULT_CLIENT_ID && i < 0)
                 {
-                    Task.Delay(i--);
+                    Task.Delay(i);
+                    i--;
                 }
                     
                 
