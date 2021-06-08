@@ -143,7 +143,7 @@ namespace DealerLibrary
                 deckCards.Add(new CaveCard(Dir.LEFTDOWN, true));
             for (int i = 0; i < 3; i++)
                 deckCards.Add(new CaveCard(Dir.RIGHTLEFT, true));
-            //굴카드 채움
+            ////굴카드 채움
 
             for (int i = 0; i < 6; i++)
                 deckCards.Add(new MapCard()); // 맵카드
@@ -166,7 +166,7 @@ namespace DealerLibrary
             deckCards.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.PICKLATTERN));
             deckCards.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.PICKCART));
             deckCards.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.LATTERNCART));
-            // 도구카드(디버프 & 버프)
+            //// 도구카드(디버프 & 버프)
 
             deckCards = Suffle(deckCards);
         }
