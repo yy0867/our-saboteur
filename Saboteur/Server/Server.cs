@@ -238,9 +238,10 @@ namespace Server
             // saboteur win process
             if (sendGameInfo.holdingCards.FindAll(card => card==null).Count == sendGameInfo.holdingCards.Count)
             {
-                SaboteurWinCount++;
                 if (SaboteurWinCount == this.numConnectedClient)
                     sendGameInfo.message = "사보타지 승리입니다!";
+
+                SaboteurWinCount++;
             }
                 
 
