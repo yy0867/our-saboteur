@@ -164,7 +164,7 @@ namespace Saboteur.Forms
             DrawCardOnField();
             Task.Run(() => {
                 int i = 10;
-                while (this.clientID == DEFAULT_CLIENT_ID && i < 0)
+                while (this.clientID == DEFAULT_CLIENT_ID && i > 0)
                 {
                     Task.Delay(i);
                     i--;
