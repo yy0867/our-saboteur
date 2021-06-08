@@ -114,8 +114,13 @@ namespace Saboteur.Forms
                 if (this.InvokeRequired)
                     this.Invoke((MethodInvoker)(() => { this.btn_start.Visible = true; }));
             }
-            while (this.playerID == SERVER_ID)
-                Task.Delay(10);
+            int i = 10;
+            while (this.playerID == SERVER_ID && i < 0)
+            {
+                Task.Delay(i--);
+
+            }
+                
             updateChattingLog(this.receivedRoomInfo.message, this.receivedRoomInfo.clientID);
         }
 

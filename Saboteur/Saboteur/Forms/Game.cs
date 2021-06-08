@@ -163,8 +163,12 @@ namespace Saboteur.Forms
 
             DrawCardOnField();
             Task.Run(() => {
-                while (this.clientID == DEFAULT_CLIENT_ID)
-                    Task.Delay(10);
+                int i = 10;
+                while (this.clientID == DEFAULT_CLIENT_ID && i < 0)
+                {
+                    Task.Delay(i--);
+                }
+                    
                 
                 var startPoint = new System.Drawing.Point(this.Location.X + this.Width, this.Location.Y);
                 var chat = new Chatting_form(this.clientID, Network.ServerIP.ToString(), startPoint);
