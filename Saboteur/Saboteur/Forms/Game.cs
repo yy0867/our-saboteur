@@ -67,10 +67,10 @@ namespace Saboteur.Forms
         Point rectPrev = new Point();           // for grid rect
 
         // Game Instances
-        int saboteurWinCount = 0;
         int playerNum = 0;
         bool isSaboteur = false;
         bool isMyTurn = false;
+        string msg = "";
         int turn = 0;
         CaveCard[,] prevMap = new CaveCard[CONST.MAP_ROW, CONST.MAP_COL];
         Map field = new Map();
@@ -178,7 +178,13 @@ namespace Saboteur.Forms
             this.playerNum = info.playersState.Count;
             this.isSaboteur = info.isSaboteur;
             this.usedCard = info.usedCards;
+            this.msg = info.message;
             info.fields.CopyTo(this.field);
+
+            if (!this.msg.Equals(""))
+            {
+                MessageBox.Show(msg);
+            }
 
             if (this.isFirstPacket)
             {
@@ -196,19 +202,17 @@ namespace Saboteur.Forms
             if (this.hands.Contains(null) || this.isFirstPacket)
             {
                 this.hands = info.holdingCards;
-                if (this.hands.Count() == 0)
-                    saboteurWinCount++;
-                if (saboteurWinCount == playerNum)
-                    MessageBox.Show("사보타지가 승리하였습니다!");
                 DeleteHands();
                 DrawHands(hands);
             }
 
             int usedCardCount = info.usedCards.Count;
+
             this.Invoke((MethodInvoker)(() =>
             {
                 this.lblUsedCardNum.Text = usedCardCount.ToString();
                 this.lblDeckNum.Text = info.restCardNum.ToString();
+
                 if (usedCard.Count > 0)
                     this.picUsedCard.Image = GetCardImage(usedCard.Peek());
             }));
@@ -525,7 +529,8 @@ namespace Saboteur.Forms
                 isConnected = true;
                 if (card is CaveCard)
                     isConnected = ((CaveCard)card).getIsConnected();
-                AddImage(location, GetCardImage(card), true);
+                if(GetCardImage(card) != null)
+                    AddImage(location, GetCardImage(card), true);
                 location.X += (handPadding + cardWidth);
             }
         }

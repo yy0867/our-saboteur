@@ -11,6 +11,7 @@ using PacketLibrary;
 using CardLibrary;
 using MapLibrary;
 using DealerLibrary;
+using System.Windows.Forms;
 
 namespace Server
 {
@@ -39,6 +40,7 @@ namespace Server
         private bool isFirstGameInfo = true;
         private Dictionary<int, List<Card>> divideCards = new Dictionary<int, List<Card>>();
 
+        private int SaboteurWinCount = 0; //사보타지 win 확인
         public Server()
         {
             // networkStream 배열 초기화
@@ -232,6 +234,15 @@ namespace Server
             GetNextTurnPlayer();
             Console.WriteLine("#### this is turn:{0} ####", this.curTurnPlayer);
             sendGameInfo.restCardNum = dealer.deckCards.Count;
+
+            // saboteur win process
+            if (sendGameInfo.holdingCards.FindAll(card => card==null).Count == sendGameInfo.holdingCards.Count)
+            {
+                SaboteurWinCount++;
+                if (SaboteurWinCount == this.numConnectedClient)
+                    sendGameInfo.message = "사보타지 승리입니다!";
+            }
+                
 
             for (int i = 0; i < this.numConnectedClient; i++)
             {
