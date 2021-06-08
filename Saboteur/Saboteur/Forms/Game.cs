@@ -92,7 +92,8 @@ namespace Saboteur.Forms
 
         // Network Variables
         bool isFirstPacket = true;
-        int clientID = 0;
+        const int DEFAULT_CLIENT_ID = -2;
+        int clientID = DEFAULT_CLIENT_ID;
 
         #region Test
         private PlayerState mockedPlayerStates(bool canUsePicaxe, bool canUseLantern, bool canUseCart)
@@ -161,6 +162,8 @@ namespace Saboteur.Forms
 
             DrawCardOnField();
             Task.Run(() => {
+                while (this.clientID == DEFAULT_CLIENT_ID)
+                    Task.Delay(10);
                 new Chatting_form(this.clientID, Network.ServerIP.ToString());
             });
             #region Test
