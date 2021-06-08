@@ -42,6 +42,7 @@ namespace Saboteur.Forms
             this.chatResultBox.ForeColor = System.Drawing.Color.White;
             this.chatResultBox.Location = new System.Drawing.Point(0, 0);
             this.chatResultBox.Name = "chatResultBox";
+            this.chatResultBox.ReadOnly = true;
             this.chatResultBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.chatResultBox.Size = new System.Drawing.Size(553, 777);
             this.chatResultBox.TabIndex = 15;

@@ -13,52 +13,12 @@ using DealerLibrary;
 
 namespace ClientTest
 {
-    class Client
+    class Client    
     {
-        private static NetworkStream networkStream;
-        private static byte[] sendBuffer = new byte[Packet.MAX_SIZE];
-        private static byte[] receiveBuffer = new byte[Packet.MAX_SIZE];
-
-        public static RoomInfo PacketRoomInfo;
-
-        private static void Send()
-        {
-            networkStream.Write(sendBuffer, 0, sendBuffer.Length);
-            networkStream.Flush();
-
-            for (int i = 0; i < Packet.MAX_SIZE; i++)
-                sendBuffer[i] = 0;
-        }
-
+       
         static void Main(string[] args)
         {
-            TcpClient client = null;
-            try
-            {
-                IPAddress serverIP = IPAddress.Parse("127.0.0.1");
-                int serverPort = 11000;
-                client = new TcpClient();
-                client.Connect(serverIP, serverPort);
-
-                if (client.Connected)
-                {
-                    Console.WriteLine("서버와 연결");
-                    networkStream = client.GetStream();
-
-                    RoomInfo roomPacket = new RoomInfo();
-                    roomPacket.Type = (int)PacketType.RoomInfo;
-
-                    Packet.Serialize(roomPacket).CopyTo(sendBuffer, 0);
-                }
-            }
-            catch (SocketException e)
-            {
-                Console.WriteLine("Socket Exception: {0}", e);
-            }
-            finally
-            {
-                client.Close();
-            }
+            
         }
     }
 }

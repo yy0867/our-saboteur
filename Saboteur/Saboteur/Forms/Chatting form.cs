@@ -17,11 +17,11 @@ namespace Saboteur.Forms
         const int SERVER_ID = -1;
         int playerID;
         NetworkStream stream = null;
-        public Chatting_form(int playerID)
+        public Chatting_form(int playerID, string ip)
         {
             this.playerID = playerID;
             InitializeComponent();
-            Network.setServerIP ="127.0.0.1";
+            Network.setServerIP = ip;
             Network.Connect(15000, ref stream);
             Task.Run(() =>
             {
@@ -33,10 +33,10 @@ namespace Saboteur.Forms
         private string convertMessage(string msg, int ID)
         {
             if (ID == this.playerID)
-                return msg + " : [ " + this.playerID + " ] \r\n";
+                return msg + " : User [ " + this.playerID + " ] \r\n";
             else if (ID == SERVER_ID)
                 return "******** " + msg + " ********\r\n";
-            return "[ " + ID + " ] : " + msg + "\r\n";
+            return "User [ " + ID + " ] : " + msg + "\r\n";
         }
 
         private void updateInfo(Packet packet)
