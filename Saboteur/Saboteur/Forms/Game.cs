@@ -198,10 +198,11 @@ namespace Saboteur.Forms
                 MessageBox.Show(message);
             }
 
-            rotatePlayerIcon();
             DrawCardOnField();
 
-            if (this.hands.Contains(null) || this.isFirstPacket)
+            rotatePlayerIcon();
+
+            if (this.turn == this.clientID || this.isFirstPacket)
             {
                 this.hands = info.holdingCards;
                 DeleteHands();

@@ -209,7 +209,7 @@ namespace Server
                 roleArr = dealer.defineRole(this.connectedClients);
                 sendGameInfo.fields.MapInit();
 
-                this.dealer.CardListInit();
+                //this.dealer.CardListInit();
                 this.dealer.DeckCardsInit();
                 this.divideCards = this.dealer.cardDivide();
                 //this.divideCards.Add(0, MockingHoldingCard());
