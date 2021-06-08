@@ -28,7 +28,7 @@ namespace Saboteur.Forms
             btnJoinRoom.Enabled = false;
 
             // TEST CODE #########################################
-            txtServerIP.Text = "192.168.0.17";
+            txtServerIP.Text = "127.0.0.1";
         }
 
 
@@ -91,7 +91,7 @@ namespace Saboteur.Forms
         private void btnConnectServer_Click(object sender, EventArgs e)
         {
             Network.setServerIP = txtServerIP.Text;
-            if (Network.isAlreadyConnected())
+            if (btnCreateRoom.Enabled)
             {
                 MessageBox.Show("이미 서버와 연결되어있습니다..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
