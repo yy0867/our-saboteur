@@ -163,6 +163,7 @@ namespace Saboteur.Forms
             this.chatResultBox.ForeColor = System.Drawing.Color.White;
             this.chatResultBox.Location = new System.Drawing.Point(567, 271);
             this.chatResultBox.Name = "chatResultBox";
+            this.chatResultBox.ReadOnly = true;
             this.chatResultBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.chatResultBox.Size = new System.Drawing.Size(632, 318);
             this.chatResultBox.TabIndex = 13;
@@ -171,8 +172,9 @@ namespace Saboteur.Forms
             // Room
             // 
             this.AutoScroll = true;
-            this.BackgroundImage = global::Saboteur.Properties.Resources.backGround2;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.BackColor = System.Drawing.Color.Transparent;
+            this.BackgroundImage = global::Saboteur.Properties.Resources.back_ground;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Controls.Add(this.chatResultBox);
             this.Controls.Add(this.btn_start);
             this.Controls.Add(this.playerLantern6);

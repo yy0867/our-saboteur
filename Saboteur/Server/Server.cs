@@ -11,6 +11,7 @@ using PacketLibrary;
 using CardLibrary;
 using MapLibrary;
 using DealerLibrary;
+using System.Windows.Forms;
 
 namespace Server
 {
@@ -26,19 +27,20 @@ namespace Server
         private int numConnectedClient = 0;
         private bool[] connectedClients = { false, false, false, false, false, false, false };
         private bool[] enteredPlayers = { false, false, false, false, false, false, false };
-        bool[] roleArr;
+        private bool[] isNoob = { true, true, true, true, true, true, true };
+        private bool[] roleArr;
         private bool isGameStarted = false;
 
         private int roomCode = 1000;
         private bool isRoomExist = false;
 
         // GameInfo
-        private int curTurnPlayer = 0;      // 현재 Turn인 Player
+        private int curTurnPlayer = -1;      // 현재 Turn인 Player
         private Dealer dealer;
         private bool isFirstGameInfo = true;
         private Dictionary<int, List<Card>> divideCards = new Dictionary<int, List<Card>>();
 
-
+        private int SaboteurWinCount = 0; //사보타지 win 확인
         public Server()
         {
             // networkStream 배열 초기화
@@ -48,6 +50,9 @@ namespace Server
 
         public void Run()
         {
+            Task.Run(() =>{
+                new Saboteur.MessageServer(serverIP);
+            });
             Connect();
         }
 
@@ -82,7 +87,7 @@ namespace Server
                 }
             });
         }
-
+        
         private int FindEmptyClientID()
         {
             for (int i = 0; i < enteredPlayers.Length; i++)
@@ -93,12 +98,11 @@ namespace Server
             return -1;
         }
 
-        private int GetNextTurnPlayer()
+        private void GetNextTurnPlayer()
         {
+            if (this.curTurnPlayer == this.numConnectedClient - 1)
+                this.curTurnPlayer = -1;
             this.curTurnPlayer++;
-            if (this.curTurnPlayer == this.numConnectedClient)
-                this.curTurnPlayer = 0;
-            return this.curTurnPlayer;
         }
 
         // ########## Receive Functions #########
@@ -130,7 +134,7 @@ namespace Server
                     return;
                 }
 
-                SendToAllClient(sendRoomInfo);
+                SendToExistClient(sendRoomInfo);
                 isRoomExist = true;
             }
             else    // 2. Client가 Join Room 요청
@@ -143,7 +147,19 @@ namespace Server
                 }
 
                 SendToExistClient(sendRoomInfo);
+                
             }
+            if (isNoob[receiveInfo.clientID]) {
+                SendToExistClient(new RoomInfo //전체 서버메시지
+                {
+                    roomCode = this.roomCode,
+                    message = "Client[" + receiveInfo.clientID + "] Join!",
+                    clientID = -1,
+                    players = enteredPlayers
+                });
+                isNoob[receiveInfo.clientID] = false;
+            }
+            
         }
 
         private int GetNullIndex(List<Card> holdingCard)
@@ -165,6 +181,20 @@ namespace Server
             }
         }
 
+        private List<Card> MockingHoldingCard()
+        {
+            List<Card> card = new List<Card>();
+            card.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            card.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            card.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            card.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            card.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            card.Add(new CaveCard(Dir.RIGHTLEFT, true));
+            card.Add(new RockDownCard());
+
+            return card;
+        }
+
         private void ProcessGameInfo(GameInfo receiveInfo)
         {
             Console.WriteLine("Client {0}으로부터 GameInfo 패킷 Receive", receiveInfo.clientID);
@@ -179,30 +209,48 @@ namespace Server
                 roleArr = dealer.defineRole(this.connectedClients);
                 sendGameInfo.fields.MapInit();
 
-                this.dealer.CardListInit();
+                //this.dealer.CardListInit();
                 this.dealer.DeckCardsInit();
                 this.divideCards = this.dealer.cardDivide();
+                //this.divideCards.Add(0, MockingHoldingCard());
+                //this.divideCards.Add(1, MockingHoldingCard());
+
+                for (int i = 0; i < numConnectedClient; i++)
+                    sendGameInfo.playersState.Add(new PlayerState());
             }
             else
             {
                 receiveInfo.fields.CopyTo(sendGameInfo.fields);
                 sendGameInfo.holdingCards = receiveInfo.holdingCards;
+                sendGameInfo.playersState = receiveInfo.playersState;
             }
 
-            sendGameInfo.playersState = receiveInfo.playersState;
             sendGameInfo.usedCards = receiveInfo.usedCards;
+            
             
             if (nullIndex >= 0)
                 sendGameInfo.holdingCards[nullIndex] = dealer.GetCardFromDeck();
 
-            this.curTurnPlayer = GetNextTurnPlayer();
+            GetNextTurnPlayer();
+            Console.WriteLine("#### this is turn:{0} ####", this.curTurnPlayer);
             sendGameInfo.restCardNum = dealer.deckCards.Count;
+
+            // saboteur win process
+            if (sendGameInfo.holdingCards.FindAll(card => card==null).Count == sendGameInfo.holdingCards.Count)
+            {
+                if (SaboteurWinCount == this.numConnectedClient)
+                    sendGameInfo.message = "사보타지 승리입니다!";
+
+                SaboteurWinCount++;
+            }
+                
 
             for (int i = 0; i < this.numConnectedClient; i++)
             {
                 sendGameInfo.isTurn = (this.curTurnPlayer == i);
                 sendGameInfo.isSaboteur = this.roleArr[i];
-
+                sendGameInfo.usedCards = receiveInfo.usedCards;
+                sendGameInfo.clientID = i;
                 if (isFirstGameInfo)
                 {
                     CopyDivideToHoldingCard(i, sendGameInfo.holdingCards);
@@ -301,5 +349,6 @@ namespace Server
                 listener.Stop();
             }
         }
+        
     }
 }

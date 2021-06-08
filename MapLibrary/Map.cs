@@ -229,9 +229,44 @@ namespace MapLibrary
             return false;
         }
 
-        private bool IsRoadConnectedToStart(Point curPoint)
+        public bool IsRoadConnectedToStart(Point curPoint) //목적지 포인트
         {
-            return true;
+            int[] ctr = { 0, -1, 0, 1, 0 }; // LEFT, UP, RIGHT, DOWN
+
+            Dir[] dir = { Dir.LEFT, Dir.UP, Dir.RIGHT, Dir.DOWN };
+            Dir[] dirOp = { Dir.RIGHT, Dir.DOWN, Dir.LEFT, Dir.UP };
+
+            Stack<Point> stack = new Stack<Point>();
+            visited = new bool[CONST.MAP_ROW, CONST.MAP_COL];
+            stack.Push(curPoint);
+
+            while (stack.Count != 0)
+            {
+                Point visitedPoint = stack.Pop();
+
+                if (isStart(visitedPoint)) 
+                    return true;
+
+                if (!checkBoundary(visitedPoint) || 
+                    !caveCards[visitedPoint.R, visitedPoint.C].getIsConnected() ||
+                    visited[visitedPoint.R, visitedPoint.C])
+                    continue;
+
+                visited[visitedPoint.R, visitedPoint.C] = true;
+
+                for (int i = 0; i < ctr.Length - 1; i++)
+                {
+                    int r = visitedPoint.R + ctr[i], c = visitedPoint.C + ctr[i + 1];  // 주변 좌표       
+                    Point watch = new Point(r, c);
+
+                    if ((caveCards[visitedPoint.R, visitedPoint.C].getDir() & dir[i]) == dir[i] && 
+                        (caveCards[watch.R, watch.C].getDir() & dirOp[i]) == dirOp[i])
+                    {
+                        stack.Push(watch);
+                    }
+                }
+            }
+            return false;
         }
 
         private bool isStart(Point point)

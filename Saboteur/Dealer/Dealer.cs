@@ -36,7 +36,6 @@ namespace DealerLibrary
     public class Dealer
     {
         private int playerNum;
-        public List<Card> cardList = new List<Card>();
         public List<Card> deckCards = new List<Card>();     // 남은 카드
 
         public int totalCard { get; set; }
@@ -65,59 +64,6 @@ namespace DealerLibrary
             caveCardNum = CardNumInfo.CAVE_CARD;
         }
 
-        public void CardListInit()
-        {
-            cardList.Add(new CaveCard(Dir.RIGHTDOWN, false));
-            cardList.Add(new CaveCard(Dir.LEFTDOWN, false));
-            cardList.Add(new CaveCard(Dir.DOWNUP, false));
-            cardList.Add(new CaveCard(Dir.RIGHT, false));
-            cardList.Add(new CaveCard(Dir.UP, false));
-            cardList.Add(new CaveCard(Dir.NOLEFT, false));
-            cardList.Add(new CaveCard(Dir.ALL, false));
-            cardList.Add(new CaveCard(Dir.RIGHTLEFT, false));
-            cardList.Add(new CaveCard(Dir.NODOWN, false));
-            for (int i = 0; i < 4; i++)
-                cardList.Add(new CaveCard(Dir.DOWNUP, true));
-            for (int i = 0; i < 5; i++)
-                cardList.Add(new CaveCard(Dir.NORIGHT, true));
-            for (int i = 0; i < 5; i++)
-                cardList.Add(new CaveCard(Dir.ALL, true));
-            for (int i = 0; i < 5; i++)
-                cardList.Add(new CaveCard(Dir.NOUP, true));
-            for (int i = 0; i < 4; i++)
-                cardList.Add(new CaveCard(Dir.RIGHTDOWN, true));
-            for (int i = 0; i < 5; i++)
-                cardList.Add(new CaveCard(Dir.LEFTDOWN, true));
-            for (int i = 0; i < 3; i++)
-                cardList.Add(new CaveCard(Dir.RIGHTLEFT, true));
-            //굴카드 채움
-
-            for (int i = 0; i < 6; i++)
-                cardList.Add(new MapCard()); // 맵카드
-
-            for (int i = 0; i < 3; i++)
-                cardList.Add(new RockDownCard()); //낙석카드
-
-            for (int i = 0; i < 3; i++)
-                cardList.Add(new EquipmentCard(CType.EQ_DESTRUCTION, Tool.CART));
-            for (int i = 0; i < 3; i++)
-                cardList.Add(new EquipmentCard(CType.EQ_DESTRUCTION, Tool.LATTERN));
-            for (int i = 0; i < 3; i++)
-                cardList.Add(new EquipmentCard(CType.EQ_DESTRUCTION, Tool.PICKAXE));
-            for (int i = 0; i < 2; i++)
-                cardList.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.CART));
-            for (int i = 0; i < 2; i++)
-                cardList.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.LATTERN));
-            for (int i = 0; i < 2; i++)
-                cardList.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.PICKAXE));
-            cardList.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.PICKLATTERN));
-            cardList.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.PICKCART));
-            cardList.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.LATTERNCART));
-            // 도구카드(디버프 & 버프)
-
-            cardList = Suffle(cardList);
-        }
-
         public void DeckCardsInit()
         {
             deckCards.Add(new CaveCard(Dir.RIGHTDOWN, false));
@@ -143,7 +89,7 @@ namespace DealerLibrary
                 deckCards.Add(new CaveCard(Dir.LEFTDOWN, true));
             for (int i = 0; i < 3; i++)
                 deckCards.Add(new CaveCard(Dir.RIGHTLEFT, true));
-            //굴카드 채움
+            ////굴카드 채움
 
             for (int i = 0; i < 6; i++)
                 deckCards.Add(new MapCard()); // 맵카드
@@ -166,7 +112,7 @@ namespace DealerLibrary
             deckCards.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.PICKLATTERN));
             deckCards.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.PICKCART));
             deckCards.Add(new EquipmentCard(CType.EQ_REPAIR, Tool.LATTERNCART));
-            // 도구카드(디버프 & 버프)
+            //// 도구카드(디버프 & 버프)
 
             deckCards = Suffle(deckCards);
         }
@@ -239,14 +185,14 @@ namespace DealerLibrary
                     case 3:
                     case 4:
                     case 5:
-                        cardDict.Add(i, cardList.GetRange(6 * i, 6));
+                        cardDict.Add(i, deckCards.GetRange(0, 6));
                         break;
                     case 6:
                     case 7:
-                        cardDict.Add(i, cardList.GetRange(5 * i, 5));
+                        cardDict.Add(i, deckCards.GetRange(0, 5));
                         break;
                     default:
-                        cardDict.Add(i, cardList.GetRange(4 * i, 4));
+                        cardDict.Add(i, deckCards.GetRange(0, 4));
                         break;
                 }
 
