@@ -120,7 +120,7 @@ namespace MapLibrary
         public bool IsValidPosition(Point point, CaveCard cave)
         {
             if (isValidated(point))
-                return IsRoadConnectedToStart(point) && isConntectedStart(point);
+                return IsRoadConnectedToStart(point);// && isConntectedStart(point);
             else
                 return false;
         }
