@@ -314,7 +314,7 @@ namespace Saboteur.Forms
 
 
         // Release on Grid
-        private void ProcessGrid(Point gridPoint)
+        private bool ProcessGrid(Point gridPoint)
         {
             // is CaveCard
             if (this.selectedCard is CaveCard)
@@ -339,6 +339,7 @@ namespace Saboteur.Forms
                 if (field.isValidated(coords) || field.GetCard(coords) is StartCard || field.GetCard(coords) is DestCard)
                 {
                     MoveToStartPosition(this.selectedPic);
+                    return false;
                 }
                 else if (field.GetCard(coords) is CaveCard)
                 {
@@ -354,6 +355,7 @@ namespace Saboteur.Forms
                     else
                     {
                         MoveToStartPosition(selectedPic);
+                        return false;
                     }
                 }
             }
@@ -376,8 +378,11 @@ namespace Saboteur.Forms
                 else
                 {
                     MoveToStartPosition(this.selectedPic);
+                    return false;
                 }
             }
+
+            return true;
         }
 
         // Release on Player
@@ -452,7 +457,7 @@ namespace Saboteur.Forms
 
                     if (gridPoint.HasValue) // grid point is valid
                     {
-                        if (this.field.GetCard(ConvertLocationToCoords((Point)gridPoint)).isEmpty() || (this.selectedCard is EquipmentCard) || (this.selectedCard is CaveCard && !field.IsValidPosition(ConvertLocationToCoords(mouseLocation), (CaveCard)selectedCard)))
+                        if ((this.selectedCard is EquipmentCard) || (this.selectedCard is CaveCard && !field.IsValidPosition(ConvertLocationToCoords(mouseLocation), (CaveCard)selectedCard)))
                         {
                             MoveToStartPosition(selectedPic);
                             return;
@@ -465,9 +470,9 @@ namespace Saboteur.Forms
                                 MoveToStartPosition(this.selectedPic);
                                 return;
                             }
-                            ProcessGrid((Point)gridPoint);
-                            
-                            Send();
+
+                            if (ProcessGrid((Point)gridPoint))
+                                Send();
                         }
                     }
                     else
@@ -482,7 +487,10 @@ namespace Saboteur.Forms
                 {
                     EquipmentCard selectedEquipment = selectedCard as EquipmentCard;
                     if (selectedEquipment == null)
+                    {
+                        MoveToStartPosition(selectedPic);
                         return;
+                    }
 
                     int index = GetPlayerIndex(mouseLocation);
 
