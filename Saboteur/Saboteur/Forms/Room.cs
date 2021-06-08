@@ -127,10 +127,10 @@ namespace Saboteur.Forms
         private string convertMessage(string msg, int ID)
         {
             if (ID == this.playerID)
-                return msg + " : User [ " + this.playerID + " ] \r\n";
+                return msg + " : User [ " + (this.playerID+1) + " ] \r\n";
             else if (ID == SERVER_ID)
                 return "******** " + msg + " ********\r\n";
-            return " User [ " + ID + " ] : " + msg + "\r\n";
+            return " User [ " + (ID+1) + " ] : " + msg + "\r\n";
         }
         private void updateChattingLog(string newMessage, int receivedID)
         {

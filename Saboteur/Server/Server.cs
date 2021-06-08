@@ -163,7 +163,7 @@ namespace Server
                 SendToExistClient(new RoomInfo //전체 서버메시지
                 {
                     roomCode = this.roomCode,
-                    message = "Client[" + receiveInfo.clientID + "] Join!",
+                    message = "Client[" + (receiveInfo.clientID +1) + "] Join!",
                     clientID = -1,
                     players = enteredPlayers
                 });
