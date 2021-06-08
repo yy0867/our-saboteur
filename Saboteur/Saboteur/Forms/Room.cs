@@ -114,7 +114,7 @@ namespace Saboteur.Forms
                 if (this.InvokeRequired)
                     this.Invoke((MethodInvoker)(() => { this.btn_start.Visible = true; }));
             }
-            int i = 10;
+            int i = 50;
             while (this.playerID == SERVER_ID && i > 0)
             {
                 Task.Delay(i);
