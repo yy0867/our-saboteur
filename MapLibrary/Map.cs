@@ -120,16 +120,19 @@ namespace MapLibrary
         public bool IsValidPosition(Point point, CaveCard cave)
         {
             if (isValidated(point))
-                return IsRoadConnectedToStart(point);// && isConntectedStart(point);
+                return IsRoadConnectedToStart(point, cave) && CanBeConntectedSurrounding(point, cave);
             else
                 return false;
         }
 
         public bool CanBeConntectedSurrounding(Point point, CaveCard cave)
         {
+            bool isConnected = cave.getIsConnected();
+
             int r = point.R, c = point.C;
             CaveCard watch;
 
+            cave.setIsConnected(true);
             bool result = true;
             bool isolated = true;
 
@@ -189,6 +192,7 @@ namespace MapLibrary
                 }
             }
 
+            cave.setIsConnected(isConnected);
             if (isolated)
                 return false;
 
@@ -229,8 +233,12 @@ namespace MapLibrary
             return false;
         }
 
-        public bool IsRoadConnectedToStart(Point curPoint) //목적지 포인트
+        public bool IsRoadConnectedToStart(Point curPoint, CaveCard card) //목적지 포인트
         {
+            CaveCard copy = new CaveCard(card.getDir(), card.getIsConnected());
+
+            caveCards[curPoint.R, curPoint.C] = copy;
+            caveCards[curPoint.R, curPoint.C].setIsConnected(true);
             int[] ctr = { 0, -1, 0, 1, 0 }; // LEFT, UP, RIGHT, DOWN
 
             Dir[] dir = { Dir.LEFT, Dir.UP, Dir.RIGHT, Dir.DOWN };
@@ -244,8 +252,11 @@ namespace MapLibrary
             {
                 Point visitedPoint = stack.Pop();
 
-                if (isStart(visitedPoint)) 
+                if (isStart(visitedPoint))
+                {
+                    caveCards[curPoint.R, curPoint.C] = new CaveCard();
                     return true;
+                }
 
                 if (!caveCards[visitedPoint.R, visitedPoint.C].getIsConnected() ||
                     visited[visitedPoint.R, visitedPoint.C])
@@ -266,6 +277,8 @@ namespace MapLibrary
                     }
                 }
             }
+
+            caveCards[curPoint.R, curPoint.C] = new CaveCard();
             return false;
         }
 

@@ -301,6 +301,9 @@ namespace Saboteur.Forms
 
         private MapLibrary.Point IsArrived(Point gridPoint)
         {
+            if (!((CaveCard)field.GetCard(ConvertLocationToCoords(gridPoint))).getIsConnected())
+                return null;
+
             MapLibrary.Point coords = ConvertLocationToCoords(gridPoint);
             int[] dir = { 0, -1, 0, 1, 0 };
 
@@ -310,7 +313,8 @@ namespace Saboteur.Forms
 
                 if (field.GetCard(r, c) is DestCard)
                 {
-                    return new MapLibrary.Point(r, c);
+                    if (field.CanBeConntectedSurrounding(coords, (CaveCard)field.GetCard(r, c))) 
+                        return new MapLibrary.Point(r, c);
                 }
             }
 
