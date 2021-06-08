@@ -170,7 +170,6 @@ namespace Saboteur.Forms
                     i--;
                 }
                     
-                
                 var startPoint = new System.Drawing.Point(this.Location.X + this.Width, this.Location.Y);
                 var chat = new Chatting_form(this.clientID, Network.ServerIP.ToString(), startPoint);
                 chat.Width = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width - this.Width;
@@ -210,14 +209,18 @@ namespace Saboteur.Forms
 
             DrawCardOnField();
 
-            rotatePlayerIcon();
-
             if (this.turn == this.clientID || this.isFirstPacket)
             {
                 this.hands = info.holdingCards;
                 DeleteHands();
                 DrawHands(hands);
             }
+
+
+            if (!this.isFirstPacket)
+                rotatePlayerIcon();
+            else
+                setPlayerIcon(0, true);
 
             int usedCardCount = info.usedCards.Count;
 
@@ -1008,13 +1011,13 @@ namespace Saboteur.Forms
         {
             if(this.turn == 0)
             {
-                setPlayerIcon(playerNum-1, false);
-                setPlayerIcon(this.turn++, true);
+                setPlayerIcon(0, false);
+                setPlayerIcon(++this.turn, true);
             }else
             {
-                setPlayerIcon(this.turn-1, false);
-                setPlayerIcon(this.turn++, true);
-                if (this.turn == playerNum)
+                setPlayerIcon(this.turn, false);
+                setPlayerIcon(++this.turn, true);
+                if (this.turn == playerNum-1)
                     this.turn = 0;
             }
             
