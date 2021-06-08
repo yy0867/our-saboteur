@@ -218,9 +218,8 @@ namespace Saboteur.Forms
 
 
             if (!this.isFirstPacket)
-                rotatePlayerIcon();
-            else
-                setPlayerIcon(0, true);
+                turnOver();
+            rotatePlayerIcon();
 
             int usedCardCount = info.usedCards.Count;
 
@@ -1006,19 +1005,24 @@ namespace Saboteur.Forms
                 }
             }));
         }
+        
+        private void turnOver()
+        {
+            this.turn++;
+            if (this.turn == playerNum)
+                this.turn = 0;
+        }
 
         private void rotatePlayerIcon()
         {
             if(this.turn == 0)
             {
-                setPlayerIcon(0, false);
-                setPlayerIcon(++this.turn, true);
+                setPlayerIcon(0, true);
+                setPlayerIcon(playerNum - 1, false);
             }else
             {
-                setPlayerIcon(this.turn, false);
-                setPlayerIcon(++this.turn, true);
-                if (this.turn == playerNum-1)
-                    this.turn = 0;
+                setPlayerIcon(this.turn - 1, false);
+                setPlayerIcon(this.turn, true);
             }
             
         }
