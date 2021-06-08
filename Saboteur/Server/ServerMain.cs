@@ -14,7 +14,10 @@ namespace Server
     {
         static void Main(string[] args)
         {
-            Server server = new Server();
+            Console.WriteLine("IP를 입력해주세요 ...");
+            string serverIP = Console.ReadLine();
+            
+            Server server = new Server(serverIP);
             server.Run();
         }
     }

@@ -20,7 +20,7 @@ namespace Server
         private TcpListener listener;
         private NetworkStream[] networkStream = new NetworkStream[MAX_CLIENT_NUM];
 
-        private IPAddress serverIP = IPAddress.Parse("127.0.0.1");
+        private IPAddress serverIP;
         private int serverPort = 11000;
 
         private const int MAX_CLIENT_NUM = 7;
@@ -41,8 +41,18 @@ namespace Server
         private Dictionary<int, List<Card>> divideCards = new Dictionary<int, List<Card>>();
 
         private int SaboteurWinCount = 0; //사보타지 win 확인
-        public Server()
+
+        //public Server()
+        //{
+        //    // networkStream 배열 초기화
+        //    for (int i = 0; i < MAX_CLIENT_NUM; i++)
+        //        networkStream[i] = null;
+        //}
+
+        public Server(string ip)
         {
+            this.serverIP = IPAddress.Parse(ip);
+
             // networkStream 배열 초기화
             for (int i = 0; i < MAX_CLIENT_NUM; i++)
                 networkStream[i] = null;
