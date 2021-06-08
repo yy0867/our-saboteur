@@ -365,9 +365,11 @@ namespace Saboteur.Forms
                 CaveCard card = field.GetCard(coords);
                 if (card is DestCard)
                 {
-                    string message = ((DestCard)card).getIsGoldCave() ? "금 카드입니다!" : "금 카드가 아닙니다!";
-
-                    MessageBox.Show(message);
+                    //string message = ((DestCard)card).getIsGoldCave() ? "금 카드입니다!" : "금 카드가 아닙니다!";
+                    var image = ((DestCard)card).getIsGoldCave() ? Properties.Resources.goal_gold : Properties.Resources.goal_stone_down_left;
+                    // MessageBox.Show(message);
+                    var map = new MapForm(image);
+                    map.ShowDialog();
                     this.selectedCard.face = CardFace.FRONT;
                     this.usedCard.Push(this.selectedCard);
                     DeleteImage(this.selectedPic);

@@ -123,6 +123,26 @@ namespace Saboteur.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+        internal static System.Drawing.Bitmap goal_gold {
+            get {
+                object obj = ResourceManager.GetObject("goal_gold", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap goal_stone_down_left {
+            get {
+                object obj = ResourceManager.GetObject("goal_stone_down_left", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
         internal static System.Drawing.Bitmap item_unblock_cart {
             get {
                 object obj = ResourceManager.GetObject("item_unblock_cart", resourceCulture);
